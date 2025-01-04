@@ -53,7 +53,7 @@ dependencies {
 }
 
 gradlePlugin {
-    plugins {
+     plugins {
         register("androidApplicationCompose") {
             id = "mathgame.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
