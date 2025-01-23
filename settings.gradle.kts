@@ -22,4 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Math"
 include(":app")
- 
+include(":core:designsystem")
