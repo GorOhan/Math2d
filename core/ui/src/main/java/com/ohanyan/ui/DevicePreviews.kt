@@ -2,7 +2,6 @@ package com.ohanyan.ui
 
 import androidx.compose.ui.tooling.preview.Preview
 
-
 /**
  * Multipreview annotation that represents various device sizes. Add this annotation to a composable
  * to render various devices.
