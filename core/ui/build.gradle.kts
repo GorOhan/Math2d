@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.mathgame.android.library.compose)
 }
 
 android {
-    namespace = "com.ohanyan.mathgame.designsystem"
+    namespace = "com.ohanyan.ui"
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 28
+        minSdk = 29
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -40,5 +41,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    api(libs.androidx.compose.foundation)
+
+    api(projects.core.designsystem)
 }
