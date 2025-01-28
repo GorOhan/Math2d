@@ -19,13 +19,6 @@ kotlin {
     }
 }
 
-tasks {
-    validatePlugins {
-        enableStricterValidation = true
-        failOnWarning = true
-    }
-}
-
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.android.tools.common)
@@ -33,6 +26,13 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     implementation(libs.truth)
+}
+
+tasks {
+    validatePlugins {
+        enableStricterValidation = true
+        failOnWarning = true
+    }
 }
 
 gradlePlugin {
@@ -45,6 +45,11 @@ gradlePlugin {
         register("androidFeature") {
             id = "mathgame.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
+        }
+
+        register("androidLibraryCompose") {
+            id = "mathgame.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
     }
 }
