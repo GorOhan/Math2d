@@ -1,6 +1,6 @@
 [versions]
 agp = "8.7.2"
-kotlin = "2.0.0"
+kotlin = "2.1.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -9,7 +9,7 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 androidTools = "31.4.0"
-ksp = "2.0.0-1.0.21"
+ksp = "2.1.0-1.0.29"
 truth = "1.4.2"
 appcompat = "1.7.0"
 material = "1.12.0"
@@ -50,5 +50,8 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 android-library = { id = "com.android.library", version.ref = "agp" }
 
 
+mathgame-android-application = { id = "mathgame.android.application" }
+mathgame-android-application-compose = { id = "mathgame.android.application.compose" }
 mathgame-android-library-compose = { id = "mathgame.android.library.compose" }
+mathgame-android-feature = { id = "mathgame.android.library.compose" }
 

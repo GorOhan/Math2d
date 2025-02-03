@@ -37,6 +37,12 @@ tasks {
 
 gradlePlugin {
     plugins {
+
+        register("androidApplication") {
+            id = "mathgame.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+
         register("androidApplicationCompose") {
             id = "mathgame.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
