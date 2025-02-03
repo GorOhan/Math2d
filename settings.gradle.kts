@@ -29,3 +29,4 @@ include(":core:ui")
 
 include(":feature:onboarding")
 include(":feature:test")
+include(":feature:playground")
