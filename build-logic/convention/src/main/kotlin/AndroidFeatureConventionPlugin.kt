@@ -1,5 +1,6 @@
 import com.android.build.gradle.LibraryExtension
 import com.ohanyan.mathgame.configureGradleManagedDevices
+import com.ohanyan.mathgame.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -21,10 +22,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 "implementation"(project(":core:ui"))
                 "implementation"(project(":core:designsystem"))
 
-//                "implementation"(libs.findLibrary("androidx.hilt.navigation.compose").get())
-//                "implementation"(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-//                "implementation"(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-//                "implementation"(libs.findLibrary("androidx.navigation.compose").get())
+                "implementation"(libs.findLibrary("androidx.hilt.navigation.compose").get())
+                "implementation"(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
+                "implementation"(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+                "implementation"(libs.findLibrary("androidx.navigation.compose").get())
 //                "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
 //                "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
 
