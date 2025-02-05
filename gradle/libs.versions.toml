@@ -51,7 +51,8 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 
 
 mathgame-android-application = { id = "mathgame.android.application" }
+mathgame-android-library = { id = "mathgame.android.library" }
 mathgame-android-application-compose = { id = "mathgame.android.application.compose" }
 mathgame-android-library-compose = { id = "mathgame.android.library.compose" }
-mathgame-android-feature = { id = "mathgame.android.library.compose" }
+mathgame-android-feature = { id = "mathgame.android.feature" }
 

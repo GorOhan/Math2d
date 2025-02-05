@@ -53,6 +53,12 @@ gradlePlugin {
             implementationClass = "AndroidFeatureConventionPlugin"
         }
 
+
+        register("androidLibrary") {
+            id = "mathgame.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+
         register("androidLibraryCompose") {
             id = "mathgame.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
