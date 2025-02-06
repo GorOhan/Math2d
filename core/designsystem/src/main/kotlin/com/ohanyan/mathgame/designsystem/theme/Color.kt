@@ -4,6 +4,11 @@ import androidx.compose.ui.graphics.Color
  * Math app in Android colors.
  */
 
+
+internal val SkyBlue = Color(0xFF87CEEB)
+internal val SunshineYellow = Color(0xFFFFD700)
+internal val GrassGreen = Color(0xFF32CD32)
+
 internal val Blue10 = Color(0xFF001F28)
 internal val Blue20 = Color(0xFF003544)
 internal val Blue30 = Color(0xFF004D61)
