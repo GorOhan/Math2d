@@ -18,8 +18,7 @@ buildscript {
         mavenCentral()
 
         // This is used only for internal Google builds.
-        maven { url = uri("../mathgame-prebuilts/m2repository") }
-    }
+     }
     dependencies {
 
     }

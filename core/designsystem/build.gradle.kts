@@ -15,4 +15,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     api(libs.androidx.compose.foundation)
+
+    api(libs.androidx.compose.material3)
+    api(libs.androidx.compose.material3.adaptive)
+    api(libs.androidx.compose.material3.navigationSuite)
+    compileOnly(platform(libs.androidx.compose.bom))
+
 }

@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.mathgame.designsystem.theme.MathAppTypography
 import com.ohanyan.mathgame.ui.theme.MathTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,9 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MathTheme {
-
-
+            MathAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
                         name = "Android",

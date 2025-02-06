@@ -1,3 +1,5 @@
+package com.ohanyan.mathgame.designsystem.theme
+
 import androidx.compose.ui.graphics.Color
 
 /**

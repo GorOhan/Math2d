@@ -49,8 +49,7 @@ internal fun Project.configureAndroidCompose(
             .relativeToRootProject("compose-reports")
             .let(reportsDestination::set)
 
-        stabilityConfigurationFile = rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
-        
-        enableStrongSkippingMode = true
+        stabilityConfigurationFiles
+            .add(isolated.rootProject.projectDirectory.file("compose_compiler_config.conf"))
     }
 }
