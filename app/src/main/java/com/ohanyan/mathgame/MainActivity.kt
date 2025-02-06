@@ -12,8 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
-import com.ohanyan.mathgame.designsystem.theme.MathAppTypography
-import com.ohanyan.mathgame.ui.theme.MathTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +41,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    MathTheme {
+    MathAppTheme {
         Greeting("Android")
     }
 }
