@@ -73,7 +73,6 @@ fun HeaderFromTop(title: String) {
         horizontalArrangement = Arrangement.Center
     ) {
         title.forEachIndexed { index, letter ->
-            AnimatedVisibility(true) {
                 Text(
                     modifier = Modifier.offset {
                         IntOffset(
@@ -83,10 +82,9 @@ fun HeaderFromTop(title: String) {
                     },
                     text = letter.toString(),
                     fontSize = 52.sp,
-                    color = MaterialTheme.colorScheme.errorContainer,
+                    color = MathAppTheme.colors.coreYellow,
                     fontFamily = AppFont
                 )
-            }
         }
     }
 }

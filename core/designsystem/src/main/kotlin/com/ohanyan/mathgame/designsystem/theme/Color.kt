@@ -1,5 +1,6 @@
 package com.ohanyan.mathgame.designsystem.theme
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 /**
@@ -73,3 +74,14 @@ internal val Teal30 = Color(0xFF214D56)
 internal val Teal40 = Color(0xFF3A656F)
 internal val Teal80 = Color(0xFFA2CED9)
 internal val Teal90 = Color(0xFFBEEAF6)
+
+//Todo Use states here
+@Immutable
+data class MathAppColor(
+
+    /*Core*/
+    val coreBlue: Color = SkyBlue,
+    val coreYellow: Color = SunshineYellow,
+    val coreGreen: Color = GrassGreen,
+)
+

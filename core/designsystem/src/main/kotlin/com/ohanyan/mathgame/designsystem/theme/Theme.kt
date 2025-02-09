@@ -8,46 +8,21 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlin.random.Random
 
 
 @VisibleForTesting
-val LightDefaultColorScheme = lightColorScheme(
-    primary = Purple40,
-    onPrimary = Color.White,
-    primaryContainer = Purple90,
-    onPrimaryContainer = Purple10,
-    secondary = Orange40,
-    onSecondary = Color.White,
-    secondaryContainer = Orange90,
-    onSecondaryContainer = Orange10,
-    tertiary = Blue40,
-    onTertiary = Color.White,
-    tertiaryContainer = Blue90,
-    onTertiaryContainer = Blue10,
-    error = Red40,
-    onError = Color.White,
-    errorContainer = Red90,
-    onErrorContainer = Red10,
-    background = DarkPurpleGray99,
-    onBackground = DarkPurpleGray10,
-    surface = DarkPurpleGray99,
-    onSurface = DarkPurpleGray10,
-    surfaceVariant = PurpleGray90,
-    onSurfaceVariant = PurpleGray30,
-    inverseSurface = DarkPurpleGray20,
-    inverseOnSurface = DarkPurpleGray95,
-    outline = PurpleGray50,
-)
+val LightDefaultColorScheme = MathAppColor()
 
 /**
  * Dark default theme color scheme
@@ -182,15 +157,7 @@ fun MathAppTheme(
     content: @Composable () -> Unit,
 ) {
     // Color scheme
-    val colorScheme = when {
-        androidTheme -> if (darkTheme) DarkAndroidColorScheme else LightAndroidColorScheme
-        !disableDynamicTheming && supportsDynamicTheming() -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        else -> if (darkTheme) DarkDefaultColorScheme else LightDefaultColorScheme
-    }
+    val colorScheme = DarkDefaultColorScheme
     // Gradient colors
     val emptyGradientColors = GradientColors(container = colorScheme.surfaceColorAtElevation(2.dp))
     val defaultGradientColors = GradientColors(
@@ -242,3 +209,26 @@ fun test(){
         style = MathAppTypography.labelMedium
     )
 }
+
+@Immutable
+data class MathAppCoreTheme(
+    val colors: MathAppColor
+)
+
+object MathAppTheme {
+
+    val colors: MathAppColor
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalOneAppColors.current
+
+    @Composable
+    fun getRandomMathAppColor(): Color {
+        val colors = listOf(colors.coreBlue, colors.coreYellow, colors.coreGreen)
+        return colors[Random.nextInt(colors.size)]
+    }
+
+
+}
+
+val LocalOneAppColors = staticCompositionLocalOf { LightDefaultColorScheme }

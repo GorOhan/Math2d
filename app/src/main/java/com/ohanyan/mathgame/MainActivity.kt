@@ -17,11 +17,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MathAppTheme(disableDynamicTheming = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
                     SplashScreen()
                 }
-            }
         }
     }
 }
