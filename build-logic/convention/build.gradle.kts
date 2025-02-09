@@ -63,5 +63,10 @@ gradlePlugin {
             id = "mathgame.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
+
+        register("hilt") {
+            id = "mathgame.hilt"
+            implementationClass = "HiltConventionPlugin"
+        }
     }
 }
