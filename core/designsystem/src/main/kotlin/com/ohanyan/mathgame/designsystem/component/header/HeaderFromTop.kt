@@ -1,6 +1,5 @@
 package com.ohanyan.mathgame.designsystem.component.header
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +34,8 @@ fun HeaderFromTop(title: String) {
     val offsetY = remember { Animatable(0f) }
     var isShaking by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+
+
     var startAnimation by remember { mutableStateOf(false) }
     val padding by animateDpAsState(
         targetValue = if (startAnimation) 48.dp else 0.dp,
