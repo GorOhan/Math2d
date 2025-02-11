@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 internal val SkyBlue = Color(0xFF87CEEB)
 internal val SunshineYellow = Color(0xFFFFD700)
 internal val GrassGreen = Color(0xFF32CD32)
+internal val MainBlue = Color(0xFF00cbd9)
 
 internal val Blue10 = Color(0xFF001F28)
 internal val Blue20 = Color(0xFF003544)
@@ -83,5 +84,7 @@ data class MathAppColor(
     val coreBlue: Color = SkyBlue,
     val coreYellow: Color = SunshineYellow,
     val coreGreen: Color = GrassGreen,
+    val mainBlue: Color = MainBlue,
+
 )
 
