@@ -11,7 +11,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "mathgame.android.library")
-            //apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+            apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
             extensions.configure<LibraryExtension> {
                 testOptions.animationsDisabled = true
@@ -28,7 +28,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.navigation.compose").get())
                 "implementation"(libs.findLibrary("lottie.airbnb").get())
 //                "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
-//                "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
+                "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
 
 //                "testImplementation"(libs.findLibrary("androidx.navigation.testing").get())
 //                "androidTestImplementation"(

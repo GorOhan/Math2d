@@ -8,10 +8,12 @@ import androidx.compose.ui.graphics.Color
  */
 
 
-internal val SkyBlue = Color(0xFF87CEEB)
+internal val SkyBlue = Color(0xFF00cbd9)
 internal val SunshineYellow = Color(0xFFFFD700)
-internal val GrassGreen = Color(0xFF32CD32)
+internal val GrassGreen = Color(0xFF28E528)
 internal val MainBlue = Color(0xFF00cbd9)
+internal val Red = Color(0xFFF13838)
+
 
 internal val Blue10 = Color(0xFF001F28)
 internal val Blue20 = Color(0xFF003544)
@@ -24,7 +26,7 @@ internal val DarkGreen20 = Color(0xFF223526)
 internal val DarkGreen30 = Color(0xFF394B3C)
 internal val DarkGreen40 = Color(0xFF4F6352)
 internal val DarkGreen80 = Color(0xFFB7CCB8)
-internal val DarkGreen90 = Color(0xFFD3E8D3)
+internal val DarkGreen90 = Color(0xFFDBD8D4)
 internal val DarkGreenGray10 = Color(0xFF1A1C1A)
 internal val DarkGreenGray20 = Color(0xFF2F312E)
 internal val DarkGreenGray90 = Color(0xFFE2E3DE)
@@ -81,10 +83,11 @@ internal val Teal90 = Color(0xFFBEEAF6)
 data class MathAppColor(
 
     /*Core*/
+    val coreWhite: Color = DarkGreenGray99,
     val coreBlue: Color = SkyBlue,
     val coreYellow: Color = SunshineYellow,
     val coreGreen: Color = GrassGreen,
     val mainBlue: Color = MainBlue,
-
+    val red: Color = Red,
 )
 

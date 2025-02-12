@@ -220,15 +220,21 @@ object MathAppTheme {
     val colors: MathAppColor
         @Composable
         @ReadOnlyComposable
-        get() = LocalOneAppColors.current
+        get() = LocalMathAppColors.current
+
+    val typography: AppTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalOneAppTypography.current
 
     @Composable
     fun getRandomMathAppColor(): Color {
-        val colors = listOf(colors.coreBlue, colors.coreYellow, colors.coreGreen)
+        val colors = listOf( colors.coreYellow, colors.coreGreen, colors.red, colors.mainBlue)
         return colors[Random.nextInt(colors.size)]
     }
 
 
 }
 
-val LocalOneAppColors = staticCompositionLocalOf { LightDefaultColorScheme }
+val LocalMathAppColors = staticCompositionLocalOf { LightDefaultColorScheme }
+val LocalOneAppTypography = staticCompositionLocalOf { defaultTypography }

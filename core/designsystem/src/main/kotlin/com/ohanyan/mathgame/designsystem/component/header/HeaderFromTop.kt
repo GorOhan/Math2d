@@ -5,7 +5,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -68,23 +68,26 @@ fun HeaderFromTop(title: String) {
 
     Row(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(top = padding),
+            .fillMaxWidth()
+            .padding(top = 26.dp)
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(),
+                    offsetY.value.roundToInt()
+                )
+            },
         horizontalArrangement = Arrangement.Center
     ) {
+
         title.forEachIndexed { index, letter ->
-                Text(
-                    modifier = Modifier.offset {
-                        IntOffset(
-                            offsetX.value.roundToInt(),
-                            offsetY.value.roundToInt()
-                        )
-                    },
-                    text = letter.toString(),
-                    fontSize = 52.sp,
-                    color = MathAppTheme.colors.coreYellow,
-                    fontFamily = AppFont
-                )
+
+            Text(
+                modifier = Modifier,
+                text = letter.toString(),
+                fontSize = 52.sp,
+                color = MathAppTheme.getRandomMathAppColor(),
+                fontFamily = AppFont
+            )
         }
     }
 }

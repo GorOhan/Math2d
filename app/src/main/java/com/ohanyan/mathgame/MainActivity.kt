@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.ohanyan.mathgame.onboarding.splash.SplashScreen
+import com.ohanyan.mathgame.navigation.MathNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
                 Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
-                    SplashScreen()
+                    MathNavHost()
                 }
         }
     }

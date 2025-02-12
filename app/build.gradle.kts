@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.mathgame.android.application)
     alias(libs.plugins.mathgame.android.application.compose)
     alias(libs.plugins.mathgame.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -49,8 +50,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     ksp(libs.hilt.compiler)
 
-//    implementation(libs.androidx.hilt.navigation.compose)
-//    implementation(libs.androidx.lifecycle.runtimeCompose)
-//    implementation(libs.androidx.navigation.compose)
-
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 }
