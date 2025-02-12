@@ -144,8 +144,8 @@ fun SplashScreenUI(
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        MathAppTheme.colors.mainBlue.copy(0.7f),
-                        MathAppTheme.colors.mainBlue.copy(0.2f)
+                        MathAppTheme.colors.darkPurpleGray90.copy(0.4f),
+                        MathAppTheme.colors.darkPurpleGray90.copy(0.1f)
                     )
                 )
             )
