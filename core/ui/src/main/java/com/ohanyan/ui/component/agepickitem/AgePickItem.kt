@@ -1,8 +1,10 @@
 package com.ohanyan.ui.component.agepickitem
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.StartOffset
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -17,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -34,12 +37,17 @@ fun SelectAgeItem(
     onClick: () -> Unit = {},
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
-    val textColor: Color = MathAppTheme.colors.coreYellow
 
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
 
-    val scale by infiniteTransition.animateFloat(
+    val scale by animateFloatAsState(
+        targetValue = if (pressed) 0.7f else 1f,
+        animationSpec = tween(durationMillis = 800, easing = LinearOutSlowInEasing),
+        label = ""
+    )
+
+    val padding by infiniteTransition.animateFloat(
         initialValue = 0.7f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -55,19 +63,20 @@ fun SelectAgeItem(
                 indication = null,
                 onClick = onClick
             )
-            .padding(top = (32 * scale).dp)
+            .padding(top = (32 * padding).dp)
     ) {
         Text(
             modifier = Modifier
                 .drawBehind {
                     drawCircle(
                         color = circleColor,
-                        radius = size.minDimension / 2,
+                        radius = size.minDimension * scale / 2,
                         style = if (selected) Fill else Stroke(width = 4.dp.toPx()),
                     )
 
                 }
-                .padding(32.dp),
+                .padding(32.dp)
+                .scale(scale),
             text = text,
             style = MathAppTheme.typography.display,
             color = if (selected) MathAppTheme.colors.coreWhite else circleColor
