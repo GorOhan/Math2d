@@ -3,7 +3,6 @@ package com.ohanyan.mathgame.onboarding.splash
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,10 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,6 +31,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ohanyan.mathgame.designsystem.component.greetingmessage.GreetingMessage
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.mathgame.onboarding.R
+import com.ohanyan.ui.component.mathaction.MathLoading
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -75,39 +72,6 @@ fun SplashScreenUI(
         animationSpec = tween(durationMillis = 1200), label = "" // Animation duration for each step
     )
 
-    var appleY by remember { mutableStateOf(0.dp) }
-    var appleX by remember { mutableStateOf(0.dp) }
-    val rotation = remember { Animatable(0f) }
-    var currentRotation by remember { mutableStateOf(0f) }
-
-    val appleAnimateState by animateDpAsState(
-        targetValue = appleY,
-        animationSpec = tween(durationMillis = 900),
-        finishedListener = {
-            coroutineScope.launch {
-//                rotation.animateTo(
-//                    targetValue = currentRotation - 360f,
-//                    animationSpec = infiniteRepeatable(
-//                        animation = tween(700, easing = LinearEasing),
-//                        repeatMode = RepeatMode.Restart
-//                    )
-//                )
-//                currentRotation = rotation.value
-            }
-//            appleX -= 300.dp
-        },
-        label = "" // Animation duration for each step
-    )
-    val appleAnimateStateX by animateDpAsState(
-        targetValue = appleX,
-        animationSpec = tween(durationMillis = 2500),
-        finishedListener = {
-            coroutineScope.launch {
-                rotation.stop()
-            }
-        },
-        label = "" // Animation duration for each step
-    )
     val animatedOffsetY by animateDpAsState(
         targetValue = offsetY,
         animationSpec = tween(durationMillis = 2000),
@@ -119,12 +83,12 @@ fun SplashScreenUI(
                 offsetXGreeting += 240.dp
                 delay(1200)
                 animateGreetingMessage = true
+                delay(1500L)
                 onAnimationEnd()
-              //  appleY += 300.dp
 
             }
         },
-        label = "" // Animation duration for each step
+        label = ""
     )
 
 
@@ -133,7 +97,7 @@ fun SplashScreenUI(
         coroutineScope.launch {
             repeat(1) { step ->
                 offsetY -= 90.dp
-                delay(1400) // Wait for the animation to complete
+                delay(1400)
             }
         }
     }
@@ -148,32 +112,15 @@ fun SplashScreenUI(
                         MathAppTheme.colors.darkPurpleGray90.copy(0.1f)
                     )
                 )
-            )
+            ),
     ) {
-//        Image(
-//            modifier = Modifier
-//                .align(Alignment.TopEnd)
-//                .offset(
-//                    x = appleAnimateStateX,
-//                    y = appleAnimateState
-//                )
-//                .rotate(rotation.value)
-//                .padding(32.dp),
-//            painter = painterResource(R.drawable.ic_apple),
-//            contentScale = ContentScale.FillWidth,
-//            contentDescription = null,
-//        )
-        Image(
+
+        MathLoading(
             modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(start = 48.dp, top = 100.dp)
-                .rotate(80F),
-
-            painter = painterResource(R.drawable.ic_set_square),
-            contentScale = ContentScale.FillWidth,
-            contentDescription = null,
+                .align(Alignment.TopCenter)
+                .padding(top = 16.dp),
+            iconSize = 46.dp
         )
-
 
         if (showGreetingMessage) {
             GreetingMessage(

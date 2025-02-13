@@ -1,7 +1,5 @@
 package com.ohanyan.mathgame.onboarding.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -33,14 +31,7 @@ fun NavGraphBuilder.onboardingScreens(
         )
     }
 
-    composable<OnBoardingScreen.SelectAgeScreen>(
-        enterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(600)
-            )
-        },
-    ) {
+    composable<OnBoardingScreen.SelectAgeScreen> {
         SelectAgeScreen(
             onNextClick = { onNavigation(OnBoardingScreen.MenuScreen) }
         )
