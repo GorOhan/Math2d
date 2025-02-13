@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.ohanyan.mathgame.onboarding.navigation.OnBoardingScreen
-import com.ohanyan.mathgame.onboarding.navigation.navigateToSelectAgeScreen
+import com.ohanyan.mathgame.onboarding.navigation.navigateToScreen
 import com.ohanyan.mathgame.onboarding.navigation.onboardingScreens
 
 
@@ -14,13 +14,15 @@ fun MathNavHost(
     modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
+
     NavHost(
         navController = navController,
         startDestination = OnBoardingScreen.SplashScreen,
         modifier = modifier,
     ) {
         onboardingScreens(
-            onAnimationEnd = { navController.navigateToSelectAgeScreen() }
+            onNavigation = { navController.navigateToScreen(it) },
+            onBackClick = { navController.popBackStack() }
         )
     }
 }

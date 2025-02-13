@@ -150,19 +150,19 @@ fun SplashScreenUI(
                 )
             )
     ) {
-        Image(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .offset(
-                    x = appleAnimateStateX,
-                    y = appleAnimateState
-                )
-                .rotate(rotation.value)
-                .padding(32.dp),
-            painter = painterResource(R.drawable.ic_apple),
-            contentScale = ContentScale.FillWidth,
-            contentDescription = null,
-        )
+//        Image(
+//            modifier = Modifier
+//                .align(Alignment.TopEnd)
+//                .offset(
+//                    x = appleAnimateStateX,
+//                    y = appleAnimateState
+//                )
+//                .rotate(rotation.value)
+//                .padding(32.dp),
+//            painter = painterResource(R.drawable.ic_apple),
+//            contentScale = ContentScale.FillWidth,
+//            contentDescription = null,
+//        )
         Image(
             modifier = Modifier
                 .align(Alignment.CenterStart)

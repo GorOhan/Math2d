@@ -18,28 +18,31 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
-import com.ohanyan.ui.component.nextbutton.NextButton
+import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.mathgame.onboarding.splash.AnimatedPreloader
 import com.ohanyan.ui.component.TypingAnimation
 import com.ohanyan.ui.component.agepickitem.SelectAgeItem
 
 @Composable
 fun SelectAgeScreen(
-    viewModel: SelectAgeViewModel = hiltViewModel()
+    viewModel: SelectAgeViewModel = hiltViewModel(),
+    onNextClick: () -> Unit = {},
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
 
     SelectAgeScreenUI(
         chooseAgeUIState = uiState,
-        onSelectAge = viewModel::selectAge
+        onSelectAge = viewModel::selectAge,
+        onNextClick = onNextClick,
     )
 }
 
 @Composable
 fun SelectAgeScreenUI(
     chooseAgeUIState: ChooseAgeUIState,
-    onSelectAge: (String) -> Unit = {}
+    onSelectAge: (String) -> Unit = {},
+    onNextClick: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -54,9 +57,10 @@ fun SelectAgeScreenUI(
             )
     ) {
 
-        NextButton(
+        ActionButton(
             modifier = Modifier.align(Alignment.BottomEnd),
             visible = chooseAgeUIState.selectedAge.isNotEmpty(),
+            onClick = onNextClick
         )
 
         Column {

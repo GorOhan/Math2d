@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.ohanyan.mathgame.onboarding.menu.MenuScreen
 import com.ohanyan.mathgame.onboarding.selectage.SelectAgeScreen
 import com.ohanyan.mathgame.onboarding.splash.SplashScreen
 import kotlinx.serialization.Serializable
@@ -12,22 +13,23 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed interface OnBoardingScreen {
     @Serializable
-    data object SplashScreen
+    data object SplashScreen : OnBoardingScreen
 
     @Serializable
-    data object SelectAgeScreen
+    data object SelectAgeScreen : OnBoardingScreen
+
+    @Serializable
+    data object MenuScreen : OnBoardingScreen
 }
 
-fun NavController.navigateToSelectAgeScreen() =
-    navigate(route = OnBoardingScreen.SelectAgeScreen, null)
-
 fun NavGraphBuilder.onboardingScreens(
-    onAnimationEnd: () -> Unit,
+    onNavigation: (OnBoardingScreen) -> Unit,
+    onBackClick: () -> Unit,
 ) {
 
     composable<OnBoardingScreen.SplashScreen> {
         SplashScreen(
-            onAnimationEnd = onAnimationEnd
+            onAnimationEnd = { onNavigation(OnBoardingScreen.SelectAgeScreen) },
         )
     }
 
@@ -39,6 +41,17 @@ fun NavGraphBuilder.onboardingScreens(
             )
         },
     ) {
-        SelectAgeScreen()
+        SelectAgeScreen(
+            onNextClick = { onNavigation(OnBoardingScreen.MenuScreen) }
+        )
+    }
+
+    composable<OnBoardingScreen.MenuScreen> {
+        MenuScreen(
+            onBackClick = onBackClick
+        )
     }
 }
+
+fun NavController.navigateToScreen(screen: OnBoardingScreen) =
+    navigate(route = screen, null)
