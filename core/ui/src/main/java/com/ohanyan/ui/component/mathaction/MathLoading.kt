@@ -23,10 +23,9 @@ import com.ohanyan.mathgame.ui.R
 @Composable
 fun MathLoading(
     modifier: Modifier = Modifier,
-    iconSize: Dp = 64.dp
+    iconSize: Dp = 64.dp,
+    durationOfEachAnimation: Int = 300
 ) {
-    val durationOfEachAnimation = 300
-    val wholeAnimationDuration = 600
     val infiniteTransition = rememberInfiniteTransition(label = "")
 
     @Composable
@@ -35,9 +34,12 @@ fun MathLoading(
             initialValue = .7f,
             targetValue = 1f,
             animationSpec = infiniteRepeatable(
-                animation = tween(durationMillis = durationOfEachAnimation, delayMillis = durationOfEachAnimation * 3),
+                animation = tween(
+                    durationMillis = durationOfEachAnimation,
+                    delayMillis = durationOfEachAnimation * 3
+                ),
                 repeatMode = RepeatMode.Reverse,
-                initialStartOffset = StartOffset(wholeAnimationDuration * startOffsetMultiplier)
+                initialStartOffset = StartOffset(2 * durationOfEachAnimation * startOffsetMultiplier)
             ), label = ""
         )
         return scale

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +46,20 @@ fun MenuScreenUI(
                 )
             )
     ) {
+        ActionButton(
+            modifier = Modifier.align(Alignment.TopStart),
+            visible = true,
+            actionType = ActionType.PREVIOUS,
+            onClick = onBackClick
+        )
+
+        MainHero(
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .align(Alignment.TopCenter)
+                .size(112.dp)
+        )
+
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,21 +70,9 @@ fun MenuScreenUI(
                 style = MathAppTheme.typography.display
             )
 
-            MathLoading()
+            MathLoading(
+                durationOfEachAnimation = 200
+            )
         }
-
-
-        ActionButton(
-            modifier = Modifier.align(Alignment.TopStart),
-            visible = true,
-            actionType = ActionType.PREVIOUS,
-            onClick = onBackClick
-        )
-
-        MainHero(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .size(112.dp)
-        )
     }
 }
