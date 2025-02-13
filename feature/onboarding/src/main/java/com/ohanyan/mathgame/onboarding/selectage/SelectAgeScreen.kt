@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.nextbutton.ActionButton
-import com.ohanyan.mathgame.onboarding.splash.AnimatedPreloader
 import com.ohanyan.ui.component.TypingAnimation
 import com.ohanyan.ui.component.agepickitem.SelectAgeItem
+import com.ohanyan.ui.component.mainhero.MainHero
 
 @Composable
 fun SelectAgeScreen(
@@ -67,7 +67,7 @@ fun SelectAgeScreenUI(
             Row(
                 modifier = Modifier.padding(top = 24.dp, start = 124.dp)
             ) {
-                AnimatedPreloader(modifier = Modifier.size(112.dp))
+                MainHero(modifier = Modifier.size(112.dp))
 
                 TypingAnimation("Select your child age !")
             }

@@ -8,7 +8,3 @@ plugins {
 android {
     namespace = "com.ohanyan.mathgame.playground"
 }
-
-dependencies {
-
-}

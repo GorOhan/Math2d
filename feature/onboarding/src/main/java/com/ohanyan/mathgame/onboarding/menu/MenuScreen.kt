@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
-import com.ohanyan.mathgame.onboarding.splash.AnimatedPreloader
+import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.mathaction.MathLoading
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
@@ -66,7 +66,7 @@ fun MenuScreenUI(
             onClick = onBackClick
         )
 
-        AnimatedPreloader(
+        MainHero(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .size(112.dp)

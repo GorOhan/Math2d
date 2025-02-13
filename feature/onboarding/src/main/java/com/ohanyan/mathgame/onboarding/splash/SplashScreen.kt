@@ -1,6 +1,5 @@
 package com.ohanyan.mathgame.onboarding.splash
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -23,14 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ohanyan.mathgame.designsystem.component.greetingmessage.GreetingMessage
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
-import com.ohanyan.mathgame.onboarding.R
+import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.mathaction.MathLoading
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -132,7 +126,7 @@ fun SplashScreenUI(
             )
         }
 
-        AnimatedPreloader(
+        MainHero(
             modifier = Modifier
                 .fillMaxHeight(0.5f)
                 .align(Alignment.BottomCenter)
@@ -142,28 +136,6 @@ fun SplashScreenUI(
                 )
         )
     }
-}
-
-@Composable
-fun AnimatedPreloader(modifier: Modifier = Modifier) {
-    val preloaderLottieComposition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(
-            R.raw.main_hero
-        )
-    )
-
-    val preloaderProgress by animateLottieCompositionAsState(
-        preloaderLottieComposition,
-        iterations = LottieConstants.IterateForever,
-        isPlaying = true
-    )
-
-
-    LottieAnimation(
-        composition = preloaderLottieComposition,
-        progress = { preloaderProgress },
-        modifier = modifier
-    )
 }
 
 @Preview()

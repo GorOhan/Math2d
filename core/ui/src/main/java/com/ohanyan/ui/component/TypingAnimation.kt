@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.tooling.preview.Preview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import kotlinx.coroutines.delay
 
@@ -28,6 +29,7 @@ fun TypingAnimation(text: String, typingSpeed: Long = 50L) {
 }
 
 @Composable
+@Preview
 fun TypingAnimationPreview() {
     TypingAnimation(
         text = "Hello, Jetpack Compose!",
