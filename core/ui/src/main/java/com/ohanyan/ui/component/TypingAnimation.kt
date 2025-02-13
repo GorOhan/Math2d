@@ -23,7 +23,7 @@ fun TypingAnimation(text: String, typingSpeed: Long = 50L) {
     Text(
         text = displayedText,
         style = MathAppTheme.typography.display,
-        color = MathAppTheme.colors.coreYellow,
+        color = MathAppTheme.colors.mainBlue,
     )
 }
 

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -34,6 +35,7 @@ fun SelectAgeItem(
     modifier: Modifier = Modifier,
     circleColor: Color = MathAppTheme.colors.coreYellow,
     selected: Boolean = false,
+    withAnimation: Boolean = true,
     onClick: () -> Unit = {},
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
@@ -47,15 +49,20 @@ fun SelectAgeItem(
         label = ""
     )
 
-    val padding by infiniteTransition.animateFloat(
-        initialValue = 0.7f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(Random.nextInt(500, 900)),
-            repeatMode = RepeatMode.Reverse,
-            initialStartOffset = StartOffset(Random.nextInt(0, 900))
-        ), label = ""
-    )
+    val padding by if (withAnimation) {
+        infiniteTransition.animateFloat(
+            initialValue = 0.7f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(Random.nextInt(500, 900)),
+                repeatMode = RepeatMode.Reverse,
+                initialStartOffset = StartOffset(Random.nextInt(0, 900))
+            ), label = ""
+        )
+    } else {
+        remember { mutableFloatStateOf(0.7f) }
+    }
+
     Box(
         modifier = modifier
             .clickable(

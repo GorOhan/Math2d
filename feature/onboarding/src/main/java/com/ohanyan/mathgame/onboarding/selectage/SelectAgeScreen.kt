@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.ui.component.nextbutton.NextButton
 import com.ohanyan.mathgame.onboarding.splash.AnimatedPreloader
 import com.ohanyan.ui.component.TypingAnimation
 import com.ohanyan.ui.component.agepickitem.SelectAgeItem
@@ -51,6 +53,12 @@ fun SelectAgeScreenUI(
                 )
             )
     ) {
+
+        NextButton(
+            modifier = Modifier.align(Alignment.BottomEnd),
+            visible = chooseAgeUIState.selectedAge.isNotEmpty(),
+        )
+
         Column {
             Row(
                 modifier = Modifier.padding(top = 24.dp, start = 124.dp)
@@ -72,6 +80,7 @@ fun SelectAgeScreenUI(
                         modifier = Modifier.padding(top = age.topPadding.dp),
                         circleColor = getColorForAge(age.color),
                         selected = chooseAgeUIState.selectedAge == age.age,
+                        withAnimation = chooseAgeUIState.selectedAge.isEmpty(),
                         onClick = { onSelectAge(age.age) }
                     )
                 }

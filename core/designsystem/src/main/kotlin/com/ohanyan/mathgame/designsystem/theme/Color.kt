@@ -42,7 +42,7 @@ internal val Green20 = Color(0xFF003919)
 internal val Green30 = Color(0xFF005227)
 internal val Green40 = Color(0xFF006D36)
 internal val Green80 = Color(0xFF0EE37C)
-internal val Green90 = Color(0xFF5AFF9D)
+internal val Green90 = Color(0xFF9EDCB6)
 internal val GreenGray30 = Color(0xFF414941)
 internal val GreenGray50 = Color(0xFF727971)
 internal val GreenGray60 = Color(0xFF8B938A)
@@ -89,6 +89,6 @@ data class MathAppColor(
     val coreGreen: Color = GrassGreen,
     val mainBlue: Color = MainBlue,
     val red: Color = Red,
-    val darkPurpleGray90: Color = Teal90
+    val darkPurpleGray90: Color = Green90
 )
 

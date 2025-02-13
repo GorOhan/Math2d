@@ -21,8 +21,8 @@ class SelectAgeViewModel : ViewModel() {
                     AgeItem("2", Random.nextInt(0, 66), AgeColor.RED),
                     AgeItem("3", Random.nextInt(44, 88), AgeColor.BLUE),
                     AgeItem("4", Random.nextInt(44, 88), AgeColor.YELLOW),
-                    AgeItem("5", Random.nextInt(0, 44), AgeColor.GREEN),
-                    AgeItem("6", Random.nextInt(0, 44), AgeColor.BLUE),
+                    AgeItem("5", Random.nextInt(0, 24), AgeColor.GREEN),
+                    AgeItem("6", Random.nextInt(0, 34), AgeColor.BLUE),
                     AgeItem("7", Random.nextInt(0, 44), AgeColor.RED)
 
                 )
@@ -41,7 +41,7 @@ class SelectAgeViewModel : ViewModel() {
 @Immutable
 data class ChooseAgeUIState(
     val selectedAge: String = "",
-    val ageOptions: List<AgeItem> = listOf()
+    val ageOptions: List<AgeItem> = listOf(),
 )
 
 data class AgeItem(
