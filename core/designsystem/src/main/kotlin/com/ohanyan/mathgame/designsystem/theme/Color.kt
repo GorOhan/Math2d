@@ -89,6 +89,7 @@ data class MathAppColor(
     val coreGreen: Color = GrassGreen,
     val mainBlue: Color = MainBlue,
     val red: Color = Red,
-    val darkPurpleGray90: Color = Green90
+    val darkPurpleGray90: Color = Green90,
+    val blue30: Color = Blue40
 )
 

@@ -1,5 +1,6 @@
 package com.ohanyan.ui.component.mainhero
 
+import androidx.annotation.RawRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -12,11 +13,35 @@ import com.ohanyan.mathgame.ui.R
 
 
 @Composable
-fun MainHero(modifier: Modifier = Modifier) {
+fun MainHero(
+    modifier: Modifier = Modifier,
+    @RawRes lottieRes: Int = R.raw.main_hero
+) {
     val preloaderLottieComposition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(
-            R.raw.main_hero
-        )
+        LottieCompositionSpec.RawRes(lottieRes)
+    )
+
+    val preloaderProgress by animateLottieCompositionAsState(
+        preloaderLottieComposition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = true
+    )
+
+
+    LottieAnimation(
+        composition = preloaderLottieComposition,
+        progress = { preloaderProgress },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun MathConfetti(
+    modifier: Modifier = Modifier,
+    @RawRes lottieRes: Int = R.raw.space_runner
+) {
+    val preloaderLottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(lottieRes)
     )
 
     val preloaderProgress by animateLottieCompositionAsState(

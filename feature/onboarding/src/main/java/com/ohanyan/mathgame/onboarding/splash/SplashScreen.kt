@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -22,8 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ohanyan.mathgame.designsystem.component.greetingmessage.GreetingMessage
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.ui.component.TypingAnimation
 import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.mathaction.MathLoading
 import kotlinx.coroutines.delay
@@ -49,11 +50,11 @@ fun SplashScreenUI(
 
 
     var offsetX by remember { mutableStateOf(0.dp) }
-    var offsetY by remember { mutableStateOf(0.dp) }
+    var offsetMainHeroY by remember { mutableStateOf(0.dp) }
     var offsetXGreeting by remember { mutableStateOf(0.dp) }
 
     var showGreetingMessage by remember { mutableStateOf(false) }
-    var animateGreetingMessage by remember { mutableStateOf(false) }
+//    var animateGreetingMessage by remember { mutableStateOf(false) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -61,25 +62,24 @@ fun SplashScreenUI(
         targetValue = offsetX,
         animationSpec = tween(durationMillis = 2000), label = "" // Animation duration for each step
     )
-    val animatedOffsetXGreeting by animateDpAsState(
-        targetValue = offsetXGreeting,
-        animationSpec = tween(durationMillis = 1200), label = "" // Animation duration for each step
-    )
+//    val animatedOffsetXGreeting by animateDpAsState(
+//        targetValue = offsetXGreeting,
+//        animationSpec = tween(durationMillis = 1200), label = "" // Animation duration for each step
+//    )
 
     val animatedOffsetY by animateDpAsState(
-        targetValue = offsetY,
+        targetValue = offsetMainHeroY,
         animationSpec = tween(durationMillis = 2000),
         finishedListener = {
             showGreetingMessage = true
             coroutineScope.launch {
                 delay(500L)
-                offsetX += 600.dp
-                offsetXGreeting += 240.dp
-                delay(1200)
-                animateGreetingMessage = true
-                delay(1500L)
-                onAnimationEnd()
-
+//                offsetX += 600.dp
+//                offsetXGreeting += 240.dp
+//                delay(1200)
+//                animateGreetingMessage = true
+//                delay(1500L)
+//                onAnimationEnd()
             }
         },
         label = ""
@@ -88,12 +88,8 @@ fun SplashScreenUI(
 
 
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            repeat(1) { step ->
-                offsetY -= 90.dp
-                delay(1400)
-            }
-        }
+        offsetMainHeroY -= 90.dp
+        delay(1400)
     }
 
     Box(
@@ -116,25 +112,33 @@ fun SplashScreenUI(
             iconSize = 46.dp
         )
 
-        if (showGreetingMessage) {
-            GreetingMessage(
-                modifier = Modifier
-                    .padding(start = 42.dp)
-                    .align(Alignment.CenterStart)
-                    .offset(x = animatedOffsetXGreeting),
-                withAnimation = animateGreetingMessage
-            )
-        }
-
-        MainHero(
+        Row(
             modifier = Modifier
-                .fillMaxHeight(0.5f)
                 .align(Alignment.BottomCenter)
                 .offset(
                     x = animatedOffsetX,
                     y = animatedOffsetY
                 )
-        )
+        ) {
+            MainHero(modifier = Modifier.fillMaxHeight(0.5f))
+
+
+            TypingAnimation(
+                text = "Hello I am Mathy"
+            )
+
+        }
+
+//        if (showGreetingMessage) {
+//            GreetingMessage(
+//                modifier = Modifier
+//                    .padding(start = 42.dp)
+//                    .align(Alignment.CenterStart)
+//                    .offset(x = animatedOffsetXGreeting),
+//                withAnimation = animateGreetingMessage
+//            )
+//        }
+
     }
 }
 

@@ -11,6 +11,7 @@ data class AppTypography(
     /*Main - M2*/
     val display: TextStyle,
     val h1: TextStyle,
+    val h2: TextStyle,
 //    val h1Reg: TextStyle,
 //    val h2: TextStyle,
 //    val h3: TextStyle,
@@ -54,5 +55,10 @@ internal val defaultTypography = AppTypography(
         fontWeight = FontWeight.Bold,
         lineHeight = 48.sp,
         fontSize = 40.sp,
+    ),
+    h2 = TextStyle(
+        fontFamily = AppFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
     )
 )
