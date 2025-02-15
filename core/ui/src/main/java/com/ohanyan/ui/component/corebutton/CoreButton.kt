@@ -32,8 +32,8 @@ fun CoreButton(
     val pressed by interactionSource.collectIsPressedAsState()
 
     val scale by animateFloatAsState(
-        targetValue = if (pressed) 0.9f else 1f,
-        animationSpec = tween(durationMillis = 800, easing = LinearOutSlowInEasing),
+        targetValue = if (pressed) 0.7f else 1f,
+        animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing),
         label = ""
     )
 

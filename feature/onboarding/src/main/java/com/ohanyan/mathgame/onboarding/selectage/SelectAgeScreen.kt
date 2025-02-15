@@ -69,7 +69,7 @@ fun SelectAgeScreenUI(
             ) {
                 MainHero(modifier = Modifier.size(112.dp))
 
-                TypingAnimation("Select your child age !")
+                TypingAnimation(text = "Select your child age !")
             }
 
             Row(

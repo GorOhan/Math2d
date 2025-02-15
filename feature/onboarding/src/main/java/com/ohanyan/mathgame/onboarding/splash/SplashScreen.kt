@@ -79,7 +79,7 @@ fun SplashScreenUI(
 //                delay(1200)
 //                animateGreetingMessage = true
 //                delay(1500L)
-//                onAnimationEnd()
+              onAnimationEnd()
             }
         },
         label = ""
@@ -123,9 +123,9 @@ fun SplashScreenUI(
             MainHero(modifier = Modifier.fillMaxHeight(0.5f))
 
 
-            TypingAnimation(
-                text = "Hello I am Mathy"
-            )
+//            TypingAnimation(
+//                text = "Hello I am Mathy"
+//            )
 
         }
 
