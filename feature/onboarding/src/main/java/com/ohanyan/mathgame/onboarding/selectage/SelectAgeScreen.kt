@@ -15,9 +15,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.mathgame.onboarding.R
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.TypingAnimation
 import com.ohanyan.ui.component.agepickitem.SelectAgeItem
@@ -69,7 +71,10 @@ fun SelectAgeScreenUI(
             ) {
                 MainHero(modifier = Modifier.size(112.dp))
 
-                TypingAnimation(text = "Select your child age !")
+                TypingAnimation(
+                    modifier = Modifier.padding(top = 24.dp),
+                    text = stringResource(R.string.feature_onboarding_select_child_age)
+                )
             }
 
             Row(

@@ -12,7 +12,7 @@ data class AppTypography(
     val display: TextStyle,
     val h1: TextStyle,
     val h2: TextStyle,
-//    val h1Reg: TextStyle,
+    val h1Bee: TextStyle,
 //    val h2: TextStyle,
 //    val h3: TextStyle,
 //    val h4: TextStyle,
@@ -60,5 +60,11 @@ internal val defaultTypography = AppTypography(
         fontFamily = AppFont,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
-    )
+    ),
+    h1Bee = TextStyle(
+        fontFamily = BeeFont,
+        fontWeight = FontWeight.Bold,
+        lineHeight = 48.sp,
+        fontSize = 24.sp,
+    ),
 )

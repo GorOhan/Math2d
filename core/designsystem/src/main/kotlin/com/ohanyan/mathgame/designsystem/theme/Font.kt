@@ -11,6 +11,11 @@ internal val AppFont = FontFamily(
     Font(R.font.fredokaregular, FontWeight.Normal),
 )
 
+internal val BeeFont = FontFamily(
+    Font(R.font.bahama, FontWeight.Bold),
+    Font(R.font.bahama, FontWeight.Normal),
+)
+
 val Dingbats = FontFamily(
     Font(R.font.fredokadingbats, FontWeight.Bold),
     Font(R.font.fredokadingbats, FontWeight.Normal),
