@@ -99,7 +99,7 @@ fun ChalkBoard(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(16.dp),
-                text = "How much items you see?",
+                text = "How many items do you see?",
                 style = MathAppTheme.typography.chalk,
                 color = MathAppTheme.colors.secondaryWhite,
                 fontSize = 42,
