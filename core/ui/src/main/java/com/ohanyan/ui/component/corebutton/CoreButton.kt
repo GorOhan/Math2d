@@ -26,7 +26,8 @@ import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 
 @Composable
 fun CoreButton(
-    buttonTitle: String = "Button"
+    buttonTitle: String = "Button",
+    onClick:()->Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
@@ -42,10 +43,9 @@ fun CoreButton(
             .scale(scale)
             .clickable(
                 interactionSource = interactionSource,
-                indication = null
-            ) {
-
-            }
+                indication = null,
+                onClick = onClick
+            )
             .shadow(
                 elevation = 4.dp,
                 shape = RoundedCornerShape(16.dp),

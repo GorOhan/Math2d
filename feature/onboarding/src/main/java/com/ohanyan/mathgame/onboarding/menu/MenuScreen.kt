@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.corebutton.CoreButton
 import com.ohanyan.ui.component.mainhero.MainHero
+import com.ohanyan.ui.component.mainhero.MathConfetti
 import com.ohanyan.ui.component.mathaction.MathLoading
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
@@ -31,15 +33,18 @@ import com.ohanyan.ui.component.nextbutton.ActionType
 @Composable
 fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
+    onCountClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
     MenuScreenUI(
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
+        onCountClick = onCountClick
     )
 }
 
 @Composable
 fun MenuScreenUI(
+    onCountClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
 
@@ -90,7 +95,10 @@ fun MenuScreenUI(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CoreButton("Count")
+            CoreButton(
+                buttonTitle = "Count",
+                onClick = onCountClick
+            )
 
             MathLoading(
                 durationOfEachAnimation = 200
@@ -101,6 +109,6 @@ fun MenuScreenUI(
 
 @Composable
 @Preview
-fun MenuScreenPreview(){
+fun MenuScreenPreview() {
     MenuScreenUI()
 }

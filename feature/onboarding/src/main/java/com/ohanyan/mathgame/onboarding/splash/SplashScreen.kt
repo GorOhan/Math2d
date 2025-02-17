@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -42,6 +43,7 @@ fun SplashScreen(
     onAnimationEnd: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     SplashScreenUI(
         uiState = uiState,
         onAnimationEnd = onAnimationEnd,
@@ -56,7 +58,7 @@ fun SplashScreenUI(
 
     val coroutineScope = rememberCoroutineScope()
 
-    var alpha by remember { mutableStateOf(0f) }
+    var alpha by remember { mutableFloatStateOf(0f) }
     val secondLineAlpha by animateFloatAsState(
         targetValue = alpha,
         animationSpec = tween(durationMillis = 2000),
@@ -130,8 +132,6 @@ fun SplashScreenUI(
             }
 
         }
-
-
     }
 }
 
@@ -140,4 +140,3 @@ fun SplashScreenUI(
 fun SplashPreview() {
     SplashScreen()
 }
-

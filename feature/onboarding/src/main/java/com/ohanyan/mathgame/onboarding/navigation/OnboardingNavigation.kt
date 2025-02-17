@@ -22,6 +22,7 @@ sealed interface OnBoardingScreen {
 
 fun NavGraphBuilder.onboardingScreens(
     onNavigation: (OnBoardingScreen) -> Unit,
+    onCountClick:()-> Unit,
     onBackClick: () -> Unit,
 ) {
 
@@ -39,6 +40,7 @@ fun NavGraphBuilder.onboardingScreens(
 
     composable<OnBoardingScreen.MenuScreen> {
         MenuScreen(
+            onCountClick = onCountClick,
             onBackClick = onBackClick
         )
     }
