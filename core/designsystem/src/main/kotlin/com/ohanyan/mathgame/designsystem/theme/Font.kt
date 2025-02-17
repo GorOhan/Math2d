@@ -16,6 +16,11 @@ internal val BeeFont = FontFamily(
     Font(R.font.bahama, FontWeight.Normal),
 )
 
+internal val ChalkFont = FontFamily(
+    Font(R.font.chalk, FontWeight.Bold),
+    Font(R.font.chalk, FontWeight.Normal),
+)
+
 val Dingbats = FontFamily(
     Font(R.font.fredokadingbats, FontWeight.Bold),
     Font(R.font.fredokadingbats, FontWeight.Normal),

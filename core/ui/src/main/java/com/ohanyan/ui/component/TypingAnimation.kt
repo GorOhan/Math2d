@@ -8,6 +8,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
@@ -17,6 +19,9 @@ import kotlinx.coroutines.delay
 fun TypingAnimation(
     modifier: Modifier = Modifier,
     text: String,
+    style: TextStyle = MathAppTheme.typography.h1Bee,
+    color: Color = MathAppTheme.colors.mainBlue,
+    fontSize: Int = 36,
     typingSpeed: Long = 50L
 ) {
     var displayedText by remember { mutableStateOf("") }
@@ -30,9 +35,9 @@ fun TypingAnimation(
     Text(
         modifier = modifier,
         text = displayedText,
-        style = MathAppTheme.typography.h1Bee,
-        color = MathAppTheme.colors.mainBlue,
-        fontSize = 36.sp
+        style = style,
+        color = color,
+        fontSize = fontSize.sp
     )
 }
 

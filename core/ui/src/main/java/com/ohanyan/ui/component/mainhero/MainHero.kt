@@ -38,7 +38,7 @@ fun MainHero(
 @Composable
 fun MathConfetti(
     modifier: Modifier = Modifier,
-    @RawRes lottieRes: Int = R.raw.space_runner
+    @RawRes lottieRes: Int = R.raw.math_conf
 ) {
     val preloaderLottieComposition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(lottieRes)

@@ -76,7 +76,11 @@ internal val Teal20 = Color(0xFF02363F)
 internal val Teal30 = Color(0xFF214D56)
 internal val Teal40 = Color(0xFF3A656F)
 internal val Teal80 = Color(0xFFA2CED9)
-internal val Teal90 = Color(0xFFBEEAF6)
+internal val Teal90 = Color(0xFF247245)
+internal val ChalkGreen = Color(0xFF247245)
+internal val WoodBrown = Color(0xFF6F3E28)
+internal val ChalkWhite = Color(0xFFF5F5F5)
+
 
 //Todo Use states here
 @Immutable
@@ -90,6 +94,10 @@ data class MathAppColor(
     val mainBlue: Color = MainBlue,
     val red: Color = Red,
     val darkPurpleGray90: Color = Green90,
-    val blue30: Color = Blue40
+    val blue30: Color = Blue40,
+    val greenBack: Color = ChalkGreen,
+    val brownBorder: Color = WoodBrown,
+    val secondaryWhite: Color = ChalkWhite
+
 )
 
