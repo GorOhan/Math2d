@@ -4,6 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,7 +23,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
+import com.ohanyan.ui.component.countpicker.CountPicker
 import com.ohanyan.ui.component.mainhero.MainHero
+import com.ohanyan.ui.component.mainhero.MathConfetti
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
 
@@ -34,15 +39,17 @@ fun LearnCountScreen(
     LearnCountScreenUI(
         uiState = uiState,
         onBackClick = onBackClick,
+        onOptionSelected = viewModel::onOptionSelected
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LearnCountScreenUI(
     uiState: LearnCountUIState,
+    onOptionSelected: (String) -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -66,27 +73,65 @@ fun LearnCountScreenUI(
             modifier = Modifier.align(Alignment.Center)
         ) {
 
-            val currentCount = uiState.options[uiState.currentOptionIndex]
-            Row(
-                modifier = Modifier.align(Alignment.Center),
-                horizontalArrangement = Arrangement.spacedBy(24.dp)
-            ) {
-                repeat(currentCount.count) {
+            val currentTest = uiState.currentTest
+            FlowRow(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize()
+                    .padding(vertical = 64.dp),
+                horizontalArrangement = Arrangement.Center,
+
+                ) {
+                repeat(uiState.currentTest?.count ?: 0) {
                     Image(
-                        modifier = Modifier.size(64.dp),
-                        painter = painterResource(currentCount.imgResId),
+                        modifier = Modifier
+                            .padding(vertical = 4.dp)
+                            .size(64.dp),
+                        painter = painterResource(
+                            currentTest?.imgResId ?: com.ohanyan.mathgame.ui.R.drawable.ic_balloons
+                        ),
                         contentDescription = null
+                    )
+                }
+
+            }
+
+
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter),
+                horizontalArrangement = Arrangement.spacedBy(36.dp)
+            ) {
+                uiState.currentTest?.answerOptions?.forEach {
+                    CountPicker(
+                        text = it,
+                        circleColor = MathAppTheme.colors.mainBlue,
+                        onClick = {
+                            onOptionSelected(it)
+                        }
                     )
                 }
             }
         }
 
-        MainHero(
+        Column(
             modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomStart)
-                .size(112.dp)
-        )
+                .align(Alignment.BottomStart),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            if (uiState.isAnsweredCorrect ?: false) {
+                MathConfetti(
+                    modifier = Modifier.size(144.dp)
+                )
+            }
+
+            MainHero(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(112.dp)
+            )
+        }
     }
 }
 

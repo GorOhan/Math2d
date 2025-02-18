@@ -23,6 +23,7 @@ import com.ohanyan.ui.component.TypingAnimation
 
 @Composable
 fun ChalkBoard(
+    title: String = "How many items do you see?",
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit = {},
 ) {
@@ -99,7 +100,7 @@ fun ChalkBoard(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(16.dp),
-                text = "How many items do you see?",
+                text = title,
                 style = MathAppTheme.typography.chalk,
                 color = MathAppTheme.colors.secondaryWhite,
                 fontSize = 42,

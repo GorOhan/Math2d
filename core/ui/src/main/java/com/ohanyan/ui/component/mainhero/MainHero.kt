@@ -46,7 +46,7 @@ fun MathConfetti(
 
     val preloaderProgress by animateLottieCompositionAsState(
         preloaderLottieComposition,
-        iterations = LottieConstants.IterateForever,
+        iterations = 1,
         isPlaying = true
     )
 
