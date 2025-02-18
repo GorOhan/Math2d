@@ -7,13 +7,13 @@ import com.ohanyan.mathgame.designsystem.R
 
 
 internal val AppFont = FontFamily(
-    Font(R.font.fredokaregular, FontWeight.Bold),
-    Font(R.font.fredokaregular, FontWeight.Normal),
+    Font(R.font.app_main, FontWeight.Bold),
+    Font(R.font.app_main, FontWeight.Normal),
 )
 
 internal val BeeFont = FontFamily(
-    Font(R.font.bahama, FontWeight.Bold),
-    Font(R.font.bahama, FontWeight.Normal),
+    Font(R.font.app_main, FontWeight.Bold),
+    Font(R.font.app_main, FontWeight.Normal),
 )
 
 internal val ChalkFont = FontFamily(

@@ -103,7 +103,7 @@ fun ChalkBoard(
                 text = title,
                 style = MathAppTheme.typography.chalk,
                 color = MathAppTheme.colors.secondaryWhite,
-                fontSize = 42,
+                fontSize = 32,
                 typingSpeed = 50L
             )
             content()

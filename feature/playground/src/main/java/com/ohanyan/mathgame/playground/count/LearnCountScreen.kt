@@ -17,11 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.mathgame.playground.R
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.countpicker.CountPicker
 import com.ohanyan.ui.component.mainhero.MainHero
@@ -70,7 +72,8 @@ fun LearnCountScreenUI(
         )
 
         ChalkBoard(
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier.align(Alignment.Center),
+            title = stringResource(id = R.string.feature_playground_how_many_items)
         ) {
 
             val currentTest = uiState.currentTest
