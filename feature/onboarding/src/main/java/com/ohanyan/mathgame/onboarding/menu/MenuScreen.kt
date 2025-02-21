@@ -33,10 +33,12 @@ import com.ohanyan.ui.component.nextbutton.ActionType
 @Composable
 fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
+    onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
     MenuScreenUI(
+        onLearnNumber = onLearnNumber,
         onBackClick = onBackClick,
         onCountClick = onCountClick
     )
@@ -44,6 +46,7 @@ fun MenuScreen(
 
 @Composable
 fun MenuScreenUI(
+    onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
@@ -98,6 +101,11 @@ fun MenuScreenUI(
             CoreButton(
                 buttonTitle = "Count",
                 onClick = onCountClick
+            )
+
+            CoreButton(
+                buttonTitle = "Learn Number",
+                onClick = onLearnNumber
             )
 
             MathLoading(

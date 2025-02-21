@@ -25,7 +25,8 @@ fun MathNavHost(
         onboardingScreens(
             onNavigation = { navController.navigateToScreen(it) },
             onCountClick = { navController.navigateToPlaygroundScreen(PlaygroundScreen.LearnCountScreen) },
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { navController.popBackStack() },
+            onLearnNumber = { navController.navigateToPlaygroundScreen(PlaygroundScreen.LearnNumberScreen) }
         )
 
         playgroundScreens(
