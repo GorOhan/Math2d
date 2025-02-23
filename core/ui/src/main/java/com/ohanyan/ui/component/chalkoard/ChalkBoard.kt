@@ -1,6 +1,7 @@
 package com.ohanyan.ui.component.chalkoard
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,20 +27,20 @@ fun ChalkBoard(
         modifier = modifier
             .fillMaxSize()
             .padding(vertical = 48.dp, horizontal = 144.dp)
-            .clip(shape = RoundedCornerShape(24.dp))
-            .background(
+            .border(
+                width = 12.dp,
                 brush = Brush.verticalGradient(
                     colors = listOf(
                         MathAppTheme.colors.brownBorder.copy(1f),
                         MathAppTheme.colors.brownBorder.copy(.9f)
                     )
-                )
+                ),
+                shape = RoundedCornerShape(12.dp)
             )
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp)
                 .shadow(
                     elevation = 8.dp,
                     shape = RoundedCornerShape(12.dp),
@@ -59,15 +60,15 @@ fun ChalkBoard(
             TypingAnimation(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .padding(16.dp),
+                    .padding(32.dp),
                 text = title,
                 style = MathAppTheme.typography.chalk,
                 color = MathAppTheme.colors.secondaryWhite,
                 fontSize = 32,
                 typingSpeed = 50L
             )
-            content()
         }
+        content()
     }
 
 }

@@ -52,7 +52,7 @@ fun SelectAgeScreenUI(
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        MathAppTheme.colors.darkPurpleGray90.copy(0.4f),
+                        MathAppTheme.colors.coreBlue.copy(0.4f),
                         MathAppTheme.colors.darkPurpleGray90.copy(0.1f)
                     )
                 )

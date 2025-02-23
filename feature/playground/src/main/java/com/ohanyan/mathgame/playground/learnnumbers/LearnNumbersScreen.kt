@@ -1,20 +1,39 @@
 package com.ohanyan.mathgame.playground.learnnumbers
 
+import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.ui.component.chalk.Chalk
+import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
+import com.ohanyan.ui.component.success.SuccessLottie
 
 @Composable
 fun LearnNumbersScreen(
@@ -31,13 +50,41 @@ fun LearnNumbersScreen(
 fun LearnNumbersScreenUI(
     onBackClick: () -> Unit = {}
 ) {
+    var textSize by remember { mutableStateOf(IntSize.Zero) } // Store size (width, height)
+    var boardText by remember { mutableStateOf("2, 2, 2, 2, ....") }
+    var boardTextOffset by remember { mutableStateOf(Offset.Zero) }
+
+    var isAnswerCorrect by remember { mutableStateOf(false) }
+
+    val animatedOffset by animateIntOffsetAsState(
+        targetValue = if (isAnswerCorrect) IntOffset(60, -85) else IntOffset(0, 0),
+        animationSpec = tween(durationMillis = 2000),
+        finishedListener = {
+            boardText = "2, 2, 2, 2, 2"
+            isAnswerCorrect = false
+        },
+        label = ""
+    )
+
+//    val infiniteTransition = rememberInfiniteTransition(label = "")
+//
+//    val penPadding by infiniteTransition.animateFloat(
+//            initialValue = 64f,
+//            targetValue = 56f,
+//            animationSpec = infiniteRepeatable(
+//                animation = tween(400),
+//                repeatMode = RepeatMode.Reverse
+//            ), label = ""
+//        )
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        MathAppTheme.colors.darkPurpleGray90.copy(0.4f),
+                        MathAppTheme.colors.coreBlue.copy(0.4f),
                         MathAppTheme.colors.darkPurpleGray90.copy(0.1f)
                     )
                 )
@@ -50,7 +97,72 @@ fun LearnNumbersScreenUI(
             onClick = onBackClick
         )
 
-        DrawOnCanvas()
+        ChalkBoard(
+            title = "draw yourself"
+        ) {
+            SuccessLottie(
+                isVisible = isAnswerCorrect,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            if (isAnswerCorrect) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(top = 64.dp)
+                        .offset(x = animatedOffset.x.dp, y = animatedOffset.y.dp),
+                    text = "2",
+                    style = MathAppTheme.typography.chalk,
+                    color = MathAppTheme.colors.secondaryWhite,
+                    fontSize = 32.sp,
+                )
+            }
+
+            Chalk(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(top = 64.dp)
+            )
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(top = 64.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+
+                Text(
+                    modifier = Modifier
+                        .padding(top = 24.dp)
+                        .onGloballyPositioned { layoutCoordinates ->
+                            boardTextOffset = layoutCoordinates.positionInParent()
+                            textSize = layoutCoordinates.size
+                        },
+                    text = boardText,
+                    style = MathAppTheme.typography.chalk,
+                    color = MathAppTheme.colors.secondaryWhite,
+                    fontSize = 32.sp,
+                )
+
+
+                DrawOnCanvas(
+                    modifier = Modifier
+                        .padding(vertical = 32.dp, horizontal = 124.dp)
+                        .border(
+                            width = 2.dp,
+                            color = MathAppTheme.colors.secondaryWhite,
+                            shape = RoundedCornerShape(16.dp)
+                        ),
+                    onDragEnd = {
+                        isAnswerCorrect = it
+                    }
+                )
+
+            }
+        }
+
 
         Column(
             modifier = Modifier

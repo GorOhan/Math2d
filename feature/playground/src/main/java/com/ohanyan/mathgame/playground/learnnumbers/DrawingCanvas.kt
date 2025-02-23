@@ -3,13 +3,8 @@ package com.ohanyan.mathgame.playground.learnnumbers
 import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,9 +20,9 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
 import com.google.mlkit.vision.digitalink.Ink
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import kotlinx.coroutines.delay
@@ -35,7 +30,10 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun DrawOnCanvas() {
+fun DrawOnCanvas(
+    modifier: Modifier,
+    onDragEnd:(Boolean)->Unit = {},
+) {
     val path = remember { Path() }
     val lastPosition = remember { mutableStateOf<Offset?>(null) }
     val chalkColor = MathAppTheme.colors.coreWhite
@@ -48,11 +46,8 @@ fun DrawOnCanvas() {
 
     val mlKitHelper = MLKitHelper()
 
-    Box(
-        modifier = Modifier
-    ) {
         Canvas(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .pointerInput(Unit) {
                     detectDragGestures(
@@ -91,6 +86,7 @@ fun DrawOnCanvas() {
                                     println("I RECOGNIZED $it")
                                     delay(1000L)
                                     strokes.clear()
+                                    onDragEnd((it == "2"))
 
                                     strokeBuilder = Ink.Stroke.builder()
                                     path.reset()
@@ -101,25 +97,26 @@ fun DrawOnCanvas() {
                     )
                 }
         ) {
-            drawPath(
-                path = path,
-                color = chalkColor,
-                style = Stroke(width = 18f, cap = StrokeCap.Round, join = StrokeJoin.Round),
-            )
+            clipRect {
+                drawPath(
+                    path = path,
+                    color = chalkColor,
+                    style = Stroke(width = 18f, cap = StrokeCap.Round, join = StrokeJoin.Round),
+                )
+            }
 
         }
 
-        capturedImage?.let {
-            Image(
-                bitmap = it,
-                contentDescription = "Captured Drawing",
-                modifier = Modifier
-                    .size(244.dp)
-                    .background(color = MathAppTheme.colors.red)
-                    .padding(16.dp)
-            )
-        }
-    }
+//        capturedImage?.let {
+//            Image(
+//                bitmap = it,
+//                contentDescription = "Captured Drawing",
+//                modifier = Modifier
+//                    .size(244.dp)
+//                    .background(color = MathAppTheme.colors.red)
+//                    .padding(16.dp)
+//            )
+//        }
 }
 
 fun captureDrawing(path: Path, density: Float): ImageBitmap {
