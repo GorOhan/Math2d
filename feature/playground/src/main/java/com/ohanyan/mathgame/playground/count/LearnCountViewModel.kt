@@ -32,7 +32,7 @@ class LearnCountViewModel : ViewModel() {
         }
     }
 
-    fun nextOption() {
+    private fun nextOption() {
         viewModelScope.launch {
             delay(1500L)
             val index = mockList.indexOf(uiState.value.currentTest)

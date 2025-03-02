@@ -27,8 +27,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
-import com.ohanyan.ui.component.chalk.Chalk
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.nextbutton.ActionButton
@@ -37,10 +38,17 @@ import com.ohanyan.ui.component.success.SuccessLottie
 
 @Composable
 fun LearnNumbersScreen(
+    viewModel: LearnNumbersViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {}
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LearnNumbersScreenUI(
+        uiState = uiState,
+        onNumberWritten = {
+            println("LearnNumbersScreen")
+            viewModel.makeBoardText(BoardTextState.FULL)
+        },
         onBackClick = onBackClick,
     )
 
@@ -48,10 +56,12 @@ fun LearnNumbersScreen(
 
 @Composable
 fun LearnNumbersScreenUI(
+    uiState: LearnNumbersUIState,
+    onNumberWritten: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
     var textSize by remember { mutableStateOf(IntSize.Zero) } // Store size (width, height)
-    var boardText by remember { mutableStateOf("2, 2, 2, 2, ....") }
+    val boardText = uiState.boardText
     var boardTextOffset by remember { mutableStateOf(Offset.Zero) }
 
     var isAnswerCorrect by remember { mutableStateOf(false) }
@@ -60,7 +70,7 @@ fun LearnNumbersScreenUI(
         targetValue = if (isAnswerCorrect) IntOffset(60, -85) else IntOffset(0, 0),
         animationSpec = tween(durationMillis = 2000),
         finishedListener = {
-            boardText = "2, 2, 2, 2, 2"
+            if (isAnswerCorrect) onNumberWritten()
             isAnswerCorrect = false
         },
         label = ""
@@ -111,18 +121,18 @@ fun LearnNumbersScreenUI(
                         .align(Alignment.Center)
                         .padding(top = 64.dp)
                         .offset(x = animatedOffset.x.dp, y = animatedOffset.y.dp),
-                    text = "2",
+                    text = uiState.currentNumber.toString(),
                     style = MathAppTheme.typography.chalk,
                     color = MathAppTheme.colors.secondaryWhite,
                     fontSize = 32.sp,
                 )
             }
 
-            Chalk(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(top = 64.dp)
-            )
+//            Chalk(
+//                modifier = Modifier
+//                    .align(Alignment.Center)
+//                    .padding(top = 64.dp)
+//            )
 
             Column(
                 modifier = Modifier
@@ -131,8 +141,6 @@ fun LearnNumbersScreenUI(
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-
                 Text(
                     modifier = Modifier
                         .padding(top = 24.dp)
@@ -146,8 +154,8 @@ fun LearnNumbersScreenUI(
                     fontSize = 32.sp,
                 )
 
-
                 DrawOnCanvas(
+                    number = uiState.currentNumber,
                     modifier = Modifier
                         .padding(vertical = 32.dp, horizontal = 124.dp)
                         .border(
@@ -176,5 +184,4 @@ fun LearnNumbersScreenUI(
             )
         }
     }
-
 }

@@ -30,9 +30,10 @@ class MLKitHelper {
                 println("ERROR DOWNLOADED")
             }
 
-        recognizer  =
+        recognizer =
             DigitalInkRecognition.getClient(
-                DigitalInkRecognizerOptions.builder(model).build())
+                DigitalInkRecognizerOptions.builder(model).build()
+            )
     }
 
     fun recognizeDrawing(
@@ -43,7 +44,11 @@ class MLKitHelper {
         recognizer.recognize(ink)
             .addOnSuccessListener { result ->
                 val recognizedText = result.candidates.firstOrNull()?.text ?: "Unrecognized"
-                onResult(recognizedText)
+                if (recognizedText == "o") {
+                    onResult("0")
+                } else {
+                    onResult(recognizedText)
+                }
             }
             .addOnFailureListener { e ->
                 onResult("Failed: ${e.message}")
