@@ -18,15 +18,12 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.pointerInput
 import com.google.mlkit.vision.digitalink.Ink
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
 
 @Composable
 fun DrawOnCanvas(
     number: Int,
     modifier: Modifier,
-    onDragEnd: (Boolean) -> Unit = {},
+    onDragEnd: (strokes:List<Ink.Stroke>) -> Unit = {},
 ) {
     val path = remember { Path() }
     val lastPosition = remember { mutableStateOf<Offset?>(null) }
@@ -35,8 +32,6 @@ fun DrawOnCanvas(
 
     val strokes = remember { mutableListOf<Ink.Stroke>() }
     var strokeBuilder = remember { Ink.Stroke.builder() }
-
-    val mlKitHelper = MLKitHelper()
 
     key(number) {
         Canvas(
@@ -77,16 +72,13 @@ fun DrawOnCanvas(
                         onDragEnd = {
                             strokes.add(strokeBuilder.build())
                             println(strokes)
+                            onDragEnd(strokes)
 
-                            mlKitHelper.recognizeDrawing(strokes) {
-                                scope.launch {
-                                    delay(1000L)
-                                    onDragEnd((it == number.toString()))
-                                    strokes.clear()
-                                    strokeBuilder = Ink.Stroke.builder()
-                                    path.reset()
-                                }
-                            }
+                            //todo should be cleared after recognize to  immediately
+                            strokes.clear()
+                            strokeBuilder = Ink.Stroke.builder()
+                            path.reset()
+
                         }
                     )
                 }

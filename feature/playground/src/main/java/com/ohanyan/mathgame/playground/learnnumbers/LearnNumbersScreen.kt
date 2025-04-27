@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.mlkit.vision.digitalink.Ink
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.MainHero
@@ -50,6 +51,9 @@ fun LearnNumbersScreen(
             viewModel.makeBoardText(BoardTextState.FULL)
         },
         onBackClick = onBackClick,
+        onDragEnd = {
+            viewModel.recognize(it)
+        }
     )
 
 }
@@ -58,20 +62,19 @@ fun LearnNumbersScreen(
 fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
     onNumberWritten: () -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {},
 ) {
     var textSize by remember { mutableStateOf(IntSize.Zero) } // Store size (width, height)
     val boardText = uiState.boardText
     var boardTextOffset by remember { mutableStateOf(Offset.Zero) }
 
-    var isAnswerCorrect by remember { mutableStateOf(false) }
-
     val animatedOffset by animateIntOffsetAsState(
-        targetValue = if (isAnswerCorrect) IntOffset(60, -85) else IntOffset(0, 0),
+        targetValue = if (uiState.isAnswerCorrect) IntOffset(60, -85) else IntOffset(0, 0),
         animationSpec = tween(durationMillis = 2000),
         finishedListener = {
-            if (isAnswerCorrect) onNumberWritten()
-            isAnswerCorrect = false
+            if (uiState.isAnswerCorrect) onNumberWritten()
+           // isAnswerCorrect = false
         },
         label = ""
     )
@@ -111,11 +114,11 @@ fun LearnNumbersScreenUI(
             title = "draw yourself"
         ) {
             SuccessLottie(
-                isVisible = isAnswerCorrect,
+                isVisible = uiState.isAnswerCorrect,
                 modifier = Modifier.fillMaxSize()
             )
 
-            if (isAnswerCorrect) {
+            if (uiState.isAnswerCorrect) {
                 Text(
                     modifier = Modifier
                         .align(Alignment.Center)
@@ -127,12 +130,6 @@ fun LearnNumbersScreenUI(
                     fontSize = 32.sp,
                 )
             }
-
-//            Chalk(
-//                modifier = Modifier
-//                    .align(Alignment.Center)
-//                    .padding(top = 64.dp)
-//            )
 
             Column(
                 modifier = Modifier
@@ -163,9 +160,7 @@ fun LearnNumbersScreenUI(
                             color = MathAppTheme.colors.secondaryWhite,
                             shape = RoundedCornerShape(16.dp)
                         ),
-                    onDragEnd = {
-                        isAnswerCorrect = it
-                    }
+                    onDragEnd = onDragEnd
                 )
 
             }

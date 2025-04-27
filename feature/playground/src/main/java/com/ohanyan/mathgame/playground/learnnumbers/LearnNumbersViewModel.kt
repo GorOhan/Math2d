@@ -2,15 +2,19 @@ package com.ohanyan.mathgame.playground.learnnumbers
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.mlkit.vision.digitalink.Ink
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class LearnNumbersViewModel : ViewModel() {
+class LearnNumbersViewModel @Inject constructor(
+    private val mlKitHelper: MLKitHelper
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LearnNumbersUIState())
     val uiState = _uiState.asStateFlow()
@@ -48,6 +52,22 @@ class LearnNumbersViewModel : ViewModel() {
             }
         }
     }
+
+    fun recognize(strokes: List<Ink.Stroke>) {
+        mlKitHelper.recognizeDrawing(strokes) {
+            viewModelScope.launch {
+                delay(1000L)
+                val isCorrect = it == uiState.value.currentNumber.toString()
+                _uiState.update {
+                    it.copy(isAnswerCorrect = isCorrect)
+                }
+                delay(4000)
+                _uiState.update {
+                    it.copy(isAnswerCorrect = false)
+                }
+            }
+        }
+    }
 }
 
 
@@ -61,4 +81,5 @@ data class LearnNumbersUIState(
     val numbers: List<Int> = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
     val numberIteration: ListIterator<Int> = numbers.listIterator(),
     val currentNumber: Int = numberIteration.next(),
+    val isAnswerCorrect: Boolean = false,
 )

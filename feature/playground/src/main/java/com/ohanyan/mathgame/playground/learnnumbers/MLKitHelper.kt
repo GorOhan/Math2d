@@ -8,8 +8,9 @@ import com.google.mlkit.vision.digitalink.DigitalInkRecognitionModelIdentifier
 import com.google.mlkit.vision.digitalink.DigitalInkRecognizer
 import com.google.mlkit.vision.digitalink.DigitalInkRecognizerOptions
 import com.google.mlkit.vision.digitalink.Ink
+import javax.inject.Inject
 
-class MLKitHelper {
+class MLKitHelper @Inject constructor() {
 
     private var recognizer: DigitalInkRecognizer
 

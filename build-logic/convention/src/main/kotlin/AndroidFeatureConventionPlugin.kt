@@ -11,6 +11,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "mathgame.android.library")
+            apply(plugin = "mathgame.hilt")
             apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
             extensions.configure<LibraryExtension> {
