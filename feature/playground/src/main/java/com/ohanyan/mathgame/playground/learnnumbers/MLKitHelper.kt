@@ -25,10 +25,10 @@ class MLKitHelper @Inject constructor() {
         val remoteModelManager = RemoteModelManager.getInstance()
         remoteModelManager.download(model, DownloadConditions.Builder().build())
             .addOnSuccessListener {
-                println("MODEL DOWNLOADED")
+                println("MLKitHelper MODEL DOWNLOADED")
             }
             .addOnFailureListener { e: Exception ->
-                println("ERROR DOWNLOADED")
+                println("MLKitHelper ERROR DOWNLOADED")
             }
 
         recognizer =

@@ -47,7 +47,6 @@ fun LearnNumbersScreen(
     LearnNumbersScreenUI(
         uiState = uiState,
         onNumberWritten = {
-            println("LearnNumbersScreen")
             viewModel.makeBoardText(BoardTextState.FULL)
         },
         onBackClick = onBackClick,
@@ -70,26 +69,13 @@ fun LearnNumbersScreenUI(
     var boardTextOffset by remember { mutableStateOf(Offset.Zero) }
 
     val animatedOffset by animateIntOffsetAsState(
-        targetValue = if (uiState.isAnswerCorrect) IntOffset(60, -85) else IntOffset(0, 0),
+        targetValue = if (uiState.isAnswerCorrect == DrawState.CORRECT) IntOffset(60, -85) else IntOffset(0, 0),
         animationSpec = tween(durationMillis = 2000),
         finishedListener = {
-            if (uiState.isAnswerCorrect) onNumberWritten()
-           // isAnswerCorrect = false
+            if (uiState.isAnswerCorrect == DrawState.CORRECT) onNumberWritten()
         },
         label = ""
     )
-
-//    val infiniteTransition = rememberInfiniteTransition(label = "")
-//
-//    val penPadding by infiniteTransition.animateFloat(
-//            initialValue = 64f,
-//            targetValue = 56f,
-//            animationSpec = infiniteRepeatable(
-//                animation = tween(400),
-//                repeatMode = RepeatMode.Reverse
-//            ), label = ""
-//        )
-
 
     Box(
         modifier = Modifier
@@ -114,11 +100,11 @@ fun LearnNumbersScreenUI(
             title = "draw yourself"
         ) {
             SuccessLottie(
-                isVisible = uiState.isAnswerCorrect,
+                isVisible = uiState.isAnswerCorrect == DrawState.CORRECT,
                 modifier = Modifier.fillMaxSize()
             )
 
-            if (uiState.isAnswerCorrect) {
+            if (uiState.isAnswerCorrect == DrawState.CORRECT) {
                 Text(
                     modifier = Modifier
                         .align(Alignment.Center)
