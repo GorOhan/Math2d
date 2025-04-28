@@ -10,6 +10,9 @@ import com.ohanyan.mathgame.onboarding.navigation.onboardingScreens
 import com.ohanyan.mathgame.playground.navigation.PlaygroundScreen
 import com.ohanyan.mathgame.playground.navigation.navigateToPlaygroundScreen
 import com.ohanyan.mathgame.playground.navigation.playgroundScreens
+import com.ohanyan.mathgame.settings.navigation.navigateToScreen
+import com.ohanyan.mathgame.settings.navigation.settingsScreens
+
 
 @Composable
 fun MathNavHost(
@@ -32,6 +35,11 @@ fun MathNavHost(
         playgroundScreens(
             onNavigation = { navController.navigateToPlaygroundScreen(it) },
             onBackClick = { navController.popBackStack() }
+        )
+
+        settingsScreens(
+            onNavigation = { navController.navigateToScreen(it) },
+            onBackClick = { navController.popBackStack() },
         )
     }
 }

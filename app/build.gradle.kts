@@ -33,6 +33,7 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.feature.onboarding)
     implementation(projects.feature.playground)
+    implementation(projects.feature.settings)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
