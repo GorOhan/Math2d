@@ -1,4 +1,4 @@
-package com.ohanyan.mathgame.playground.count
+package com.ohanyan.mathgame.playground.counting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

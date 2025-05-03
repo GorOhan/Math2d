@@ -1,4 +1,4 @@
-package com.ohanyan.mathgame.playground.learnnumbers
+package com.ohanyan.mathgame.playground.writing
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

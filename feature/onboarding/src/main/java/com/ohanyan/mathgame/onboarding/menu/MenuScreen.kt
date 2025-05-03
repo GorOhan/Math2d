@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -25,7 +24,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.corebutton.CoreButton
 import com.ohanyan.ui.component.mainhero.MainHero
-import com.ohanyan.ui.component.mainhero.MathConfetti
 import com.ohanyan.ui.component.mathaction.MathLoading
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
@@ -68,6 +66,13 @@ fun MenuScreenUI(
             visible = true,
             actionType = ActionType.PREVIOUS,
             onClick = onBackClick
+        )
+
+        ActionButton(
+            modifier = Modifier.align(Alignment.TopEnd),
+            visible = true,
+            actionType = ActionType.SETTINGS,
+            onClick = { }
         )
 
         MainHero(

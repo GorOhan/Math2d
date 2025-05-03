@@ -1,4 +1,4 @@
-package com.ohanyan.mathgame.playground.learnnumbers
+package com.ohanyan.mathgame.playground.writing
 
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.animation.core.tween

@@ -3,8 +3,8 @@ package com.ohanyan.mathgame.playground.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.ohanyan.mathgame.playground.count.LearnCountScreen
-import com.ohanyan.mathgame.playground.learnnumbers.LearnNumbersScreen
+import com.ohanyan.mathgame.playground.counting.LearnCountScreen
+import com.ohanyan.mathgame.playground.writing.LearnNumbersScreen
 import kotlinx.serialization.Serializable
 
 @Serializable

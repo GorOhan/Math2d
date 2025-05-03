@@ -1,4 +1,4 @@
-package com.ohanyan.mathgame.playground.learnnumbers
+package com.ohanyan.mathgame.playground.writing
 
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager

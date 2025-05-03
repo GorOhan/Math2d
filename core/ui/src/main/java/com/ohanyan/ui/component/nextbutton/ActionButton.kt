@@ -14,6 +14,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ohanyan.mathgame.ui.R
 
@@ -64,6 +66,8 @@ fun ActionButton(
                 when (actionType) {
                     ActionType.NEXT -> PaddingValues(bottom = (8 * padding).dp)
                     ActionType.PREVIOUS -> PaddingValues(top = (8 * padding).dp)
+                    ActionType.SETTINGS -> PaddingValues(top = (8 * padding).dp)
+
                 }
             ),
         visible = visible,
@@ -80,5 +84,16 @@ fun ActionButton(
 
 enum class ActionType(@DrawableRes val iconId: Int) {
     NEXT(R.drawable.ic_next),
-    PREVIOUS(R.drawable.ic_previous)
+    PREVIOUS(R.drawable.ic_previous),
+    SETTINGS(R.drawable.ic_settings)
+}
+
+@Preview
+@Composable
+fun ActionButtonPreview() {
+    Row {
+        ActionButton(actionType = ActionType.NEXT)
+        ActionButton(actionType = ActionType.PREVIOUS)
+        ActionButton(actionType = ActionType.SETTINGS)
+    }
 }

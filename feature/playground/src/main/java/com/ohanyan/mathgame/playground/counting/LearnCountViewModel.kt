@@ -1,4 +1,4 @@
-package com.ohanyan.mathgame.playground.count
+package com.ohanyan.mathgame.playground.counting
 
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
