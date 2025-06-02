@@ -25,6 +25,7 @@ fun NavGraphBuilder.onboardingScreens(
     onLearnNumber: () -> Unit,
     onCountClick:()-> Unit,
     onBackClick: () -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
 
     composable<OnBoardingScreen.SplashScreen> {
@@ -43,7 +44,8 @@ fun NavGraphBuilder.onboardingScreens(
         MenuScreen(
             onLearnNumber = onLearnNumber ,
             onCountClick = onCountClick,
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
+            onSettingsClick = onSettingsClick,
         )
     }
 }

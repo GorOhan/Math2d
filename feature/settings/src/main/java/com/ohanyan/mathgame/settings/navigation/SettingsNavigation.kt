@@ -24,5 +24,5 @@ fun NavGraphBuilder.settingsScreens(
 
 }
 
-fun NavController.navigateToScreen(screen: SettingsScreen) =
+fun NavController.navigateToSettingsScreen(screen: SettingsScreen) =
     navigate(route = screen, null)

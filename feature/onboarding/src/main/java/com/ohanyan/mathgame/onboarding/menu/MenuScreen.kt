@@ -33,12 +33,14 @@ fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {},
 ) {
     MenuScreenUI(
         onLearnNumber = onLearnNumber,
         onBackClick = onBackClick,
-        onCountClick = onCountClick
+        onCountClick = onCountClick,
+        onSettingsClick = onSettingsClick,
     )
 }
 
@@ -46,7 +48,8 @@ fun MenuScreen(
 fun MenuScreenUI(
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {},
 ) {
 
     Box(
@@ -72,7 +75,7 @@ fun MenuScreenUI(
             modifier = Modifier.align(Alignment.TopEnd),
             visible = true,
             actionType = ActionType.SETTINGS,
-            onClick = { }
+            onClick = onSettingsClick
         )
 
         MainHero(
