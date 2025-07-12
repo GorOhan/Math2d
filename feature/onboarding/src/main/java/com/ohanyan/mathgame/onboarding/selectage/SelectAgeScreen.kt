@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.mathgame.onboarding.R
 import com.ohanyan.ui.component.nextbutton.ActionButton
@@ -42,7 +43,7 @@ fun SelectAgeScreen(
 
 @Composable
 fun SelectAgeScreenUI(
-    chooseAgeUIState: ChooseAgeUIState,
+    chooseAgeUIState: ChooseAgeUIState = ChooseAgeUIState(),
     onSelectAge: (String) -> Unit = {},
     onNextClick: () -> Unit = {},
 ) {
@@ -107,3 +108,9 @@ fun getColorForAge(ageColor: AgeColor) =
         AgeColor.GREEN -> MathAppTheme.colors.coreGreen
         AgeColor.YELLOW -> MathAppTheme.colors.coreYellow
     }
+
+@Composable
+@MathPreview
+fun SelectAgeScreenPreview(){
+    SelectAgeScreenUI()
+}

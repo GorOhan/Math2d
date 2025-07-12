@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.mlkit.vision.digitalink.Ink
+import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.MainHero
@@ -54,7 +55,6 @@ fun LearnNumbersScreen(
             viewModel.recognize(it)
         }
     )
-
 }
 
 @Composable
@@ -152,7 +152,6 @@ fun LearnNumbersScreenUI(
             }
         }
 
-
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart),
@@ -165,4 +164,10 @@ fun LearnNumbersScreenUI(
             )
         }
     }
+}
+
+@Composable
+@MathPreview
+fun LearnNumbersScreenUIPreview(){
+    LearnNumbersScreenUI(LearnNumbersUIState())
 }

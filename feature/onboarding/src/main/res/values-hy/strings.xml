@@ -2,4 +2,7 @@
     <string name="feature_onboarding_hello_math" >Բարև, Ես Մաթին եմ !</string>
     <string name="feature_onboarding_lets_learn" >Արի սովորենք միասին</string>
     <string name="feature_onboarding_select_child_age">Ընտրեք ձեր երեխայի տարիքը</string>
+
+    <string name="feature_onboarding_counting">Հաշվիկ</string>
+
 </resources>

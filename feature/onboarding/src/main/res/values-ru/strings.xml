@@ -1,5 +1,7 @@
 <resources>
-    <string name="feature_onboarding_hello_math" >Բարև, Ես Մաթին եմ !</string>
-    <string name="feature_onboarding_lets_learn" >Արի սովորենք միասին</string>
-    <string name="feature_onboarding_select_child_age">Ընտրեք ձեր երեխայի տարիքը</string>
+    <string name="feature_onboarding_hello_math">Привет, я Мати!</string>
+    <string name="feature_onboarding_lets_learn">Давай учиться вместе</string>
+    <string name="feature_onboarding_select_child_age">Выберите возраст вашего ребёнка</string>
+
+    <string name="feature_onboarding_counting">Считалочка</string>
 </resources>

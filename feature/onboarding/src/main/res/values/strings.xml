@@ -2,4 +2,7 @@
     <string name="feature_onboarding_hello_math" >Hello, I am Mathy!</string>
     <string name="feature_onboarding_lets_learn" >Lets Learn Together</string>
     <string name="feature_onboarding_select_child_age">Select your child age !</string>
+
+    <string name="feature_onboarding_counting">Counting</string>
+
 </resources>

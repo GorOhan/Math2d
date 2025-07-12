@@ -25,11 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.mathgame.onboarding.R
 import com.ohanyan.ui.component.mainhero.MainHero
@@ -135,8 +135,8 @@ fun SplashScreenUI(
     }
 }
 
-@Preview()
 @Composable
-fun SplashPreview() {
+@MathPreview
+fun SelectAgeScreenPreview(){
     SplashScreen()
 }
