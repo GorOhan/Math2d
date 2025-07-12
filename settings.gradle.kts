@@ -32,6 +32,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 include(":core:designsystem")
 include(":core:ui")
+include(":core:common")
 
 include(":feature:onboarding")
 include(":feature:test")

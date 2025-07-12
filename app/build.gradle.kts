@@ -30,6 +30,7 @@ android {
 dependencies {
 
     implementation(projects.core.ui)
+    implementation(projects.core.common)
     implementation(projects.core.designsystem)
     implementation(projects.feature.onboarding)
     implementation(projects.feature.playground)
