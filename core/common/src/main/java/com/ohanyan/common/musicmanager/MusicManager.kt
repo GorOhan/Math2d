@@ -83,4 +83,15 @@ object MusicManager : DefaultLifecycleObserver {
         mediaPlayer = null
         isPrepared = false
     }
+
+    fun checkPlayingState(play: Boolean) {
+        if (play) {
+            if (mediaPlayer?.isPlaying == false) mediaPlayer?.start()
+        } else {
+            if (mediaPlayer?.isPlaying == true) mediaPlayer?.pause()
+        }
+    }
+
+    val isPlaying: Boolean
+        get() = mediaPlayer?.isPlaying ?: false
 }

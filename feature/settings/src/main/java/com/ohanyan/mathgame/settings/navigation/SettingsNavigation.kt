@@ -19,7 +19,9 @@ fun NavGraphBuilder.settingsScreens(
 ) {
 
     composable<SettingsScreen.SettingsMain> {
-        SettingsScreen()
+        SettingsScreen(
+            onBackClick = onBackClick
+        )
     }
 
 }
