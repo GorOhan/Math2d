@@ -25,6 +25,8 @@ dependencies {
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
+    compileOnly(libs.firebase.performance.gradlePlugin)
     implementation(libs.truth)
 }
 
@@ -53,7 +55,6 @@ gradlePlugin {
             implementationClass = "AndroidFeatureConventionPlugin"
         }
 
-
         register("androidLibrary") {
             id = "mathgame.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
@@ -67,6 +68,11 @@ gradlePlugin {
         register("hilt") {
             id = "mathgame.hilt"
             implementationClass = "HiltConventionPlugin"
+        }
+
+        register("androidFirebase") {
+            id = "mathgame.android.application.firebase"
+            implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
     }
 }
