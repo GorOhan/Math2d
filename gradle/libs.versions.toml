@@ -23,7 +23,10 @@ hilt = "2.54"
 lottieVersion = "6.4.0"
 kotlinxSerializationJson = "1.8.0"
 digitalInkRecognition = "18.1.0"
-
+gmsPlugin = "4.4.3"
+firebaseCrashlyticsPlugin = "3.0.2"
+firebasePerfPlugin = "1.4.2"
+firebaseBom = "33.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -70,6 +73,15 @@ hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hi
 lottie-airbnb = { group = 'com.airbnb.android',name = "lottie-compose", version.ref = "lottieVersion" }
 digital-ink-recognition = { group = "com.google.mlkit", name = "digital-ink-recognition", version.ref = "digitalInkRecognition" }
 
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
+firebase-crashlytics-ndk = { group = "com.google.firebase", name = "firebase-crashlytics-ndk" }
+
+firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -79,13 +91,16 @@ dependencyGuard = { id = "com.dropbox.dependency-guard", version.ref = "dependen
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
+gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-perf = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerfPlugin" }
 
 mathgame-android-application = { id = "mathgame.android.application" }
 mathgame-android-library = { id = "mathgame.android.library" }
 mathgame-android-application-compose = { id = "mathgame.android.application.compose" }
 mathgame-android-library-compose = { id = "mathgame.android.library.compose" }
 mathgame-android-feature = { id = "mathgame.android.feature" }
+mathgame-android-application-firebase = { id = "mathgame.android.application.firebase" }
 
 mathgame-hilt = { id = "mathgame.hilt" }
 

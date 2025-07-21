@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.mathgame.android.application.compose)
     alias(libs.plugins.mathgame.hilt)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.mathgame.android.application.firebase)
 }
 
 android {
