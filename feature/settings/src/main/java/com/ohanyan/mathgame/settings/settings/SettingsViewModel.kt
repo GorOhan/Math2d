@@ -1,7 +1,9 @@
 package com.ohanyan.mathgame.settings.settings
 
 import androidx.lifecycle.ViewModel
+import com.ohanyan.common.languagemanager.LocaleHelper
 import com.ohanyan.common.musicmanager.MusicManager
+import com.ohanyan.mathgame.settings.settings.model.AppLanguage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,8 +26,16 @@ class SettingsViewModel @Inject constructor(
         MusicManager.checkPlayingState(isChecked)
     }
 
+    fun selectLanguage(language: AppLanguage) {
+        _uiState.update {
+            it.copy(selectedLanguage = language)
+        }
+    }
+
+
 }
 
 data class SettingScreenUIState(
-    val isMusicPlaying: Boolean = false
+    val isMusicPlaying: Boolean = false,
+    val selectedLanguage: AppLanguage = AppLanguage.EN
 )

@@ -6,6 +6,3 @@ plugins {
 android {
     namespace = "com.ohanyan.mathgame.common"
 }
-
-dependencies {
-}

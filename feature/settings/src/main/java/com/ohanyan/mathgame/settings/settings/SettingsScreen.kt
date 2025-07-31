@@ -29,11 +29,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ohanyan.common.languagemanager.LocaleHelper
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.mathgame.settings.R
+import com.ohanyan.mathgame.settings.settings.model.AppLanguage
 import com.ohanyan.ui.component.mathaction.MathLoading
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
@@ -45,6 +50,8 @@ fun SettingsScreen(
 ) {
     var showSelectLanguage by remember { mutableStateOf(false) }
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+
 
     SettingsScreenUI(
         settingScreenUIState = uiState,
@@ -57,7 +64,13 @@ fun SettingsScreen(
 
     if (showSelectLanguage) {
         SelectLanguageAlert(
+            uiState = uiState,
             onDismissRequest = {
+                showSelectLanguage = false
+            },
+            onLanguageClick = {
+                LocaleHelper.setAppLanguage(context, it.languageCode)
+                viewModel.selectLanguage(it)
                 showSelectLanguage = false
             }
         )
@@ -125,7 +138,7 @@ fun MainContent(
         ) {
             Text(
                 modifier = Modifier.padding(end = 24.dp),
-                text = "Music On",
+                text = stringResource(id = R.string.feature_settings_music_on),
                 style = MathAppTheme.typography.h1Bee,
                 color = MathAppTheme.colors.red
             )
@@ -146,7 +159,7 @@ fun MainContent(
         ) {
             Text(
                 modifier = Modifier.padding(end = 24.dp),
-                text = "Select Language",
+                text = stringResource(id = R.string.feature_settings_select_language),
                 style = MathAppTheme.typography.h1Bee,
                 color = MathAppTheme.colors.red
             )
@@ -158,7 +171,7 @@ fun MainContent(
                     .clickable {
                         onSelectLanguageClick()
                     },
-                painter = painterResource(com.ohanyan.mathgame.ui.R.drawable.flag_am),
+                painter = painterResource(settingScreenUIState.selectedLanguage.languageFlag),
                 contentDescription = "select language icon"
             )
 
@@ -169,7 +182,9 @@ fun MainContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectLanguageAlert(
-    onDismissRequest: () -> Unit = {}
+    uiState: SettingScreenUIState,
+    onDismissRequest: () -> Unit = {},
+    onLanguageClick: (AppLanguage) -> Unit = {}
 ) {
     BasicAlertDialog(
         onDismissRequest = onDismissRequest
@@ -204,10 +219,12 @@ fun SelectLanguageAlert(
                     .size(48.dp)
                     .border(
                         border = BorderStroke(
-                            4.dp, color = MathAppTheme.colors.coreYellow,
+                            if (uiState.selectedLanguage.languageCode == "en") 4.dp else 0.dp,
+                            color = MathAppTheme.colors.coreYellow,
                         ),
                         shape = RoundedCornerShape(16.dp)
-                    ),
+                    )
+                    .clickable { onLanguageClick(AppLanguage.EN) },
                 contentDescription = "en",
                 contentScale = ContentScale.FillBounds,
                 painter = painterResource(com.ohanyan.mathgame.ui.R.drawable.flag_gb)
@@ -215,7 +232,15 @@ fun SelectLanguageAlert(
             Image(
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(16.dp))
-                    .size(48.dp),
+                    .size(48.dp)
+                    .border(
+                        border = BorderStroke(
+                            if (uiState.selectedLanguage.languageCode == "ru") 4.dp else 0.dp,
+                            color = MathAppTheme.colors.coreYellow,
+                        ),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .clickable { onLanguageClick(AppLanguage.RU) },
                 contentScale = ContentScale.FillBounds,
                 contentDescription = "ru",
                 painter = painterResource(com.ohanyan.mathgame.ui.R.drawable.flag_ru)
@@ -223,7 +248,15 @@ fun SelectLanguageAlert(
             Image(
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(16.dp))
-                    .size(48.dp),
+                    .size(48.dp)
+                    .border(
+                        border = BorderStroke(
+                            if (uiState.selectedLanguage.languageCode == "hy") 4.dp else 0.dp,
+                            color = MathAppTheme.colors.coreYellow,
+                        ),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .clickable { onLanguageClick(AppLanguage.HY) },
                 contentScale = ContentScale.FillBounds,
                 contentDescription = "eng",
                 painter = painterResource(com.ohanyan.mathgame.ui.R.drawable.flag_am)

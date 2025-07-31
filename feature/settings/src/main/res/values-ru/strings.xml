@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_settings_music_on">Музыка</string>
+    <string name="feature_settings_select_language">Выбрать язык</string>
+</resources>

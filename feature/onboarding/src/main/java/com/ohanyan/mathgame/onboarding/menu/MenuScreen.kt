@@ -96,17 +96,17 @@ fun MenuScreenUI(
             )
 
             CoreButton(
-                buttonTitle = "Learn Number",
+                buttonTitle = stringResource(id = R.string.feature_onboarding_learn_numbers),
                 onClick = onLearnNumber
             )
 
             CoreButton(
-                buttonTitle = "Adding",
+                buttonTitle = stringResource(id = R.string.feature_onboarding_adding),
                 onClick = { }
             )
 
             CoreButton(
-                buttonTitle = "Subtracting",
+                buttonTitle = stringResource(id = R.string.feature_onboarding_subtracting),
                 onClick = { }
             )
 

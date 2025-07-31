@@ -4,5 +4,8 @@
     <string name="feature_onboarding_select_child_age">Select your child age !</string>
 
     <string name="feature_onboarding_counting">Counting</string>
+    <string name="feature_onboarding_learn_numbers">Learn Numbers</string>
+    <string name="feature_onboarding_adding">Adding</string>
+    <string name="feature_onboarding_subtracting">Subtracting</string>
 
 </resources>

@@ -4,5 +4,8 @@
     <string name="feature_onboarding_select_child_age">Ընտրեք ձեր երեխայի տարիքը</string>
 
     <string name="feature_onboarding_counting">Հաշվիկ</string>
+    <string name="feature_onboarding_learn_numbers">Իմացիր թվերը</string>
+    <string name="feature_onboarding_adding">Գումարում</string>
+    <string name="feature_onboarding_subtracting">Հանում</string>
 
 </resources>
