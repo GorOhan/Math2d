@@ -213,54 +213,24 @@ fun SelectLanguageAlert(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Image(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(16.dp))
-                    .size(48.dp)
-                    .border(
-                        border = BorderStroke(
-                            if (uiState.selectedLanguage.languageCode == "en") 4.dp else 0.dp,
-                            color = MathAppTheme.colors.coreYellow,
-                        ),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .clickable { onLanguageClick(AppLanguage.EN) },
-                contentDescription = "en",
-                contentScale = ContentScale.FillBounds,
-                painter = painterResource(com.ohanyan.mathgame.ui.R.drawable.flag_gb)
-            )
-            Image(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(16.dp))
-                    .size(48.dp)
-                    .border(
-                        border = BorderStroke(
-                            if (uiState.selectedLanguage.languageCode == "ru") 4.dp else 0.dp,
-                            color = MathAppTheme.colors.coreYellow,
-                        ),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .clickable { onLanguageClick(AppLanguage.RU) },
-                contentScale = ContentScale.FillBounds,
-                contentDescription = "ru",
-                painter = painterResource(com.ohanyan.mathgame.ui.R.drawable.flag_ru)
-            )
-            Image(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(16.dp))
-                    .size(48.dp)
-                    .border(
-                        border = BorderStroke(
-                            if (uiState.selectedLanguage.languageCode == "hy") 4.dp else 0.dp,
-                            color = MathAppTheme.colors.coreYellow,
-                        ),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .clickable { onLanguageClick(AppLanguage.HY) },
-                contentScale = ContentScale.FillBounds,
-                contentDescription = "eng",
-                painter = painterResource(com.ohanyan.mathgame.ui.R.drawable.flag_am)
-            )
+            AppLanguage.entries.forEach {
+                Image(
+                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(16.dp))
+                        .size(48.dp)
+                        .border(
+                            border = BorderStroke(
+                                if (uiState.selectedLanguage.languageCode == it.languageCode) 4.dp else 0.dp,
+                                color = MathAppTheme.colors.coreYellow,
+                            ),
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                        .clickable { onLanguageClick(it) },
+                    contentDescription = it.languageCode,
+                    contentScale = ContentScale.FillBounds,
+                    painter = painterResource(it.languageFlag)
+                )
+            }
         }
     }
 }
