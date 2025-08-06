@@ -35,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ohanyan.common.languagemanager.LocaleHelper
+import com.ohanyan.common.utils.Utils
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.mathgame.settings.R
@@ -130,8 +131,9 @@ fun MainContent(
     settingScreenUIState: SettingScreenUIState,
     onMusicOnChane: (Boolean) -> Unit,
     onSelectLanguageClick: () -> Unit,
+) {
+    val context = LocalContext.current
 
-    ) {
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -172,6 +174,31 @@ fun MainContent(
                         onSelectLanguageClick()
                     },
                 painter = painterResource(settingScreenUIState.selectedLanguage.languageFlag),
+                contentDescription = "select language icon"
+            )
+        }
+
+        val title = stringResource(id = R.string.feature_settings_checkout_app)
+
+        Row(
+            modifier = Modifier.clickable {
+                Utils.shareApp(
+                    context = context,
+                    title = title
+                )
+            },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.padding(end = 24.dp),
+                text = stringResource(id = R.string.feature_settings_share_app),
+                style = MathAppTheme.typography.h1Bee,
+                color = MathAppTheme.colors.red
+            )
+
+            Image(
+                modifier = Modifier.size(42.dp),
+                painter = painterResource(id = com.ohanyan.mathgame.ui.R.drawable.ic_share),
                 contentDescription = "select language icon"
             )
 
