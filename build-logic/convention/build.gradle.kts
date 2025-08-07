@@ -19,6 +19,17 @@ kotlin {
     }
 }
 
+dependencies {
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.android.tools.common)
+    compileOnly(libs.compose.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
+    compileOnly(libs.firebase.performance.gradlePlugin)
+    implementation(libs.truth)
+}
+
 tasks {
     validatePlugins {
         enableStricterValidation = true
@@ -26,17 +37,14 @@ tasks {
     }
 }
 
-dependencies {
-    compileOnly(libs.android.gradlePlugin)
-    compileOnly(libs.android.tools.common)
-    compileOnly(libs.compose.gradlePlugin)
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.ksp.gradlePlugin)
-    implementation(libs.truth)
-}
-
 gradlePlugin {
     plugins {
+
+        register("androidApplication") {
+            id = "mathgame.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+
         register("androidApplicationCompose") {
             id = "mathgame.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
@@ -45,6 +53,26 @@ gradlePlugin {
         register("androidFeature") {
             id = "mathgame.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
+        }
+
+        register("androidLibrary") {
+            id = "mathgame.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+
+        register("androidLibraryCompose") {
+            id = "mathgame.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+
+        register("hilt") {
+            id = "mathgame.hilt"
+            implementationClass = "HiltConventionPlugin"
+        }
+
+        register("androidFirebase") {
+            id = "mathgame.android.application.firebase"
+            implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
     }
 }

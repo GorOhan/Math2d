@@ -1,17 +1,16 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.mathgame.android.application)
+    alias(libs.plugins.mathgame.android.application.compose)
+    alias(libs.plugins.mathgame.hilt)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.mathgame.android.application.firebase)
 }
 
 android {
     namespace = "com.ohanyan.mathgame"
-    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.ohanyan.mathgame"
-        minSdk = 29
-        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -27,19 +26,22 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
+
+    bundle {
+        language {
+            enableSplit = false
+        }
     }
 }
 
 dependencies {
+
+    implementation(projects.core.ui)
+    implementation(projects.core.common)
+    implementation(projects.core.designsystem)
+    implementation(projects.feature.onboarding)
+    implementation(projects.feature.playground)
+    implementation(projects.feature.settings)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -49,6 +51,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.appcompat)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -56,4 +59,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 }

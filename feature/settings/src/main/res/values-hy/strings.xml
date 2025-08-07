@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_settings_music_on">Երաժշտություն</string>
+    <string name="feature_settings_select_language">Ընտրել լեզուն</string>
+    <string name="feature_settings_share_app">Կիսվել հավելվածով</string>
+    <string name="feature_settings_checkout_app">Check out this app:</string>
+</resources>
