@@ -40,6 +40,7 @@ import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.mathgame.settings.R
 import com.ohanyan.mathgame.settings.settings.model.AppLanguage
+import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mathaction.MathLoading
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
@@ -109,20 +110,20 @@ fun SettingsScreenUI(
             durationOfEachAnimation = 200,
         )
 
-        MainContent(
-            modifier = Modifier.align(Alignment.Center),
-            settingScreenUIState = settingScreenUIState,
-            onMusicOnChane = onMusicOnChane,
-            onSelectLanguageClick = onSelectLanguageClick
-        )
+        ChalkBoard(
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxSize()
+        ) {
+            MainContent(
+                modifier = Modifier.align(Alignment.Center),
+                settingScreenUIState = settingScreenUIState,
+                onMusicOnChane = onMusicOnChane,
+                onSelectLanguageClick = onSelectLanguageClick
+            )
+        }
 
     }
-}
-
-@Composable
-@MathPreview
-fun SettingsScreenPreview() {
-    SettingsScreenUI()
 }
 
 @Composable
@@ -142,7 +143,7 @@ fun MainContent(
                 modifier = Modifier.padding(end = 24.dp),
                 text = stringResource(id = R.string.feature_settings_music_on),
                 style = MathAppTheme.typography.h1Bee,
-                color = MathAppTheme.colors.red
+                color = MathAppTheme.colors.coreWhite
             )
             Switch(
                 enabled = true,
@@ -163,7 +164,7 @@ fun MainContent(
                 modifier = Modifier.padding(end = 24.dp),
                 text = stringResource(id = R.string.feature_settings_select_language),
                 style = MathAppTheme.typography.h1Bee,
-                color = MathAppTheme.colors.red
+                color = MathAppTheme.colors.coreWhite
             )
 
             Image(
@@ -193,7 +194,7 @@ fun MainContent(
                 modifier = Modifier.padding(end = 24.dp),
                 text = stringResource(id = R.string.feature_settings_share_app),
                 style = MathAppTheme.typography.h1Bee,
-                color = MathAppTheme.colors.red
+                color = MathAppTheme.colors.coreWhite
             )
 
             Image(
@@ -260,4 +261,10 @@ fun SelectLanguageAlert(
             }
         }
     }
+}
+
+@Composable
+@MathPreview
+fun SettingsScreenPreview() {
+    SettingsScreenUI()
 }

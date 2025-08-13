@@ -19,7 +19,7 @@ import com.ohanyan.ui.component.TypingAnimation
 
 @Composable
 fun ChalkBoard(
-    title: String = "How many items do you see?",
+    title: String = "",
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit = {},
 ) {
