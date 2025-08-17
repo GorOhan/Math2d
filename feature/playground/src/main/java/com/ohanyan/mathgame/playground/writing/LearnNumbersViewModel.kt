@@ -54,14 +54,15 @@ class LearnNumbersViewModel @Inject constructor(
     }
 
     fun recognize(strokes: List<Ink.Stroke>) {
-        mlKitHelper.recognizeDrawing(strokes) {
+        mlKitHelper.recognizeDrawing(strokes) { recognizedText ->
             viewModelScope.launch {
                 delay(1000L)
-                val isCorrect = it == uiState.value.currentNumber.toString()
+                val isCorrect = recognizedText == uiState.value.currentNumber.toString()
                 _uiState.update {
                     it.copy(
                         isAnswerCorrect = if (isCorrect) DrawState.CORRECT
-                        else DrawState.WRONG
+                        else DrawState.WRONG,
+                        recognizedText = recognizedText
                     )
                 }
                 delay(4000)
@@ -69,6 +70,15 @@ class LearnNumbersViewModel @Inject constructor(
                     it.copy(isAnswerCorrect = DrawState.INITIAL)
                 }
             }
+        }
+    }
+
+    fun resetError() {
+        _uiState.update {
+            it.copy(
+                isAnswerCorrect = DrawState.INITIAL,
+                recognizedText = ""
+            )
         }
     }
 }
@@ -91,4 +101,5 @@ data class LearnNumbersUIState(
     val numberIteration: ListIterator<Int> = numbers.listIterator(),
     val currentNumber: Int = numberIteration.next(),
     val isAnswerCorrect: DrawState = DrawState.INITIAL,
+    val recognizedText: String = "",
 )

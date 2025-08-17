@@ -23,6 +23,7 @@ fun DrawOnCanvas(
     number: Int,
     modifier: Modifier,
     onDragEnd: (strokes:List<Ink.Stroke>) -> Unit = {},
+    resetCanvas: Boolean = false,
 ) {
     val path = remember { Path() }
     val lastPosition = remember { mutableStateOf<Offset?>(null) }
@@ -30,6 +31,14 @@ fun DrawOnCanvas(
 
     val strokes = remember { mutableListOf<Ink.Stroke>() }
     var strokeBuilder = remember { Ink.Stroke.builder() }
+
+    // Reset canvas when resetCanvas is true
+    if (resetCanvas) {
+        path.reset()
+        strokes.clear()
+        strokeBuilder = Ink.Stroke.builder()
+        lastPosition.value = null
+    }
 
     key(number) {
         Canvas(

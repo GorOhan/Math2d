@@ -2,6 +2,10 @@ package com.ohanyan.mathgame.playground.writing
 
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -21,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.IntOffset
@@ -33,6 +38,7 @@ import com.google.mlkit.vision.digitalink.Ink
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
+import com.ohanyan.ui.component.error.ErrorFeedback
 import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
@@ -53,6 +59,9 @@ fun LearnNumbersScreen(
         onBackClick = onBackClick,
         onDragEnd = {
             viewModel.recognize(it)
+        },
+        onTryAgain = {
+            viewModel.resetError()
         }
     )
 }
@@ -63,6 +72,7 @@ fun LearnNumbersScreenUI(
     onNumberWritten: () -> Unit = {},
     onBackClick: () -> Unit = {},
     onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {},
+    onTryAgain: () -> Unit = {}
 ) {
     var textSize by remember { mutableStateOf(IntSize.Zero) } // Store size (width, height)
     val boardText = uiState.boardText
@@ -74,6 +84,18 @@ fun LearnNumbersScreenUI(
         finishedListener = {
             if (uiState.isAnswerCorrect == DrawState.CORRECT) onNumberWritten()
         },
+        label = ""
+    )
+
+    // Shake animation for board text when there's an error
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+    val shakeOffset by infiniteTransition.animateFloat(
+        initialValue = -3f,
+        targetValue = 3f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(100),
+            repeatMode = RepeatMode.Reverse
+        ),
         label = ""
     )
 
@@ -104,6 +126,15 @@ fun LearnNumbersScreenUI(
                 modifier = Modifier.fillMaxSize()
             )
 
+            ErrorFeedback(
+                isVisible = uiState.isAnswerCorrect == DrawState.WRONG,
+                modifier = Modifier.fillMaxSize(),
+                errorMessage = "Oops! Try again!",
+                recognizedText = uiState.recognizedText,
+                expectedText = uiState.currentNumber.toString(),
+                onTryAgain = onTryAgain
+            )
+
             if (uiState.isAnswerCorrect == DrawState.CORRECT) {
                 Text(
                     modifier = Modifier
@@ -127,6 +158,9 @@ fun LearnNumbersScreenUI(
                 Text(
                     modifier = Modifier
                         .padding(top = 24.dp)
+                        .graphicsLayer(
+                            translationX = if (uiState.isAnswerCorrect == DrawState.WRONG) shakeOffset else 0f
+                        )
                         .onGloballyPositioned { layoutCoordinates ->
                             boardTextOffset = layoutCoordinates.positionInParent()
                             textSize = layoutCoordinates.size
@@ -143,10 +177,14 @@ fun LearnNumbersScreenUI(
                         .padding(vertical = 32.dp, horizontal = 124.dp)
                         .border(
                             width = 2.dp,
-                            color = MathAppTheme.colors.secondaryWhite,
+                            color = when (uiState.isAnswerCorrect) {
+                                DrawState.WRONG -> MathAppTheme.colors.red
+                                else -> MathAppTheme.colors.secondaryWhite
+                            },
                             shape = RoundedCornerShape(16.dp)
                         ),
-                    onDragEnd = onDragEnd
+                    onDragEnd = onDragEnd,
+                    resetCanvas = uiState.isAnswerCorrect == DrawState.WRONG
                 )
 
             }
