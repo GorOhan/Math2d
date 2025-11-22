@@ -31,10 +31,11 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 //                "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
                 "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
 
-//                "testImplementation"(libs.findLibrary("androidx.navigation.testing").get())
-//                "androidTestImplementation"(
-//                    libs.findLibrary("androidx.lifecycle.runtimeTesting").get(),
-//                )
+                "testImplementation"(libs.findLibrary("junit").get())
+                "testImplementation"(libs.findLibrary("kotlinx.coroutines.test").get())
+                "androidTestImplementation"(libs.findLibrary("androidx.junit").get())
+                "androidTestImplementation"(libs.findLibrary("androidx.espresso.core").get())
+                "androidTestImplementation"(libs.findLibrary("kotlinx.coroutines.test").get())
             }
         }
     }

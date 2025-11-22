@@ -90,7 +90,7 @@ fun SelectAgeScreenUI(
                         modifier = Modifier.padding(top = age.topPadding.dp),
                         circleColor = getColorForAge(age.color),
                         selected = chooseAgeUIState.selectedAge == age.age,
-                        withAnimation = chooseAgeUIState.selectedAge.isEmpty(),
+                        withAnimation = chooseAgeUIState.selectedAge != age.age,
                         onClick = { onSelectAge(age.age) }
                     )
                 }
