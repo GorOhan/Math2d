@@ -34,6 +34,7 @@ fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
+    onAdditionClick: () -> Unit = {},
     onBackClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
@@ -41,6 +42,7 @@ fun MenuScreen(
         onLearnNumber = onLearnNumber,
         onBackClick = onBackClick,
         onCountClick = onCountClick,
+        onAdditionClick = onAdditionClick,
         onSettingsClick = onSettingsClick,
     )
 }
@@ -49,10 +51,10 @@ fun MenuScreen(
 fun MenuScreenUI(
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
+    onAdditionClick: () -> Unit = {},
     onBackClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -102,7 +104,7 @@ fun MenuScreenUI(
 
             CoreButton(
                 buttonTitle = stringResource(id = R.string.feature_onboarding_adding),
-                onClick = { }
+                onClick = onAdditionClick
             )
 
             CoreButton(

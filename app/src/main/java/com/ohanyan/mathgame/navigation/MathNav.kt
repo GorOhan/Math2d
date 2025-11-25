@@ -31,6 +31,7 @@ fun MathNavHost(
             onCountClick = { navController.navigateToPlaygroundScreen(PlaygroundScreen.LearnCountScreen) },
             onBackClick = { navController.popBackStack() },
             onLearnNumber = { navController.navigateToPlaygroundScreen(PlaygroundScreen.LearnNumberScreen) },
+            onAdditionClick = { navController.navigateToPlaygroundScreen(PlaygroundScreen.AdditionScreen) },
             onSettingsClick = { navController.navigateToSettingsScreen(SettingsScreen.SettingsMain)}
         )
 
