@@ -30,7 +30,7 @@ import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
 
 @Composable
-fun MenuScreen(
+internal fun MenuScreen(
     viewModel: MenuViewModel = hiltViewModel(),
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
@@ -48,7 +48,7 @@ fun MenuScreen(
 }
 
 @Composable
-fun MenuScreenUI(
+private fun MenuScreenUI(
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
     onAdditionClick: () -> Unit = {},

@@ -34,7 +34,7 @@ import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
 
 @Composable
-fun AdditionScreen(
+internal fun AdditionScreen(
     viewModel: AdditionViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {}
 ) {

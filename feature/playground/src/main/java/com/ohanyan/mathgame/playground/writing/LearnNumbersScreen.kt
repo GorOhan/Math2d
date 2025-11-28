@@ -45,7 +45,7 @@ import com.ohanyan.ui.component.nextbutton.ActionType
 import com.ohanyan.ui.component.success.SuccessLottie
 
 @Composable
-fun LearnNumbersScreen(
+internal fun LearnNumbersScreen(
     viewModel: LearnNumbersViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {}
 ) {
@@ -67,7 +67,7 @@ fun LearnNumbersScreen(
 }
 
 @Composable
-fun LearnNumbersScreenUI(
+private fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
     onNumberWritten: () -> Unit = {},
     onBackClick: () -> Unit = {},

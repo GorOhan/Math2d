@@ -38,7 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun SplashScreen(
+internal fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel(),
     onAnimationEnd: () -> Unit = {},
 ) {
@@ -51,7 +51,7 @@ fun SplashScreen(
 }
 
 @Composable
-fun SplashScreenUI(
+private fun SplashScreenUI(
     uiState: SplashUIState,
     onAnimationEnd: () -> Unit = {},
 ) {

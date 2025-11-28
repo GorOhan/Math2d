@@ -32,7 +32,7 @@ import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
 
 @Composable
-fun LearnCountScreen(
+internal fun LearnCountScreen(
     viewModel: LearnCountViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {}
 ) {

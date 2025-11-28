@@ -27,7 +27,7 @@ import com.ohanyan.ui.component.agepickitem.SelectAgeItem
 import com.ohanyan.ui.component.mainhero.MainHero
 
 @Composable
-fun SelectAgeScreen(
+internal fun SelectAgeScreen(
     viewModel: SelectAgeViewModel = hiltViewModel(),
     onNextClick: () -> Unit = {},
 ) {
@@ -42,7 +42,7 @@ fun SelectAgeScreen(
 }
 
 @Composable
-fun SelectAgeScreenUI(
+private fun SelectAgeScreenUI(
     chooseAgeUIState: ChooseAgeUIState = ChooseAgeUIState(),
     onSelectAge: (String) -> Unit = {},
     onNextClick: () -> Unit = {},
