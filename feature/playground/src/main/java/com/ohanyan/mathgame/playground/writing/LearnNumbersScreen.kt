@@ -8,8 +8,10 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -28,6 +30,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -148,16 +151,18 @@ private fun LearnNumbersScreenUI(
                 )
             }
 
-            Column(
+            Row(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(top = 64.dp)
                     .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(top = 24.dp)
+                        .weight(0.5f)
+                        .padding(12.dp)
                         .graphicsLayer(
                             translationX = if (uiState.isAnswerCorrect == DrawState.WRONG) shakeOffset else 0f
                         )
@@ -168,13 +173,17 @@ private fun LearnNumbersScreenUI(
                     text = boardText,
                     style = MathAppTheme.typography.chalk,
                     color = MathAppTheme.colors.secondaryWhite,
-                    fontSize = 32.sp,
+                    textAlign = TextAlign.Center,
+                    fontSize = 184.sp,
                 )
+
+
 
                 DrawOnCanvas(
                     number = uiState.currentNumber,
                     modifier = Modifier
-                        .padding(vertical = 32.dp, horizontal = 124.dp)
+                        .weight(0.5f)
+                        .padding(all = 32.dp)
                         .border(
                             width = 2.dp,
                             color = when (uiState.isAnswerCorrect) {

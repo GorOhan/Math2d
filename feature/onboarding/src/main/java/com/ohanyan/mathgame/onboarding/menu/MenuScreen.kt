@@ -93,13 +93,13 @@ private fun MenuScreenUI(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             CoreButton(
-                buttonTitle = stringResource(id = R.string.feature_onboarding_counting),
-                onClick = onCountClick
+                buttonTitle = stringResource(id = R.string.feature_onboarding_learn_numbers),
+                onClick = onLearnNumber
             )
 
             CoreButton(
-                buttonTitle = stringResource(id = R.string.feature_onboarding_learn_numbers),
-                onClick = onLearnNumber
+                buttonTitle = stringResource(id = R.string.feature_onboarding_counting),
+                onClick = onCountClick
             )
 
             CoreButton(
