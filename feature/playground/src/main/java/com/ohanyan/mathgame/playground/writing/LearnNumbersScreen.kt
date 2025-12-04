@@ -1,5 +1,6 @@
 package com.ohanyan.mathgame.playground.writing
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.RepeatMode
@@ -129,27 +130,16 @@ private fun LearnNumbersScreenUI(
                 modifier = Modifier.fillMaxSize()
             )
 
-            ErrorFeedback(
-                isVisible = uiState.isAnswerCorrect == DrawState.WRONG,
-                modifier = Modifier.fillMaxSize(),
-                errorMessage = "Oops! Try again!",
-                recognizedText = uiState.recognizedText,
-                expectedText = uiState.currentNumber.toString(),
-                onTryAgain = onTryAgain
-            )
+//            ErrorFeedback(
+//                isVisible = uiState.isAnswerCorrect == DrawState.WRONG,
+//                modifier = Modifier.fillMaxSize(),
+//                errorMessage = "Oops! Try again!",
+//                recognizedText = uiState.recognizedText,
+//                expectedText = uiState.currentNumber.toString(),
+//                onTryAgain = onTryAgain
+//            )
 
-            if (uiState.isAnswerCorrect == DrawState.CORRECT) {
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(top = 64.dp)
-                        .offset(x = animatedOffset.x.dp, y = animatedOffset.y.dp),
-                    text = uiState.currentNumber.toString(),
-                    style = MathAppTheme.typography.chalk,
-                    color = MathAppTheme.colors.secondaryWhite,
-                    fontSize = 32.sp,
-                )
-            }
+
 
             Row(
                 modifier = Modifier
@@ -161,7 +151,6 @@ private fun LearnNumbersScreenUI(
             ) {
                 Text(
                     modifier = Modifier
-                        .weight(0.5f)
                         .padding(12.dp)
                         .graphicsLayer(
                             translationX = if (uiState.isAnswerCorrect == DrawState.WRONG) shakeOffset else 0f
@@ -177,21 +166,23 @@ private fun LearnNumbersScreenUI(
                     fontSize = 184.sp,
                 )
 
-
+                AnimatedVisibility(uiState.isAnswerCorrect == DrawState.CORRECT) {
+                    Text(
+                        modifier = Modifier
+                            .padding(12.dp),
+                        //  .offset(x = animatedOffset.x.dp, y = animatedOffset.y.dp),
+                        text = uiState.currentNumber.toString(),
+                        style = MathAppTheme.typography.chalk,
+                        color = MathAppTheme.colors.secondaryWhite,
+                        fontSize = 184.sp,
+                    )
+                }
 
                 DrawOnCanvas(
                     number = uiState.currentNumber,
                     modifier = Modifier
-                        .weight(0.5f)
-                        .padding(all = 32.dp)
-                        .border(
-                            width = 2.dp,
-                            color = when (uiState.isAnswerCorrect) {
-                                DrawState.WRONG -> MathAppTheme.colors.red
-                                else -> MathAppTheme.colors.secondaryWhite
-                            },
-                            shape = RoundedCornerShape(16.dp)
-                        ),
+                        .weight(1f)
+                        .padding(all = 32.dp),
                     onDragEnd = onDragEnd,
                     resetCanvas = uiState.isAnswerCorrect == DrawState.WRONG
                 )

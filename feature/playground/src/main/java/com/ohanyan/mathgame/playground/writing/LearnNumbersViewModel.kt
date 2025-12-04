@@ -35,19 +35,19 @@ class LearnNumbersViewModel @Inject constructor(
                 when (boardTextState) {
                     BoardTextState.INITIAL -> {
                         it.copy(
-                            boardText = " $number, $number, $number, ..."
+                            boardText = " $number"
                         )
                     }
 
                     BoardTextState.FULL -> {
                         it.copy(
-                            boardText = " $number, $number, $number, $number"
+                            boardText = " $number"
                         )
                     }
                 }
             }
             if (boardTextState == BoardTextState.FULL) {
-                delay(600L)
+                delay(2100L)
                 nextNumber()
             }
         }
