@@ -57,6 +57,7 @@ fun ChalkBoard(
                 )
 
         ) {
+           if (!title.isEmpty()) {
             TypingAnimation(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -68,6 +69,8 @@ fun ChalkBoard(
                 typingSpeed = 50L
             )
         }
+        }
+
         content()
     }
 

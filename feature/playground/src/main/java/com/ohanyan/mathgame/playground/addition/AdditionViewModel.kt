@@ -36,12 +36,24 @@ class AdditionViewModel @Inject constructor() : ViewModel() {
     private fun generateNewQuestion() {
         val num1 = Random.nextInt(1, 10)
         val num2 = Random.nextInt(1, 10)
+        
+        // Random image for visual representation
+        val images = listOf(
+            com.ohanyan.mathgame.ui.R.drawable.ic_apple,
+            com.ohanyan.mathgame.ui.R.drawable.icecream2,
+            com.ohanyan.mathgame.ui.R.drawable.fox,
+            com.ohanyan.mathgame.ui.R.drawable.giraff,
+            com.ohanyan.mathgame.ui.R.drawable.chipmunk
+        )
+        val randomImage = images.random()
+        
         _uiState.update {
             it.copy(
                 firstNumber = num1,
                 secondNumber = num2,
                 userAnswer = "",
-                isAnswerCorrect = null
+                isAnswerCorrect = null,
+                imgResId = randomImage
             )
         }
     }
@@ -91,5 +103,6 @@ data class AdditionUIState(
     val firstNumber: Int = 0,
     val secondNumber: Int = 0,
     val userAnswer: String = "",
-    val isAnswerCorrect: Boolean? = null
+    val isAnswerCorrect: Boolean? = null,
+    val imgResId: Int = com.ohanyan.mathgame.ui.R.drawable.ic_apple
 )

@@ -3,12 +3,17 @@ package com.ohanyan.mathgame.playground.addition
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -16,10 +21,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -105,20 +115,30 @@ fun AdditionScreenUI(
             modifier = Modifier.align(Alignment.Center),
             title = "Solve the problem"
         ) {
+
             Column(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .fillMaxSize()
-                    .padding(vertical = 64.dp),
+                    .padding(vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
+                // Falling images in grid layout
+                FallingImagesGrid(
+                    firstCount = uiState.firstNumber,
+                    secondCount = uiState.secondNumber,
+                    imageResId = uiState.imgResId,
+                    key = "${uiState.firstNumber}-${uiState.secondNumber}",
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
                 // Display the math problem
                 Text(
                     text = "${uiState.firstNumber} + ${uiState.secondNumber} = ?",
                     style = MathAppTheme.typography.chalk,
                     color = MathAppTheme.colors.secondaryWhite,
-                    fontSize = 48.sp,
+                    fontSize = 40.sp,
                 )
 
                 // Generate answer options
@@ -129,7 +149,7 @@ fun AdditionScreenUI(
 
                 Row(
                     modifier = Modifier
-                        .padding(top = 48.dp)
+                        .padding(top = 16.dp)
                         .scale(feedbackScale),
                     horizontalArrangement = Arrangement.spacedBy(36.dp)
                 ) {
@@ -224,5 +244,74 @@ fun AdditionScreenPreview() {
             isAnswerCorrect = null
         ),
         onIntent = {}
+    )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun FallingImagesGrid(
+    firstCount: Int,
+    secondCount: Int,
+    imageResId: Int,
+    key: String,
+    modifier: Modifier = Modifier
+) {
+    key(key) {
+        FlowRow(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            maxItemsInEachRow = 5
+        ) {
+            // First number images
+            repeat(firstCount) { index ->
+                FallingImage(
+                    imageResId = imageResId,
+                    index = index,
+                    key = key
+                )
+            }
+            
+            // Second number images
+            repeat(secondCount) { index ->
+                FallingImage(
+                    imageResId = imageResId,
+                    index = index + firstCount,
+                    key = key
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun FallingImage(
+    imageResId: Int,
+    index: Int,
+    key: String
+) {
+    var startAnimation by remember { mutableStateOf(false) }
+    
+    LaunchedEffect(key) {
+        kotlinx.coroutines.delay((index * 100).toLong())
+        startAnimation = true
+    }
+    
+    val offsetY by animateFloatAsState(
+        targetValue = if (startAnimation) 0f else -200f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "falling_animation_$index"
+    )
+
+    Image(
+        painter = painterResource(imageResId),
+        contentDescription = null,
+        modifier = Modifier
+            .size(48.dp)
+            .offset(y = offsetY.dp)
+            .padding(horizontal = 4.dp)
     )
 }

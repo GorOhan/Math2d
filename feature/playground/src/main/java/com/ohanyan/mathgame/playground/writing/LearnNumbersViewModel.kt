@@ -35,13 +35,13 @@ class LearnNumbersViewModel @Inject constructor(
                 when (boardTextState) {
                     BoardTextState.INITIAL -> {
                         it.copy(
-                            boardText = " $number"
+                            boardText = "$number,"
                         )
                     }
 
                     BoardTextState.FULL -> {
                         it.copy(
-                            boardText = " $number"
+                            boardText = "$number,"
                         )
                     }
                 }
@@ -96,7 +96,7 @@ enum class DrawState {
 }
 
 data class LearnNumbersUIState(
-    val boardText: String = "0",
+    val boardText: String = "0,",
     val numbers: List<Int> = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
     val numberIteration: ListIterator<Int> = numbers.listIterator(),
     val currentNumber: Int = numberIteration.next(),

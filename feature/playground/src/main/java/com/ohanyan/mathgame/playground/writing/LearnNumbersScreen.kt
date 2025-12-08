@@ -1,39 +1,29 @@
 package com.ohanyan.mathgame.playground.writing
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateIntOffsetAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -42,7 +32,6 @@ import com.google.mlkit.vision.digitalink.Ink
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
-import com.ohanyan.ui.component.error.ErrorFeedback
 import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
@@ -78,12 +67,13 @@ private fun LearnNumbersScreenUI(
     onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {},
     onTryAgain: () -> Unit = {}
 ) {
-    var textSize by remember { mutableStateOf(IntSize.Zero) } // Store size (width, height)
     val boardText = uiState.boardText
-    var boardTextOffset by remember { mutableStateOf(Offset.Zero) }
 
     val animatedOffset by animateIntOffsetAsState(
-        targetValue = if (uiState.isAnswerCorrect == DrawState.CORRECT) IntOffset(60, -85) else IntOffset(0, 0),
+        targetValue = if (uiState.isAnswerCorrect == DrawState.CORRECT) IntOffset(
+            60,
+            -85
+        ) else IntOffset(0, 0),
         animationSpec = tween(durationMillis = 2000),
         finishedListener = {
             if (uiState.isAnswerCorrect == DrawState.CORRECT) onNumberWritten()
@@ -122,25 +112,7 @@ private fun LearnNumbersScreenUI(
             onClick = onBackClick
         )
 
-        ChalkBoard(
-            title = "draw yourself"
-        ) {
-            SuccessLottie(
-                isVisible = uiState.isAnswerCorrect == DrawState.CORRECT,
-                modifier = Modifier.fillMaxSize()
-            )
-
-//            ErrorFeedback(
-//                isVisible = uiState.isAnswerCorrect == DrawState.WRONG,
-//                modifier = Modifier.fillMaxSize(),
-//                errorMessage = "Oops! Try again!",
-//                recognizedText = uiState.recognizedText,
-//                expectedText = uiState.currentNumber.toString(),
-//                onTryAgain = onTryAgain
-//            )
-
-
-
+        ChalkBoard {
             Row(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -149,45 +121,51 @@ private fun LearnNumbersScreenUI(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Text(
+                Box(
                     modifier = Modifier
-                        .padding(12.dp)
-                        .graphicsLayer(
-                            translationX = if (uiState.isAnswerCorrect == DrawState.WRONG) shakeOffset else 0f
-                        )
-                        .onGloballyPositioned { layoutCoordinates ->
-                            boardTextOffset = layoutCoordinates.positionInParent()
-                            textSize = layoutCoordinates.size
-                        },
-                    text = boardText,
-                    style = MathAppTheme.typography.chalk,
-                    color = MathAppTheme.colors.secondaryWhite,
-                    textAlign = TextAlign.Center,
-                    fontSize = 184.sp,
-                )
-
-                AnimatedVisibility(uiState.isAnswerCorrect == DrawState.CORRECT) {
+                        .weight(1f)
+                        .fillMaxSize()
+                ) {
                     Text(
                         modifier = Modifier
-                            .padding(12.dp),
-                        //  .offset(x = animatedOffset.x.dp, y = animatedOffset.y.dp),
-                        text = uiState.currentNumber.toString(),
+                            .fillMaxWidth()
+                            .graphicsLayer(
+                                translationX = if (uiState.isAnswerCorrect == DrawState.WRONG) shakeOffset else 0f
+                            ),
+                        text = boardText,
                         style = MathAppTheme.typography.chalk,
                         color = MathAppTheme.colors.secondaryWhite,
+                        textAlign = TextAlign.Center,
                         fontSize = 184.sp,
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+
+                ) {
+                    HintDigitAnimation(
+                        number = uiState.currentNumber,
+                        modifier = Modifier,
+                        boardText = uiState.boardText,
+                        resetCanvas = uiState.isAnswerCorrect == DrawState.WRONG
                     )
                 }
 
                 DrawOnCanvas(
                     number = uiState.currentNumber,
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(all = 32.dp),
+                        .weight(1f),
                     onDragEnd = onDragEnd,
                     resetCanvas = uiState.isAnswerCorrect == DrawState.WRONG
                 )
-
             }
+
+            SuccessLottie(
+                isVisible = uiState.isAnswerCorrect == DrawState.CORRECT,
+                modifier = Modifier.fillMaxSize()
+            )
         }
 
         Column(
@@ -206,6 +184,6 @@ private fun LearnNumbersScreenUI(
 
 @Composable
 @MathPreview
-fun LearnNumbersScreenUIPreview(){
+fun LearnNumbersScreenUIPreview() {
     LearnNumbersScreenUI(LearnNumbersUIState())
 }
