@@ -19,87 +19,76 @@ class LearnNumbersViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LearnNumbersUIState())
     val uiState = _uiState.asStateFlow()
 
-    private fun nextNumber() {
-        if (uiState.value.numberIteration.hasNext()) {
-            _uiState.update {
-                it.copy(currentNumber = it.numberIteration.next())
-            }
-            makeBoardText(BoardTextState.INITIAL)
-        }
+    init {
+        learnNextNumber()
     }
 
-    fun makeBoardText(boardTextState: BoardTextState) {
+    fun learnNextNumber() {
         viewModelScope.launch {
-            val number = uiState.value.currentNumber
             _uiState.update {
-                when (boardTextState) {
-                    BoardTextState.INITIAL -> {
-                        it.copy(
-                            boardText = "$number,"
-                        )
-                    }
-
-                    BoardTextState.FULL -> {
-                        it.copy(
-                            boardText = "$number,"
-                        )
-                    }
-                }
+                it.copy(playState = PlayState.START)
             }
-            if (boardTextState == BoardTextState.FULL) {
-                delay(2100L)
-                nextNumber()
+            delay(3000L)
+            _uiState.update {
+                it.copy(playState = PlayState.HINT)
+            }
+            delay(5000L)
+            _uiState.update {
+                it.copy(playState = PlayState.DRAW)
             }
         }
     }
 
-    fun recognize(strokes: List<Ink.Stroke>) {
+    fun afterDraw(strokes: List<Ink.Stroke>) {
         mlKitHelper.recognizeDrawing(strokes) { recognizedText ->
             viewModelScope.launch {
                 delay(1000L)
                 val isCorrect = recognizedText == uiState.value.currentNumber.toString()
-                _uiState.update {
-                    it.copy(
-                        isAnswerCorrect = if (isCorrect) DrawState.CORRECT
-                        else DrawState.WRONG,
-                        recognizedText = recognizedText
-                    )
+                if (isCorrect) {
+                    _uiState.update { it.copy(showSuccessLottie = true) }
+                    delay(5500)
+                    _uiState.update { it.copy(showSuccessLottie = false) }
+
+
+                    if (uiState.value.numberIteration.hasNext()) {
+                        _uiState.update {
+                            it.copy(currentNumber = it.numberIteration.next())
+                        }
+
+                        _uiState.update {
+                            it.copy(
+                                boardText = _uiState.value.currentNumber.toString(),
+                                playState = PlayState.START
+                            )
+                        }
+                        learnNextNumber()
+                    }
+                } else {
+                    _uiState.update {
+                        it.copy(
+                            playState = PlayState.START
+                        )
+                    }
+                    learnNextNumber()
                 }
-                delay(4000)
-                _uiState.update {
-                    it.copy(isAnswerCorrect = DrawState.INITIAL)
-                }
+
             }
         }
     }
-
-    fun resetError() {
-        _uiState.update {
-            it.copy(
-                isAnswerCorrect = DrawState.INITIAL,
-                recognizedText = ""
-            )
-        }
-    }
-}
-
-
-enum class BoardTextState {
-    INITIAL,
-    FULL,
-}
-
-enum class DrawState {
-    INITIAL,
-    WRONG,
-    CORRECT
 }
 
 data class LearnNumbersUIState(
-    val boardText: String = "0,",
+    val boardText: String = "0",
     val numbers: List<Int> = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
     val numberIteration: ListIterator<Int> = numbers.listIterator(),
     val currentNumber: Int = numberIteration.next(),
-    val isAnswerCorrect: DrawState = DrawState.INITIAL,
-    val recognizedText: String = "",
+    val playState: PlayState = PlayState.NONE,
+    val showSuccessLottie: Boolean = false
 )
+
+enum class PlayState {
+    START,
+    HINT,
+    DRAW,
+    NONE,
+}

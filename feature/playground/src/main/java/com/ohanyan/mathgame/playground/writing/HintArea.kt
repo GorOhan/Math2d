@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import com.google.mlkit.vision.digitalink.Ink
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
@@ -32,7 +31,6 @@ import kotlinx.coroutines.delay
 fun HintDigitAnimation(
     modifier: Modifier,
     number: Int,
-    boardText: String,
     resetCanvas: Boolean = false,
 ) {
     var index by remember { mutableIntStateOf(1) }

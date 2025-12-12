@@ -1,16 +1,11 @@
 package com.ohanyan.mathgame.playground.writing
 
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateIntOffsetAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,9 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,14 +40,11 @@ internal fun LearnNumbersScreen(
     LearnNumbersScreenUI(
         uiState = uiState,
         onNumberWritten = {
-            viewModel.makeBoardText(BoardTextState.FULL)
+            //    viewModel.makeBoardText(BoardTextState.FULL)
         },
         onBackClick = onBackClick,
         onDragEnd = {
-            viewModel.recognize(it)
-        },
-        onTryAgain = {
-            viewModel.resetError()
+            viewModel.afterDraw(it)
         }
     )
 }
@@ -64,34 +54,9 @@ private fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
     onNumberWritten: () -> Unit = {},
     onBackClick: () -> Unit = {},
-    onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {},
-    onTryAgain: () -> Unit = {}
+    onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {}
 ) {
     val boardText = uiState.boardText
-
-    val animatedOffset by animateIntOffsetAsState(
-        targetValue = if (uiState.isAnswerCorrect == DrawState.CORRECT) IntOffset(
-            60,
-            -85
-        ) else IntOffset(0, 0),
-        animationSpec = tween(durationMillis = 2000),
-        finishedListener = {
-            if (uiState.isAnswerCorrect == DrawState.CORRECT) onNumberWritten()
-        },
-        label = ""
-    )
-
-    // Shake animation for board text when there's an error
-    val infiniteTransition = rememberInfiniteTransition(label = "")
-    val shakeOffset by infiniteTransition.animateFloat(
-        initialValue = -3f,
-        targetValue = 3f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(100),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = ""
-    )
 
     Box(
         modifier = Modifier
@@ -116,54 +81,59 @@ private fun LearnNumbersScreenUI(
             Row(
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(top = 64.dp)
                     .fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .graphicsLayer(
-                                translationX = if (uiState.isAnswerCorrect == DrawState.WRONG) shakeOffset else 0f
-                            ),
-                        text = boardText,
-                        style = MathAppTheme.typography.chalk,
-                        color = MathAppTheme.colors.secondaryWhite,
-                        textAlign = TextAlign.Center,
-                        fontSize = 184.sp,
-                    )
+                when (uiState.playState) {
+                    PlayState.START -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .fillMaxWidth(),
+                                text = boardText,
+                                style = MathAppTheme.typography.chalk,
+                                color = MathAppTheme.colors.secondaryWhite,
+                                textAlign = TextAlign.Center,
+                                fontSize = 224.sp,
+                            )
+                        }
+                    }
+
+                    PlayState.HINT -> {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(0.3f)
+                                .fillMaxHeight()
+
+                        ) {
+                            HintDigitAnimation(
+                                number = uiState.currentNumber,
+                                modifier = Modifier,
+                            )
+                        }
+                    }
+
+                    PlayState.DRAW -> {
+                        DrawingArea(
+                            number = uiState.currentNumber,
+                            modifier = Modifier,
+                            onDragEnd = onDragEnd,
+                            resetCanvas = false
+                        )
+                    }
+
+                    PlayState.NONE -> {}
                 }
 
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
 
-                ) {
-                    HintDigitAnimation(
-                        number = uiState.currentNumber,
-                        modifier = Modifier,
-                        boardText = uiState.boardText,
-                        resetCanvas = uiState.isAnswerCorrect == DrawState.WRONG
-                    )
-                }
-
-                DrawOnCanvas(
-                    number = uiState.currentNumber,
-                    modifier = Modifier
-                        .weight(1f),
-                    onDragEnd = onDragEnd,
-                    resetCanvas = uiState.isAnswerCorrect == DrawState.WRONG
-                )
             }
 
             SuccessLottie(
-                isVisible = uiState.isAnswerCorrect == DrawState.CORRECT,
+                isVisible = uiState.showSuccessLottie,
                 modifier = Modifier.fillMaxSize()
             )
         }
