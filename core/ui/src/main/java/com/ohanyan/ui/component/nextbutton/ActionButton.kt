@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.StartOffset
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
@@ -13,6 +14,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -35,14 +37,20 @@ fun ActionButton(
     onClick: () -> Unit = {},
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
-    val padding by infiniteTransition.animateFloat(
-        initialValue = 0.4f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(400),
-            repeatMode = RepeatMode.Reverse,
-        ), label = ""
-    )
+
+
+    @Composable
+    fun returnPadding(): Float {
+        val padding by infiniteTransition.animateFloat(
+            initialValue = 0.4f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(400),
+                repeatMode = RepeatMode.Reverse,
+            ), label = ""
+        )
+        return padding
+    }
 
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
@@ -53,7 +61,9 @@ fun ActionButton(
         label = ""
     )
 
-    AnimatedVisibility(
+    val padding = returnPadding()
+
+    Box(
         modifier = modifier
             .scale(scaleByClick)
             .clickable(
@@ -70,7 +80,6 @@ fun ActionButton(
 
                 }
             ),
-        visible = visible,
     ) {
         Image(
             modifier = Modifier

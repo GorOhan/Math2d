@@ -1,5 +1,6 @@
 package com.ohanyan.mathgame.playground.writing
 
+import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.digitalink.Ink
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +21,9 @@ class LearnNumbersViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LearnNumbersUIState())
     val uiState = _uiState.asStateFlow()
 
+    private val _tickerState = MutableStateFlow(TickerState())
+    val tickerState = _tickerState.asStateFlow()
+
     init {
         learnNextNumber()
     }
@@ -28,14 +33,20 @@ class LearnNumbersViewModel @Inject constructor(
             _uiState.update {
                 it.copy(playState = PlayState.START)
             }
-            delay(3000L)
+            startCountDown(PlayState.START.duration)
+            delay(PlayState.START.duration)
+
             _uiState.update {
                 it.copy(playState = PlayState.HINT)
             }
-            delay(5000L)
+            startCountDown(PlayState.HINT.duration)
+            delay(PlayState.HINT.duration)
+
             _uiState.update {
                 it.copy(playState = PlayState.DRAW)
             }
+            startCountDown(PlayState.DRAW.duration)
+            delay(PlayState.DRAW.duration)
         }
     }
 
@@ -75,6 +86,30 @@ class LearnNumbersViewModel @Inject constructor(
             }
         }
     }
+
+    private fun startCountDown(mills: Long) {
+        val countDownTimer = object : CountDownTimer(mills, 10) {
+            override fun onTick(millisUntilFinished: Long) {
+                _tickerState.update {
+                    it.copy(
+                        tickerProgress = millisUntilFinished.toFloat() / mills,
+                        tickerValue = getFormattedTime(millisUntilFinished)
+                    )
+                }
+            }
+
+            override fun onFinish() {
+                this.cancel()
+            }
+        }
+
+        countDownTimer.start()
+    }
+
+    private fun getFormattedTime(millisUntilFinished: Long): String {
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+        return seconds.toString()
+    }
 }
 
 data class LearnNumbersUIState(
@@ -83,12 +118,17 @@ data class LearnNumbersUIState(
     val numberIteration: ListIterator<Int> = numbers.listIterator(),
     val currentNumber: Int = numberIteration.next(),
     val playState: PlayState = PlayState.NONE,
-    val showSuccessLottie: Boolean = false
+    val showSuccessLottie: Boolean = false,
 )
 
-enum class PlayState {
-    START,
-    HINT,
-    DRAW,
-    NONE,
+data class TickerState(
+    val tickerProgress: Float = 0.0f,
+    val tickerValue: String = ""
+)
+
+enum class PlayState(val duration: Long) {
+    START(4_000),
+    HINT(5_500),
+    DRAW(29_000),
+    NONE(0),
 }

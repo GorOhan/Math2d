@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,12 +37,11 @@ internal fun LearnNumbersScreen(
     onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val tickerState = viewModel.tickerState.collectAsStateWithLifecycle()
 
     LearnNumbersScreenUI(
         uiState = uiState,
-        onNumberWritten = {
-            //    viewModel.makeBoardText(BoardTextState.FULL)
-        },
+        tickerState = tickerState,
         onBackClick = onBackClick,
         onDragEnd = {
             viewModel.afterDraw(it)
@@ -52,12 +52,10 @@ internal fun LearnNumbersScreen(
 @Composable
 private fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
-    onNumberWritten: () -> Unit = {},
+    tickerState: State<TickerState>,
     onBackClick: () -> Unit = {},
     onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {}
 ) {
-    val boardText = uiState.boardText
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,6 +75,13 @@ private fun LearnNumbersScreenUI(
             onClick = onBackClick
         )
 
+        TimeTicker(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(32.dp),
+            state = tickerState
+        )
+
         ChalkBoard {
             Row(
                 modifier = Modifier
@@ -94,7 +99,7 @@ private fun LearnNumbersScreenUI(
                                 modifier = Modifier
                                     .align(Alignment.Center)
                                     .fillMaxWidth(),
-                                text = boardText,
+                                text = uiState.boardText,
                                 style = MathAppTheme.typography.chalk,
                                 color = MathAppTheme.colors.secondaryWhite,
                                 textAlign = TextAlign.Center,
@@ -155,5 +160,5 @@ private fun LearnNumbersScreenUI(
 @Composable
 @MathPreview
 fun LearnNumbersScreenUIPreview() {
-    LearnNumbersScreenUI(LearnNumbersUIState())
+    //LearnNumbersScreenUI(LearnNumbersUIState())
 }
