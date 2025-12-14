@@ -90,53 +90,69 @@ private fun LearnNumbersScreenUI(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                when (uiState.playState) {
-                    PlayState.START -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize()
-                        ) {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    if (uiState.playState != PlayState.START){
+                        Box {
                             Text(
                                 modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .fillMaxWidth(),
+                                    .align(Alignment.TopStart)
+                                    .padding(32.dp),
                                 text = uiState.boardText,
                                 style = MathAppTheme.typography.chalk,
                                 color = MathAppTheme.colors.secondaryWhite,
                                 textAlign = TextAlign.Center,
-                                fontSize = 224.sp,
+                                fontSize = 64.sp,
                             )
                         }
                     }
+                    when (uiState.playState) {
+                        PlayState.START -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                Text(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .fillMaxWidth(),
+                                    text = uiState.boardText,
+                                    style = MathAppTheme.typography.chalk,
+                                    color = MathAppTheme.colors.secondaryWhite,
+                                    textAlign = TextAlign.Center,
+                                    fontSize = 224.sp,
+                                )
+                            }
+                        }
 
-                    PlayState.HINT -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(0.3f)
-                                .fillMaxHeight()
+                        PlayState.HINT -> {
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .fillMaxWidth(0.3f)
+                                    .fillMaxHeight()
 
-                        ) {
-                            HintDigitAnimation(
+                            ) {
+                                HintDigitAnimation(
+                                    number = uiState.currentNumber,
+                                    modifier = Modifier,
+                                )
+                            }
+                        }
+
+                        PlayState.DRAW -> {
+                            DrawingArea(
                                 number = uiState.currentNumber,
                                 modifier = Modifier,
+                                onDragEnd = onDragEnd,
+                                resetCanvas = false
                             )
                         }
-                    }
 
-                    PlayState.DRAW -> {
-                        DrawingArea(
-                            number = uiState.currentNumber,
-                            modifier = Modifier,
-                            onDragEnd = onDragEnd,
-                            resetCanvas = false
-                        )
+                        PlayState.NONE -> {}
                     }
-
-                    PlayState.NONE -> {}
                 }
-
-
             }
-
             SuccessLottie(
                 isVisible = uiState.showSuccessLottie,
                 modifier = Modifier.fillMaxSize()

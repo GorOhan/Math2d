@@ -24,29 +24,18 @@ class LearnNumbersViewModel @Inject constructor(
     private val _tickerState = MutableStateFlow(TickerState())
     val tickerState = _tickerState.asStateFlow()
 
+    private var countDownTimer : CountDownTimer? = null
+
+
     init {
         learnNextNumber()
     }
 
     fun learnNextNumber() {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(playState = PlayState.START)
-            }
-            startCountDown(PlayState.START.duration)
-            delay(PlayState.START.duration)
-
-            _uiState.update {
-                it.copy(playState = PlayState.HINT)
-            }
-            startCountDown(PlayState.HINT.duration)
-            delay(PlayState.HINT.duration)
-
-            _uiState.update {
-                it.copy(playState = PlayState.DRAW)
-            }
-            startCountDown(PlayState.DRAW.duration)
-            delay(PlayState.DRAW.duration)
+            setTickerState(playState = PlayState.START)
+            setTickerState(playState = PlayState.HINT)
+            setTickerState(playState = PlayState.DRAW)
         }
     }
 
@@ -69,26 +58,20 @@ class LearnNumbersViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(
                                 boardText = _uiState.value.currentNumber.toString(),
-                                playState = PlayState.START
                             )
                         }
-                        learnNextNumber()
                     }
-                } else {
-                    _uiState.update {
-                        it.copy(
-                            playState = PlayState.START
-                        )
-                    }
-                    learnNextNumber()
                 }
+
+                learnNextNumber()
 
             }
         }
     }
 
     private fun startCountDown(mills: Long) {
-        val countDownTimer = object : CountDownTimer(mills, 10) {
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer(mills, 10) {
             override fun onTick(millisUntilFinished: Long) {
                 _tickerState.update {
                     it.copy(
@@ -103,7 +86,15 @@ class LearnNumbersViewModel @Inject constructor(
             }
         }
 
-        countDownTimer.start()
+        countDownTimer?.start()
+    }
+
+    private suspend fun setTickerState(playState: PlayState) {
+        _uiState.update {
+            it.copy(playState = playState)
+        }
+        startCountDown(playState.duration)
+        delay(playState.duration)
     }
 
     private fun getFormattedTime(millisUntilFinished: Long): String {
@@ -128,7 +119,7 @@ data class TickerState(
 
 enum class PlayState(val duration: Long) {
     START(4_000),
-    HINT(5_500),
+    HINT(7_500),
     DRAW(29_000),
     NONE(0),
 }
