@@ -45,6 +45,9 @@ internal fun LearnNumbersScreen(
         onBackClick = onBackClick,
         onDragEnd = {
             viewModel.afterDraw(it)
+        },
+        onDragStart = {
+            viewModel.hideHintChalk()
         }
     )
 }
@@ -54,7 +57,8 @@ private fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
     tickerState: State<TickerState>,
     onBackClick: () -> Unit = {},
-    onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {}
+    onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {},
+    onDragStart: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -75,14 +79,14 @@ private fun LearnNumbersScreenUI(
             onClick = onBackClick
         )
 
-        TimeTicker(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(32.dp),
-            state = tickerState
-        )
-
         ChalkBoard {
+            TimeTicker(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(32.dp),
+                state = tickerState
+            )
+
             Row(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -93,7 +97,7 @@ private fun LearnNumbersScreenUI(
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    if (uiState.playState != PlayState.START){
+                    if (uiState.playState != PlayState.START) {
                         Box {
                             Text(
                                 modifier = Modifier
@@ -144,9 +148,16 @@ private fun LearnNumbersScreenUI(
                             DrawingArea(
                                 number = uiState.currentNumber,
                                 modifier = Modifier,
+                                resetCanvas = false,
                                 onDragEnd = onDragEnd,
-                                resetCanvas = false
+                                onDragStart = onDragStart
                             )
+
+                            if (uiState.showHintChalk) {
+                                HintChalk(
+                                    modifier = Modifier.align(Alignment.BottomCenter)
+                                )
+                            }
                         }
 
                         PlayState.NONE -> {}

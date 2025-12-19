@@ -89,9 +89,13 @@ class LearnNumbersViewModel @Inject constructor(
         countDownTimer?.start()
     }
 
+    fun hideHintChalk(){
+        _uiState.update { it.copy(showHintChalk = false) }
+    }
+
     private suspend fun setTickerState(playState: PlayState) {
         _uiState.update {
-            it.copy(playState = playState)
+            it.copy(playState = playState, showHintChalk = true)
         }
         startCountDown(playState.duration)
         delay(playState.duration)
@@ -110,6 +114,7 @@ data class LearnNumbersUIState(
     val currentNumber: Int = numberIteration.next(),
     val playState: PlayState = PlayState.NONE,
     val showSuccessLottie: Boolean = false,
+    val showHintChalk: Boolean = true
 )
 
 data class TickerState(

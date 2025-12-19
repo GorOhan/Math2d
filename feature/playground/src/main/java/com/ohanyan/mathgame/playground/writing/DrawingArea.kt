@@ -25,11 +25,11 @@ import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 fun DrawingArea(
     number: Int,
     modifier: Modifier,
+    onDragStart: () -> Unit = {},
     onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {},
     resetCanvas: Boolean = false,
 ) {
     val context = LocalContext.current
-
 
     val icChalk = context.getDrawable(com.ohanyan.mathgame.ui.R.drawable.ic_chalk)?.toBitmap()
 
@@ -56,6 +56,7 @@ fun DrawingArea(
                 .pointerInput(Unit) {
                     detectDragGestures(
                         onDragStart = { offset ->
+                            onDragStart()
                             strokes.clear()
                             strokeBuilder = Ink.Stroke.builder()
                             path.reset()
