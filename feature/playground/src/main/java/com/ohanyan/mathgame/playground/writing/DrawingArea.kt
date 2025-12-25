@@ -37,14 +37,14 @@ fun DrawingArea(
     val lastPosition = remember { mutableStateOf<Offset?>(null) }
     val chalkColor = MathAppTheme.colors.coreWhite
 
-    val strokes = remember { mutableListOf<Ink.Stroke>() }
+   // val strokes = remember { mutableListOf<Ink.Stroke>() }
     var strokeBuilder = remember { Ink.Stroke.builder() }
     val chalkPosition = remember { mutableStateOf(Offset.Zero) }
 
     // Reset canvas when resetCanvas is true
     if (resetCanvas) {
         path.reset()
-        strokes.clear()
+      //  strokes.clear()
         strokeBuilder = Ink.Stroke.builder()
         lastPosition.value = null
     }
@@ -57,7 +57,7 @@ fun DrawingArea(
                     detectDragGestures(
                         onDragStart = { offset ->
                             onDragStart()
-                            strokes.clear()
+                                //strokes.clear()
                             strokeBuilder = Ink.Stroke.builder()
                             path.reset()
 
@@ -92,14 +92,14 @@ fun DrawingArea(
                         onDragEnd = {
                             chalkPosition.value = Offset.Zero
 
-                            strokes.add(strokeBuilder.build())
-                            println("mypath $strokes")
-                            onDragEnd(strokes)
+                           // strokes.add()
+                            println("mypath ${strokeBuilder.build()}")
+                            onDragEnd(listOf(strokeBuilder.build()))
 
                             //todo should be cleared after recognize to  immediately
-                            strokes.clear()
-                            strokeBuilder = Ink.Stroke.builder()
-                            path.reset()
+                           // strokes.clear()
+                          //  strokeBuilder = Ink.Stroke.builder()
+                          //  path.reset()
 
                         }
                     )

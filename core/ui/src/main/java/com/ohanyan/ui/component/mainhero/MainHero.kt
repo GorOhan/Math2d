@@ -57,3 +57,38 @@ fun MathConfetti(
         modifier = modifier
     )
 }
+
+@Composable
+fun Three(
+    modifier: Modifier = Modifier,
+    number: Int = 0,
+
+    ) {
+
+    val res = when (number) {
+        0 -> R.raw.six
+        1 -> R.raw.three
+        2 -> R.raw.two
+        3 -> R.raw.three
+        4 -> R.raw.four
+        5 -> R.raw.five
+        6 -> R.raw.six
+        else -> R.raw.three
+    }
+    val preloaderLottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(res)
+    )
+
+    val preloaderProgress by animateLottieCompositionAsState(
+        preloaderLottieComposition,
+        iterations = 1,
+        isPlaying = true
+    )
+
+
+    LottieAnimation(
+        composition = preloaderLottieComposition,
+        progress = { preloaderProgress },
+        modifier = modifier
+    )
+}
