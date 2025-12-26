@@ -27,9 +27,9 @@ import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.MainHero
-import com.ohanyan.ui.component.mainhero.Three
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
+import com.ohanyan.ui.component.numberhint.NumberHint
 import com.ohanyan.ui.component.success.SuccessLottie
 
 @Composable
@@ -81,13 +81,6 @@ private fun LearnNumbersScreenUI(
         )
 
         ChalkBoard {
-            TimeTicker(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(32.dp),
-                state = tickerState
-            )
-
             Row(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -139,13 +132,9 @@ private fun LearnNumbersScreenUI(
                                     .fillMaxHeight()
 
                             ) {
-                                Three(
+                                NumberHint(
                                    number = uiState.currentNumber
                                 )
-//                                HintDigitAnimation(
-//                                    number = uiState.currentNumber,
-//                                    modifier = Modifier,
-//                                )
                             }
                         }
 
@@ -174,6 +163,13 @@ private fun LearnNumbersScreenUI(
                 modifier = Modifier.fillMaxSize()
             )
         }
+
+        TimeTicker(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(32.dp),
+            state = tickerState
+        )
 
         Column(
             modifier = Modifier

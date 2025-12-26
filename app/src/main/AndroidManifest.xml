@@ -17,7 +17,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="landscape"
             android:theme="@style/Theme.Math"
             tools:ignore="DiscouragedApi">
             <intent-filter>

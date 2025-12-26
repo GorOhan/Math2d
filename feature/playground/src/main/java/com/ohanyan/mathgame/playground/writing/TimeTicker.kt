@@ -25,17 +25,17 @@ fun TimeTicker(
 
     Box(
         modifier = modifier
-            .size(64.dp),
+            .size(72.dp),
         contentAlignment = Alignment.Center
 
     ) {
-        Canvas(modifier = Modifier.size(60.dp)) {
+        Canvas(modifier = Modifier.size(70.dp)) {
             drawArc(
                 color = yellow,
                 -45f,
                 360 * state.value.tickerProgress,
                 useCenter = false,
-                style = Stroke(3.dp.toPx(), cap = StrokeCap.Round)
+                style = Stroke(4.dp.toPx(), cap = StrokeCap.Round)
             )
         }
 
@@ -45,7 +45,7 @@ fun TimeTicker(
                 .align(Alignment.Center),
             textAlign = TextAlign.Center,
             style = MathAppTheme.typography.display,
-            fontSize = 32.sp,
+            fontSize = 38.sp,
             color = MathAppTheme.colors.coreYellow
         )
     }
