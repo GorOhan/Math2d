@@ -26,7 +26,7 @@ fun DrawingArea(
     path: State<Path>,
     number: Int,
     modifier: Modifier,
-    addPoint: (offsetX: Float, offsetY: Float) -> Unit = { _, _ -> }
+    addPoint: (offsetX: Float, offsetY: Float, action: PathAction) -> Unit = { _, _,_ -> }
 ) {
     val context = LocalContext.current
 
@@ -44,7 +44,7 @@ fun DrawingArea(
                 .pointerInput(Unit) {
                     detectDragGestures(
                         onDragStart = { offset ->
-                            addPoint(offset.x, offset.y)
+                            addPoint(offset.x, offset.y, PathAction.MOVE)
                             lastPosition.value = offset
                             chalkPosition.value = offset
 
@@ -53,14 +53,13 @@ fun DrawingArea(
                         onDrag = { change, _ ->
                             change.consume()
                             lastPosition.value?.let {
-                                addPoint(change.position.x, change.position.y)
+                                addPoint(change.position.x, change.position.y, PathAction.LINE)
                             }
                             lastPosition.value = change.position
                             chalkPosition.value = change.position
                         },
                         onDragEnd = {
                             chalkPosition.value = Offset.Zero
-
                         }
                     )
                 }
@@ -86,4 +85,9 @@ fun DrawingArea(
             }
         }
     }
+}
+
+enum class PathAction {
+    MOVE,
+    LINE
 }

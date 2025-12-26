@@ -30,7 +30,7 @@ class LearnNumbersViewModel @Inject constructor(
 
     private var strokeBuilder = Ink.Stroke.builder()
 
-    private val currentPoints = mutableListOf<Ink.Point>()
+    private val currentPoints = mutableListOf<Pair<Ink.Point, PathAction>>()
     private var countDownTimer: CountDownTimer? = null
 
 
@@ -45,29 +45,37 @@ class LearnNumbersViewModel @Inject constructor(
             currentPoints.removeAt(currentPoints.lastIndex)
             _path.value.reset()
             currentPoints.forEachIndexed { index, it ->
-                strokeBuilder.addPoint(it)
-                if (index == 0) {
-                    _path.value.moveTo(it.x, it.y)
-                } else {
-                    _path.value.lineTo(it.x, it.y)
+                strokeBuilder.addPoint(it.first)
+                when (it.second) {
+                    PathAction.MOVE -> {
+                        _path.value.moveTo(it.first.x, it.first.y)
+                    }
+                    PathAction.LINE -> {
+                        _path.value.lineTo(it.first.x, it.first.y)
+                    }
                 }
             }
         }
     }
 
-    fun addPoints(offsetX: Float, offsetY: Float) {
-        if (currentPoints.isEmpty()) {
-            hideHintChalk()
-            _path.value.moveTo(offsetX, offsetY)
-        } else {
-            _path.value.lineTo(offsetX, offsetY)
+    fun addPoints(offsetX: Float, offsetY: Float, action: PathAction) {
+        when (action) {
+            PathAction.MOVE -> {
+                hideHintChalk()
+                _path.value.moveTo(offsetX, offsetY)
+            }
+
+            PathAction.LINE -> {
+                _path.value.lineTo(offsetX, offsetY)
+
+            }
         }
         val item = Ink.Point.create(
             offsetX,
             offsetY,
             System.currentTimeMillis()
         )
-        currentPoints.add(item)
+        currentPoints.add(Pair(item, action))
         strokeBuilder.addPoint(item)
     }
 

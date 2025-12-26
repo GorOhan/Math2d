@@ -27,7 +27,7 @@ class MLKitHelper @Inject constructor() {
             .addOnSuccessListener {
                 println("MLKitHelper MODEL DOWNLOADED")
             }
-            .addOnFailureListener { e: Exception ->
+            .addOnFailureListener { _: Exception ->
                 println("MLKitHelper ERROR DOWNLOADED")
             }
 

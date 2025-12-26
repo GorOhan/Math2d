@@ -61,7 +61,7 @@ private fun LearnNumbersScreenUI(
     path: State<Path>,
     onBackClick: () -> Unit = {},
     onUndo: () -> Unit = {},
-    addPoint: (offsetX: Float, offsetY: Float) -> Unit = { _, _ -> }
+    addPoint: (offsetX: Float, offsetY: Float,pathAction: PathAction) -> Unit = { _, _, _ -> }
 ) {
     Box(
         modifier = Modifier
