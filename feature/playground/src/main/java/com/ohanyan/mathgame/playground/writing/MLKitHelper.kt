@@ -38,10 +38,10 @@ class MLKitHelper @Inject constructor() {
     }
 
     fun recognizeDrawing(
-        strokes: List<Ink.Stroke>,
+        strokes: Ink.Stroke,
         onResult: (String) -> Unit
     ) {
-        val ink = Ink.builder().apply { strokes.forEach { addStroke(it) } }.build()
+        val ink = Ink.builder().apply { addStroke(strokes) }.build()
         recognizer.recognize(ink)
             .addOnSuccessListener { result ->
                 val recognizedText = result.candidates.firstOrNull()?.text ?: "Unrecognized"

@@ -69,14 +69,12 @@ private fun MenuScreenUI(
     ) {
         ActionButton(
             modifier = Modifier.align(Alignment.TopStart),
-            visible = true,
             actionType = ActionType.PREVIOUS,
             onClick = onBackClick
         )
 
         ActionButton(
             modifier = Modifier.align(Alignment.TopEnd),
-            visible = true,
             actionType = ActionType.SETTINGS,
             onClick = onSettingsClick
         )

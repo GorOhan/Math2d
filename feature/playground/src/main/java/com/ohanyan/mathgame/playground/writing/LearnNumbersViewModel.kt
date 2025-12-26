@@ -1,6 +1,7 @@
 package com.ohanyan.mathgame.playground.writing
 
 import android.os.CountDownTimer
+import androidx.compose.ui.graphics.Path
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.digitalink.Ink
@@ -24,22 +25,64 @@ class LearnNumbersViewModel @Inject constructor(
     private val _tickerState = MutableStateFlow(TickerState())
     val tickerState = _tickerState.asStateFlow()
 
-    private var countDownTimer : CountDownTimer? = null
+    private val _path = MutableStateFlow(Path())
+    val path = _path.asStateFlow()
+
+    private var strokeBuilder = Ink.Stroke.builder()
+
+    private val currentPoints = mutableListOf<Ink.Point>()
+    private var countDownTimer: CountDownTimer? = null
 
 
     init {
         learnNextNumber()
     }
 
+
+    fun undoDrawing() {
+        viewModelScope.launch {
+            strokeBuilder = Ink.Stroke.builder()
+            currentPoints.removeAt(currentPoints.lastIndex)
+            _path.value.reset()
+            currentPoints.forEachIndexed { index, it ->
+                strokeBuilder.addPoint(it)
+                if (index == 0) {
+                    _path.value.moveTo(it.x, it.y)
+                } else {
+                    _path.value.lineTo(it.x, it.y)
+                }
+            }
+        }
+    }
+
+    fun addPoints(offsetX: Float, offsetY: Float) {
+        if (currentPoints.isEmpty()) {
+            hideHintChalk()
+            _path.value.moveTo(offsetX, offsetY)
+        } else {
+            _path.value.lineTo(offsetX, offsetY)
+        }
+        val item = Ink.Point.create(
+            offsetX,
+            offsetY,
+            System.currentTimeMillis()
+        )
+        currentPoints.add(item)
+        strokeBuilder.addPoint(item)
+    }
+
     fun learnNextNumber() {
         viewModelScope.launch {
+            strokeBuilder = Ink.Stroke.builder()
+            currentPoints.clear()
+            _path.value.reset()
             setTickerState(playState = PlayState.START)
             setTickerState(playState = PlayState.HINT)
             setTickerState(playState = PlayState.DRAW)
         }
     }
 
-    fun afterDraw(strokes: List<Ink.Stroke>) {
+    private fun afterDraw(strokes: Ink.Stroke) {
         mlKitHelper.recognizeDrawing(strokes) { recognizedText ->
             viewModelScope.launch {
                 delay(1000L)
@@ -48,7 +91,6 @@ class LearnNumbersViewModel @Inject constructor(
                     _uiState.update { it.copy(showSuccessLottie = true) }
                     delay(5500)
                     _uiState.update { it.copy(showSuccessLottie = false) }
-
 
                     if (uiState.value.numberIteration.hasNext()) {
                         _uiState.update {
@@ -62,14 +104,12 @@ class LearnNumbersViewModel @Inject constructor(
                         }
                     }
                 }
-
                 learnNextNumber()
-
             }
         }
     }
 
-    private fun startCountDown(mills: Long) {
+    private fun startCountDown(mills: Long, playState: PlayState, onFinish: () -> Unit) {
         countDownTimer?.cancel()
         countDownTimer = object : CountDownTimer(mills, 10) {
             override fun onTick(millisUntilFinished: Long) {
@@ -82,6 +122,9 @@ class LearnNumbersViewModel @Inject constructor(
             }
 
             override fun onFinish() {
+                if (playState == PlayState.DRAW) {
+                    onFinish()
+                }
                 this.cancel()
             }
         }
@@ -89,7 +132,7 @@ class LearnNumbersViewModel @Inject constructor(
         countDownTimer?.start()
     }
 
-    fun hideHintChalk(){
+    private fun hideHintChalk() {
         _uiState.update { it.copy(showHintChalk = false) }
     }
 
@@ -97,7 +140,11 @@ class LearnNumbersViewModel @Inject constructor(
         _uiState.update {
             it.copy(playState = playState, showHintChalk = true)
         }
-        startCountDown(playState.duration)
+
+        startCountDown(playState.duration, playState = playState) {
+            afterDraw(strokeBuilder.build())
+        }
+
         delay(playState.duration)
     }
 
@@ -125,6 +172,6 @@ data class TickerState(
 enum class PlayState(val duration: Long) {
     START(4_000),
     HINT(7_500),
-    DRAW(29_000),
+    DRAW(25_000),
     NONE(0),
 }

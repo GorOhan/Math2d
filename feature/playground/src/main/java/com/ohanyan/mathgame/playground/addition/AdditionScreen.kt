@@ -106,7 +106,6 @@ fun AdditionScreenUI(
     ) {
         ActionButton(
             modifier = Modifier.align(Alignment.TopStart),
-            visible = true,
             actionType = ActionType.PREVIOUS,
             onClick = onBackClick
         )

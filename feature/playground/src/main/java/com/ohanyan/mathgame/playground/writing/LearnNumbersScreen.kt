@@ -1,5 +1,6 @@
 package com.ohanyan.mathgame.playground.writing
 
+import androidx.compose.ui.graphics.Path
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.mlkit.vision.digitalink.Ink
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
@@ -31,6 +31,7 @@ import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
 import com.ohanyan.ui.component.numberhint.NumberHint
 import com.ohanyan.ui.component.success.SuccessLottie
+import com.ohanyan.ui.component.undo.UndoButton
 
 @Composable
 internal fun LearnNumbersScreen(
@@ -39,27 +40,28 @@ internal fun LearnNumbersScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val tickerState = viewModel.tickerState.collectAsStateWithLifecycle()
+    val path = viewModel.path.collectAsStateWithLifecycle()
 
     LearnNumbersScreenUI(
         uiState = uiState,
         tickerState = tickerState,
         onBackClick = onBackClick,
-        onDragEnd = {
-            viewModel.afterDraw(it)
-        },
-        onDragStart = {
-            viewModel.hideHintChalk()
-        }
-    )
+
+        path = path,
+        onUndo = viewModel::undoDrawing,
+        addPoint = viewModel::addPoints,
+
+        )
 }
 
 @Composable
 private fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
     tickerState: State<TickerState>,
+    path: State<Path>,
     onBackClick: () -> Unit = {},
-    onDragEnd: (strokes: List<Ink.Stroke>) -> Unit = {},
-    onDragStart: () -> Unit = {}
+    onUndo: () -> Unit = {},
+    addPoint: (offsetX: Float, offsetY: Float) -> Unit = { _, _ -> }
 ) {
     Box(
         modifier = Modifier
@@ -75,7 +77,6 @@ private fun LearnNumbersScreenUI(
     ) {
         ActionButton(
             modifier = Modifier.align(Alignment.TopStart),
-            visible = true,
             actionType = ActionType.PREVIOUS,
             onClick = onBackClick
         )
@@ -133,7 +134,7 @@ private fun LearnNumbersScreenUI(
 
                             ) {
                                 NumberHint(
-                                   number = uiState.currentNumber
+                                    number = uiState.currentNumber
                                 )
                             }
                         }
@@ -142,9 +143,8 @@ private fun LearnNumbersScreenUI(
                             DrawingArea(
                                 number = uiState.currentNumber,
                                 modifier = Modifier,
-                                resetCanvas = false,
-                                onDragEnd = onDragEnd,
-                                onDragStart = onDragStart
+                                path = path,
+                                addPoint = addPoint,
                             )
 
                             if (uiState.showHintChalk) {
@@ -152,6 +152,13 @@ private fun LearnNumbersScreenUI(
                                     modifier = Modifier.align(Alignment.BottomCenter)
                                 )
                             }
+
+                            UndoButton(
+                                modifier = Modifier
+                                    .padding(24.dp)
+                                    .align(Alignment.BottomStart),
+                                onClick = onUndo
+                            )
                         }
 
                         PlayState.NONE -> {}
@@ -190,4 +197,3 @@ private fun LearnNumbersScreenUI(
 fun LearnNumbersScreenUIPreview() {
     //LearnNumbersScreenUI(LearnNumbersUIState())
 }
-

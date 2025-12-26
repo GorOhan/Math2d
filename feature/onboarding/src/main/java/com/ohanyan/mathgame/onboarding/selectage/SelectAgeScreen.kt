@@ -62,7 +62,6 @@ private fun SelectAgeScreenUI(
 
         ActionButton(
             modifier = Modifier.align(Alignment.BottomEnd),
-            visible = chooseAgeUIState.selectedAge.isNotEmpty(),
             onClick = onNextClick
         )
 
