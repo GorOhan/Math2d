@@ -33,12 +33,6 @@ class LearnNumbersViewModel @Inject constructor(
     private val currentPoints = mutableListOf<Pair<Ink.Point, PathAction>>()
     private var countDownTimer: CountDownTimer? = null
 
-
-    init {
-        learnNextNumber()
-    }
-
-
     fun undoDrawing() {
         viewModelScope.launch {
             strokeBuilder = Ink.Stroke.builder()

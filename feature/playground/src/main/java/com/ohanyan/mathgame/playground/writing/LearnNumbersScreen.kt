@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.ui.component.PlayGame
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.EraseEffect
 import com.ohanyan.ui.component.mainhero.MainHero
@@ -51,10 +52,10 @@ internal fun LearnNumbersScreen(
         tickerState = tickerState,
         onBackClick = onBackClick,
         path = path,
+        onStartGame = viewModel::learnNextNumber,
         onUndo = viewModel::undoDrawing,
-        addPoint = viewModel::addPoints,
-
-        )
+        addPoint = viewModel::addPoints
+    )
 }
 
 @Composable
@@ -62,6 +63,7 @@ private fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
     tickerState: State<TickerState>,
     path: State<Path>,
+    onStartGame: () -> Unit = {},
     onBackClick: () -> Unit = {},
     onUndo: () -> Unit = {},
     addPoint: (offsetX: Float, offsetY: Float, pathAction: PathAction) -> Unit = { _, _, _ -> }
@@ -95,7 +97,8 @@ private fun LearnNumbersScreenUI(
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    if (uiState.playState != PlayState.START) {
+                    if (uiState.playState != PlayState.START
+                        && uiState.playState != PlayState.NONE) {
                         Box {
                             Text(
                                 modifier = Modifier
@@ -128,7 +131,6 @@ private fun LearnNumbersScreenUI(
                         }
 
                         PlayState.HINT -> {
-
                             Box(
                                 modifier = Modifier
                                     .align(Alignment.Center)
@@ -177,7 +179,14 @@ private fun LearnNumbersScreenUI(
                             }
                         }
 
-                        PlayState.NONE -> {}
+                        PlayState.NONE -> {
+                            PlayGame(
+                                modifier = Modifier
+                                    .padding(24.dp)
+                                    .align(Alignment.Center),
+                                onClick = onStartGame
+                            )
+                        }
                     }
                 }
             }
