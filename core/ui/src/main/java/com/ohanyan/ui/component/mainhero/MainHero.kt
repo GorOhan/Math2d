@@ -2,6 +2,7 @@ package com.ohanyan.ui.component.mainhero
 
 import androidx.annotation.RawRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.airbnb.lottie.compose.LottieAnimation
@@ -54,6 +55,41 @@ fun MathConfetti(
     LottieAnimation(
         composition = preloaderLottieComposition,
         progress = { preloaderProgress },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun EraseEffect(
+    modifier: Modifier = Modifier,
+    @RawRes lottieRes: Int = R.raw.fastclean,
+    onFinish: () -> Unit = {},
+    onUndo: () -> Unit = {}
+) {
+    val preloaderLottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(lottieRes)
+    )
+
+    val preloaderProgress by animateLottieCompositionAsState(
+        preloaderLottieComposition,
+        iterations = 1,
+        isPlaying = true
+    )
+
+    LaunchedEffect(preloaderProgress) {
+        if (preloaderProgress == 1f) {
+            onFinish()
+        }
+        if (preloaderProgress >= .6f) {
+            onUndo()
+        }
+    }
+
+    LottieAnimation(
+        composition = preloaderLottieComposition,
+        progress = {
+            preloaderProgress
+        },
         modifier = modifier
     )
 }

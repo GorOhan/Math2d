@@ -31,9 +31,8 @@ fun UndoButton(
             .padding(),
     ) {
         Image(
-            modifier = Modifier
-                .padding(32.dp),
-            painter = painterResource(R.drawable.ic_undo),
+            modifier = Modifier.padding(horizontal = 32.dp),
+            painter = painterResource(R.drawable.ic_clean),
             contentScale = ContentScale.FillWidth,
             contentDescription = null,
         )

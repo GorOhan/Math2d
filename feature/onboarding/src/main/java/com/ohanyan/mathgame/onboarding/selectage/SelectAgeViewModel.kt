@@ -19,7 +19,6 @@ class SelectAgeViewModel @Inject constructor() : ViewModel() {
         _uiState.update {
             it.copy(
                 ageOptions = listOf(
-                    AgeItem("2", Random.nextInt(0, 66), AgeColor.RED),
                     AgeItem("3", Random.nextInt(44, 88), AgeColor.BLUE),
                     AgeItem("4", Random.nextInt(44, 88), AgeColor.YELLOW),
                     AgeItem("5", Random.nextInt(0, 24), AgeColor.GREEN),

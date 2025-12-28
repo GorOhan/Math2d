@@ -15,6 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -26,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
+import com.ohanyan.ui.component.mainhero.EraseEffect
 import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
@@ -46,7 +50,6 @@ internal fun LearnNumbersScreen(
         uiState = uiState,
         tickerState = tickerState,
         onBackClick = onBackClick,
-
         path = path,
         onUndo = viewModel::undoDrawing,
         addPoint = viewModel::addPoints,
@@ -61,7 +64,7 @@ private fun LearnNumbersScreenUI(
     path: State<Path>,
     onBackClick: () -> Unit = {},
     onUndo: () -> Unit = {},
-    addPoint: (offsetX: Float, offsetY: Float,pathAction: PathAction) -> Unit = { _, _, _ -> }
+    addPoint: (offsetX: Float, offsetY: Float, pathAction: PathAction) -> Unit = { _, _, _ -> }
 ) {
     Box(
         modifier = Modifier
@@ -153,12 +156,25 @@ private fun LearnNumbersScreenUI(
                                 )
                             }
 
-                            UndoButton(
-                                modifier = Modifier
-                                    .padding(24.dp)
-                                    .align(Alignment.BottomStart),
-                                onClick = onUndo
-                            )
+                            var showEraser by remember { mutableStateOf(false) }
+                            if (showEraser) {
+                                EraseEffect(
+                                    modifier = Modifier.fillMaxSize(),
+                                    onUndo = { onUndo() },
+                                    onFinish = { showEraser = false }
+                                )
+                            }
+
+                            if (!showEraser) {
+                                UndoButton(
+                                    modifier = Modifier
+                                        .padding(24.dp)
+                                        .align(Alignment.BottomStart),
+                                    onClick = {
+                                        showEraser = true
+                                    }
+                                )
+                            }
                         }
 
                         PlayState.NONE -> {}

@@ -42,19 +42,21 @@ class LearnNumbersViewModel @Inject constructor(
     fun undoDrawing() {
         viewModelScope.launch {
             strokeBuilder = Ink.Stroke.builder()
-            currentPoints.removeAt(currentPoints.lastIndex)
+            currentPoints.clear()
             _path.value.reset()
-            currentPoints.forEachIndexed { index, it ->
-                strokeBuilder.addPoint(it.first)
-                when (it.second) {
-                    PathAction.MOVE -> {
-                        _path.value.moveTo(it.first.x, it.first.y)
-                    }
-                    PathAction.LINE -> {
-                        _path.value.lineTo(it.first.x, it.first.y)
-                    }
-                }
-            }
+//            currentPoints.removeAt(currentPoints.lastIndex)
+//            _path.value.reset()
+//            currentPoints.forEachIndexed { index, it ->
+//                strokeBuilder.addPoint(it.first)
+//                when (it.second) {
+//                    PathAction.MOVE -> {
+//                        _path.value.moveTo(it.first.x, it.first.y)
+//                    }
+//                    PathAction.LINE -> {
+//                        _path.value.lineTo(it.first.x, it.first.y)
+//                    }
+//                }
+//            }
         }
     }
 
