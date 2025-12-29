@@ -9,12 +9,15 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -30,12 +33,13 @@ fun PlayGame(
     val pressed by interactionSource.collectIsPressedAsState()
 
     val scale by animateFloatAsState(
-        targetValue = if (pressed) 0.8f else 1f,
+        targetValue = if (pressed) 0.6f else 1f,
         animationSpec = tween(
-            durationMillis = 120,
+            durationMillis = 160,
             easing = FastOutSlowInEasing
         ),
-        label = "pressScale"
+        label = "pressScale",
+        finishedListener = { onClick() }
     )
 
     Column(
@@ -47,12 +51,12 @@ fun PlayGame(
             modifier = Modifier
                 .scale(scale)
                 .padding(horizontal = 32.dp)
+                .shadow(6.dp, shape = CircleShape)
                 .clickable(
+                    onClick = {},
                     interactionSource = interactionSource,
                     indication = null,
-                ) {
-                    onClick()
-                },
+                ),
             painter = painterResource(R.drawable.ic_play),
             contentScale = ContentScale.FillWidth,
             contentDescription = null,
