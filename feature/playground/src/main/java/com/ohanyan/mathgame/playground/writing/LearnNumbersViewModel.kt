@@ -4,7 +4,7 @@ import android.os.CountDownTimer
 import androidx.compose.ui.graphics.Path
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.mlkit.vision.digitalink.Ink
+import com.google.mlkit.vision.digitalink.recognition.Ink
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -86,8 +86,8 @@ class LearnNumbersViewModel @Inject constructor(
         }
     }
 
-    private fun afterDraw(strokes: Ink.Stroke) {
-        mlKitHelper.recognizeDrawing(strokes) { recognizedText ->
+    fun afterDraw() {
+        mlKitHelper.recognizeDrawing(strokeBuilder.build()) { recognizedText ->
             viewModelScope.launch {
                 delay(1000L)
                 val isCorrect = recognizedText == uiState.value.currentNumber.toString()
@@ -146,7 +146,7 @@ class LearnNumbersViewModel @Inject constructor(
         }
 
         startCountDown(playState.duration, playState = playState) {
-            afterDraw(strokeBuilder.build())
+            afterDraw()
         }
 
         delay(playState.duration)

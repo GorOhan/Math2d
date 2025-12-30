@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.ui.component.NextNumber
 import com.ohanyan.ui.component.PlayGame
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.EraseEffect
@@ -53,6 +54,7 @@ internal fun LearnNumbersScreen(
         onBackClick = onBackClick,
         path = path,
         onStartGame = viewModel::learnNextNumber,
+        afterDraw = viewModel::afterDraw,
         onUndo = viewModel::undoDrawing,
         addPoint = viewModel::addPoints
     )
@@ -64,6 +66,7 @@ private fun LearnNumbersScreenUI(
     tickerState: State<TickerState>,
     path: State<Path>,
     onStartGame: () -> Unit = {},
+    afterDraw: () -> Unit = {},
     onBackClick: () -> Unit = {},
     onUndo: () -> Unit = {},
     addPoint: (offsetX: Float, offsetY: Float, pathAction: PathAction) -> Unit = { _, _, _ -> }
@@ -98,7 +101,8 @@ private fun LearnNumbersScreenUI(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     if (uiState.playState != PlayState.START
-                        && uiState.playState != PlayState.NONE) {
+                        && uiState.playState != PlayState.NONE
+                    ) {
                         Box {
                             Text(
                                 modifier = Modifier
@@ -175,6 +179,15 @@ private fun LearnNumbersScreenUI(
                                     onClick = {
                                         showEraser = true
                                     }
+                                )
+                            }
+
+                            if (!path.value.isEmpty) {
+                                NextNumber(
+                                    modifier = Modifier
+                                        .padding(24.dp)
+                                        .align(Alignment.BottomEnd),
+                                    onClick = afterDraw
                                 )
                             }
                         }
