@@ -99,7 +99,7 @@ fun NextNumber(
                     interactionSource = interactionSource,
                     indication = null,
                 ),
-            painter = painterResource(R.drawable.ic_duck),
+            painter = painterResource(R.drawable.ic_check),
             contentScale = ContentScale.FillWidth,
             contentDescription = null,
         )

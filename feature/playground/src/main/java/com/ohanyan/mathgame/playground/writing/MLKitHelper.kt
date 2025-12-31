@@ -45,11 +45,7 @@ class MLKitHelper @Inject constructor() {
         recognizer.recognize(ink)
             .addOnSuccessListener { result ->
                 val recognizedText = result.candidates.firstOrNull()?.text ?: "Unrecognized"
-                if (recognizedText == "o") {
-                    onResult("0")
-                } else {
-                    onResult(recognizedText)
-                }
+                onResult(recognizedText)
             }
             .addOnFailureListener { e ->
                 onResult("Failed: ${e.message}")

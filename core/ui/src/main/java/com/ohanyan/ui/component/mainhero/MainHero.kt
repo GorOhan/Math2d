@@ -1,10 +1,12 @@
 package com.ohanyan.ui.component.mainhero
 
 import androidx.annotation.RawRes
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -92,4 +94,44 @@ fun EraseEffect(
         },
         modifier = modifier
     )
+}
+
+@Composable
+fun DogAnimate(
+    modifier: Modifier = Modifier,
+    isVisible: Boolean = false,
+    @RawRes lottieRes: Int = R.raw.dog,
+    onFinish: () -> Unit = {},
+    onUndo: () -> Unit = {}
+) {
+    val preloaderLottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(lottieRes)
+    )
+
+    val preloaderProgress by animateLottieCompositionAsState(
+        preloaderLottieComposition,
+        iterations = 1,
+        isPlaying = isVisible
+    )
+
+
+    LaunchedEffect(preloaderProgress) {
+        if (preloaderProgress == 1f) {
+            onFinish()
+        }
+        if (preloaderProgress >= .6f) {
+            onUndo()
+        }
+    }
+
+
+    if (isVisible) {
+        LottieAnimation(
+            composition = preloaderLottieComposition,
+            progress = {
+                preloaderProgress
+            },
+            modifier = modifier.size(124.dp),
+        )
+    }
 }

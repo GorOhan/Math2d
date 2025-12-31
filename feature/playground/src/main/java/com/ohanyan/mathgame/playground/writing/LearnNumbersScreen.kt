@@ -31,6 +31,7 @@ import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.ui.component.NextNumber
 import com.ohanyan.ui.component.PlayGame
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
+import com.ohanyan.ui.component.mainhero.DogAnimate
 import com.ohanyan.ui.component.mainhero.EraseEffect
 import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.nextbutton.ActionButton
@@ -153,6 +154,7 @@ private fun LearnNumbersScreenUI(
                                 number = uiState.currentNumber,
                                 modifier = Modifier,
                                 path = path,
+                                shouldShake = uiState.showErrorLottie,
                                 addPoint = addPoint,
                             )
 
@@ -206,6 +208,12 @@ private fun LearnNumbersScreenUI(
             SuccessLottie(
                 isVisible = uiState.showSuccessLottie,
                 modifier = Modifier.fillMaxSize()
+            )
+
+            DogAnimate(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd),
+                isVisible = uiState.showErrorLottie
             )
         }
 

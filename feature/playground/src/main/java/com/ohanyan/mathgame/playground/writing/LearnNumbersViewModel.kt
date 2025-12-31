@@ -107,8 +107,13 @@ class LearnNumbersViewModel @Inject constructor(
                             )
                         }
                     }
+                    learnNextNumber()
+                } else {
+                    _uiState.update { it.copy(showErrorLottie = true) }
+                    delay(4000)
+                    _uiState.update { it.copy(showErrorLottie = false) }
+                    learnNextNumber()
                 }
-                learnNextNumber()
             }
         }
     }
@@ -165,6 +170,7 @@ data class LearnNumbersUIState(
     val currentNumber: Int = numberIteration.next(),
     val playState: PlayState = PlayState.NONE,
     val showSuccessLottie: Boolean = false,
+    val showErrorLottie: Boolean = false,
     val showHintChalk: Boolean = true
 )
 
