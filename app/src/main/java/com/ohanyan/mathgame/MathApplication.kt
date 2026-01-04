@@ -8,6 +8,6 @@ import dagger.hilt.android.HiltAndroidApp
 class MathApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        setAppLanguageBasedOnCountry(this)
+         setAppLanguageBasedOnCountry(this)
     }
 }

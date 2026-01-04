@@ -10,12 +10,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
@@ -27,7 +30,8 @@ import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 @Composable
 fun CoreButton(
     buttonTitle: String = "Button",
-    onClick:()->Unit = {},
+    enable: Boolean = true,
+    onClick: () -> Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
@@ -38,48 +42,100 @@ fun CoreButton(
         label = ""
     )
 
+    val backColor = if (enable) MathAppTheme.colors.mainBlue
+    else MathAppTheme.colors.disableBackground
+
+    val borderColor = if (enable) MathAppTheme.colors.blue30
+    else MathAppTheme.colors.disableBorder
+
     Box(
         modifier = Modifier
-            .scale(scale)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onClick
-            )
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(16.dp),
-                clip = false
-            )
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        MathAppTheme.colors.mainBlue.copy(1f),
-                        MathAppTheme.colors.mainBlue.copy(0.8f)
-                    )
-                ),
-                shape = RoundedCornerShape(16.dp)
-            )
-            .border(
-                border = BorderStroke(
-                    2.dp, color = MathAppTheme.colors.blue30,
-                ),
-                shape = RoundedCornerShape(16.dp)
-            )
-
+            .fillMaxWidth()
+            .wrapContentHeight()
     ) {
-        Text(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-            text = buttonTitle,
-            style = MathAppTheme.typography.h2,
-            color = MathAppTheme.colors.coreWhite
-        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .scale(scale)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = {
+                        if (enable) onClick()
+                    }
+                )
+                .shadow(
+                    elevation = 4.dp,
+                    shape = RoundedCornerShape(16.dp),
+                    clip = false
+                )
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            backColor.copy(1f),
+                            backColor.copy(0.8f)
+                        )
+                    ),
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .border(
+                    border = BorderStroke(
+                        2.dp, color = borderColor,
+                    ),
+                    shape = RoundedCornerShape(16.dp)
+                )
 
+        ) {
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                text = buttonTitle,
+                style = MathAppTheme.typography.h2,
+                color = MathAppTheme.colors.coreWhite
+            )
+        }
+
+        if (!enable) {
+            Box(
+                modifier = Modifier
+                    .padding(start = 144.dp)
+                    .align(Alignment.Center)
+                    .shadow(
+                        elevation = 4.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        clip = false
+                    )
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MathAppTheme.colors.orange.copy(1f),
+                                MathAppTheme.colors.orange.copy(0.8f)
+                            )
+                        ),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .border(
+                        border = BorderStroke(
+                            2.dp, color = MathAppTheme.colors.coreYellow,
+                        ),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+
+            ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    text = "շուտով",
+                    style = MathAppTheme.typography.body,
+                    color = MathAppTheme.colors.coreWhite
+                )
+            }
+        }
     }
 }
 
 @Preview
 @Composable
 fun CoreButtonPreview() {
-    CoreButton()
+    CoreButton(
+        enable = false
+    )
 }

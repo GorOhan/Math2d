@@ -97,16 +97,19 @@ private fun MenuScreenUI(
 
             CoreButton(
                 buttonTitle = stringResource(id = R.string.feature_onboarding_counting),
+                enable = false,
                 onClick = onCountClick
             )
 
             CoreButton(
                 buttonTitle = stringResource(id = R.string.feature_onboarding_adding),
+                enable = false,
                 onClick = onAdditionClick
             )
 
             CoreButton(
                 buttonTitle = stringResource(id = R.string.feature_onboarding_subtracting),
+                enable = false,
                 onClick = { }
             )
 

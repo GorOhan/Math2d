@@ -27,8 +27,8 @@ internal val DarkGreen30 = Color(0xFF394B3C)
 internal val DarkGreen40 = Color(0xFF4F6352)
 internal val DarkGreen80 = Color(0xFFB7CCB8)
 internal val DarkGreen90 = Color(0xFFDBD8D4)
-internal val DarkGreenGray10 = Color(0xFF1A1C1A)
-internal val DarkGreenGray20 = Color(0xFF2F312E)
+internal val DarkGreenGray10 = Color(0xFF8B9EAB)
+internal val DarkGreenGray20 = Color(0xFFABAAAA)
 internal val DarkGreenGray90 = Color(0xFFE2E3DE)
 internal val DarkGreenGray95 = Color(0xFFF0F1EC)
 internal val DarkGreenGray99 = Color(0xFFFBFDF7)
@@ -51,7 +51,7 @@ internal val GreenGray90 = Color(0xFFDDE5DB)
 internal val Orange10 = Color(0xFF380D00)
 internal val Orange20 = Color(0xFF5B1A00)
 internal val Orange30 = Color(0xFF812800)
-internal val Orange40 = Color(0xFFA23F16)
+internal val Orange40 = Color(0xFFFF5D18)
 internal val Orange80 = Color(0xFFFFB59B)
 internal val Orange90 = Color(0xFFFFDBCF)
 internal val Purple10 = Color(0xFF36003C)
@@ -97,7 +97,10 @@ data class MathAppColor(
     val blue30: Color = Blue40,
     val greenBack: Color = ChalkGreen,
     val brownBorder: Color = WoodBrown,
-    val secondaryWhite: Color = ChalkWhite
+    val secondaryWhite: Color = ChalkWhite,
+    val disableBackground: Color = DarkGreenGray20,
+    val disableBorder: Color = DarkGreenGray10,
+    val orange: Color = Orange40
 
-)
+    )
 
