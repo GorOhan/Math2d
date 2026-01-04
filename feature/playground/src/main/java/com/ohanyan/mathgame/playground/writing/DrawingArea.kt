@@ -32,7 +32,7 @@ import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 
 @Composable
 fun DrawingArea(
-    path: State<Path>,
+    path: Path,
     number: Int,
     modifier: Modifier,
     shouldShake: Boolean = false,
@@ -85,7 +85,7 @@ fun DrawingArea(
         ) {
             clipRect {
                 drawPath(
-                    path = path.value,
+                    path = path,
                     color = chalkColor,
                     style = Stroke(width = 18f, cap = StrokeCap.Round, join = StrokeJoin.Round),
                 )

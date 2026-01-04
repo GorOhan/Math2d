@@ -4,6 +4,7 @@ import android.os.CountDownTimer
 import androidx.compose.ui.graphics.Path
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ohanyan.common.musicmanager.MusicManager
 import com.google.mlkit.vision.digitalink.recognition.Ink
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -37,20 +38,10 @@ class LearnNumbersViewModel @Inject constructor(
         viewModelScope.launch {
             strokeBuilder = Ink.Stroke.builder()
             currentPoints.clear()
-            _path.value.reset()
-//            currentPoints.removeAt(currentPoints.lastIndex)
-//            _path.value.reset()
-//            currentPoints.forEachIndexed { index, it ->
-//                strokeBuilder.addPoint(it.first)
-//                when (it.second) {
-//                    PathAction.MOVE -> {
-//                        _path.value.moveTo(it.first.x, it.first.y)
-//                    }
-//                    PathAction.LINE -> {
-//                        _path.value.lineTo(it.first.x, it.first.y)
-//                    }
-//                }
-//            }
+            _path.value = Path()
+            _uiState.update {
+                it.copy(showClearButton = false)
+            }
         }
     }
 
@@ -59,12 +50,14 @@ class LearnNumbersViewModel @Inject constructor(
             PathAction.MOVE -> {
                 hideHintChalk()
                 _path.value.moveTo(offsetX, offsetY)
-            }
+             }
 
             PathAction.LINE -> {
                 _path.value.lineTo(offsetX, offsetY)
-
-            }
+             }
+        }
+        _uiState.update {
+            it.copy(showClearButton = _path.value.isEmpty.not())
         }
         val item = Ink.Point.create(
             offsetX,
@@ -161,6 +154,14 @@ class LearnNumbersViewModel @Inject constructor(
         val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
         return seconds.toString()
     }
+
+    fun onMusicOnChange(isMusicOn: Boolean) {
+        _uiState.update {
+            it.copy(isMusicOn = isMusicOn)
+        }
+
+        MusicManager.checkPlayingState(isMusicOn)
+    }
 }
 
 data class LearnNumbersUIState(
@@ -171,7 +172,9 @@ data class LearnNumbersUIState(
     val playState: PlayState = PlayState.NONE,
     val showSuccessLottie: Boolean = false,
     val showErrorLottie: Boolean = false,
-    val showHintChalk: Boolean = true
+    val showHintChalk: Boolean = true,
+    val isMusicOn: Boolean = MusicManager.isPlaying,
+    val showClearButton: Boolean = false,
 )
 
 data class TickerState(

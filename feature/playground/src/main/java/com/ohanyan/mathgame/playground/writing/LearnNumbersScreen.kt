@@ -37,6 +37,7 @@ import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
 import com.ohanyan.ui.component.numberhint.NumberHint
+import com.ohanyan.ui.component.soundbutton.SoundButton
 import com.ohanyan.ui.component.success.SuccessLottie
 import com.ohanyan.ui.component.undo.UndoButton
 
@@ -47,7 +48,7 @@ internal fun LearnNumbersScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val tickerState = viewModel.tickerState.collectAsStateWithLifecycle()
-    val path = viewModel.path.collectAsStateWithLifecycle()
+    val path by viewModel.path.collectAsStateWithLifecycle()
 
     LearnNumbersScreenUI(
         uiState = uiState,
@@ -57,7 +58,8 @@ internal fun LearnNumbersScreen(
         onStartGame = viewModel::learnNextNumber,
         afterDraw = viewModel::afterDraw,
         onUndo = viewModel::undoDrawing,
-        addPoint = viewModel::addPoints
+        addPoint = viewModel::addPoints,
+        onMusic = viewModel::onMusicOnChange
     )
 }
 
@@ -65,11 +67,12 @@ internal fun LearnNumbersScreen(
 private fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
     tickerState: State<TickerState>,
-    path: State<Path>,
+    path: Path,
     onStartGame: () -> Unit = {},
     afterDraw: () -> Unit = {},
     onBackClick: () -> Unit = {},
     onUndo: () -> Unit = {},
+    onMusic: (Boolean) -> Unit = {},
     addPoint: (offsetX: Float, offsetY: Float, pathAction: PathAction) -> Unit = { _, _, _ -> }
 ) {
     Box(
@@ -88,6 +91,12 @@ private fun LearnNumbersScreenUI(
             modifier = Modifier.align(Alignment.TopStart),
             actionType = ActionType.PREVIOUS,
             onClick = onBackClick
+        )
+
+        SoundButton(
+            modifier = Modifier.align(Alignment.TopEnd),
+            isOn = uiState.isMusicOn,
+            onClick = onMusic
         )
 
         ChalkBoard {
@@ -184,7 +193,7 @@ private fun LearnNumbersScreenUI(
                                 )
                             }
 
-                            if (!path.value.isEmpty) {
+                            if (uiState.showClearButton) {
                                 NextNumber(
                                     modifier = Modifier
                                         .padding(24.dp)

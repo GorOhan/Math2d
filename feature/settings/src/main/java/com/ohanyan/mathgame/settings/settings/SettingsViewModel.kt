@@ -1,7 +1,6 @@
 package com.ohanyan.mathgame.settings.settings
 
 import androidx.lifecycle.ViewModel
-import com.ohanyan.common.languagemanager.LocaleHelper
 import com.ohanyan.common.musicmanager.MusicManager
 import com.ohanyan.mathgame.settings.settings.model.AppLanguage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,8 +10,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
-) : ViewModel() {
+class SettingsViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingScreenUIState(isMusicPlaying = MusicManager.isPlaying))
     val uiState = _uiState.asStateFlow()
