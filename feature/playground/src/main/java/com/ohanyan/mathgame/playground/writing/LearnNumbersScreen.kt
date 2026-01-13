@@ -138,15 +138,41 @@ private fun LearnNumbersScreenUI(
                             Box(
                                 modifier = Modifier.fillMaxSize()
                             ) {
+                                var horizontalBiasNumber by remember { mutableFloatStateOf(-1f) }
+                                LaunchedEffect(Unit) {
+                                    horizontalBiasNumber = 0f
+                                }
+                                val animatedBiasNumber by animateFloatAsState(
+                                    targetValue = horizontalBiasNumber,
+                                    animationSpec = tween(1000),
+                                    label = "NextButtonEntry",
+                                    finishedListener = {}
+                                )
+
+                                var horizontalBias by remember { mutableFloatStateOf(-1f) }
+                                LaunchedEffect(Unit) {
+                                    horizontalBias = 2.5f
+                                }
+                                val animatedBias by animateFloatAsState(
+                                    targetValue = horizontalBias,
+                                    animationSpec = tween(1000),
+                                    label = "NextButtonEntry",
+                                    finishedListener = {}
+                                )
+
                                 Text(
                                     modifier = Modifier
-                                        .align(Alignment.Center)
-                                        .fillMaxWidth(),
+                                        .align(BiasAlignment(animatedBiasNumber, 0f)),
                                     text = uiState.boardText,
                                     style = MathAppTheme.typography.chalk,
                                     color = MathAppTheme.colors.secondaryWhite,
                                     textAlign = TextAlign.Center,
-                                    fontSize = 224.sp,
+                                    fontSize = 148.sp,
+                                )
+
+                                NextNumber(
+                                    modifier = Modifier.align(BiasAlignment(animatedBias, 0f)),
+                                    onClick = {}
                                 )
                             }
                         }
