@@ -92,7 +92,9 @@ class LearnNumbersViewModel @Inject constructor(
 
                     if (uiState.value.numberIteration.hasNext()) {
                         _uiState.update {
-                            it.copy(currentNumber = it.numberIteration.next())
+                            val currentNumber = it.numberIteration.next()
+                            it.copy(currentNumber = currentNumber, nextNumber = currentNumber + 1)
+
                         }
 
                         _uiState.update {
@@ -173,6 +175,7 @@ data class LearnNumbersUIState(
     val numberIteration: ListIterator<Int> = numbers.listIterator(),
     val currentNumber: Int = numberIteration.next(),
     val playState: PlayState = PlayState.NONE,
+    val nextNumber: Int = 1,
     val showSuccessLottie: Boolean = false,
     val showErrorLottie: Boolean = false,
     val showHintChalk: Boolean = true,

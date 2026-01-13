@@ -2,8 +2,12 @@ package com.ohanyan.mathgame.playground.writing
 
 import androidx.compose.ui.graphics.Path
 import androidx.compose.foundation.background
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,7 +39,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
+import com.ohanyan.mathgame.ui.R
 import com.ohanyan.ui.component.NextNumber
+import com.ohanyan.ui.component.NumberAndBus
 import com.ohanyan.ui.component.PlayGame
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.DogAnimate
@@ -47,6 +53,7 @@ import com.ohanyan.ui.component.numberhint.NumberHint
 import com.ohanyan.ui.component.soundbutton.SoundButton
 import com.ohanyan.ui.component.success.SuccessLottie
 import com.ohanyan.ui.component.undo.UndoButton
+import kotlinx.coroutines.delay
 
 @Composable
 internal fun LearnNumbersScreen(
@@ -144,7 +151,7 @@ private fun LearnNumbersScreenUI(
                                 }
                                 val animatedBiasNumber by animateFloatAsState(
                                     targetValue = horizontalBiasNumber,
-                                    animationSpec = tween(1000),
+                                    animationSpec = tween(2000),
                                     label = "NextButtonEntry",
                                     finishedListener = {}
                                 )
@@ -159,21 +166,29 @@ private fun LearnNumbersScreenUI(
                                     label = "NextButtonEntry",
                                     finishedListener = {}
                                 )
+                                Row(
+                                    modifier = Modifier.align(
+                                        BiasAlignment(
+                                            animatedBiasNumber,
+                                            0f
+                                        )
+                                    ),
+                                ) {
+                                    NumberAndBus()
+                                    Text(
+                                        text = uiState.boardText,
+                                        style = MathAppTheme.typography.chalk,
+                                        color = MathAppTheme.colors.secondaryWhite,
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 148.sp,
+                                    )
+                                }
 
-                                Text(
-                                    modifier = Modifier
-                                        .align(BiasAlignment(animatedBiasNumber, 0f)),
-                                    text = uiState.boardText,
-                                    style = MathAppTheme.typography.chalk,
-                                    color = MathAppTheme.colors.secondaryWhite,
-                                    textAlign = TextAlign.Center,
-                                    fontSize = 148.sp,
-                                )
 
-                                NextNumber(
-                                    modifier = Modifier.align(BiasAlignment(animatedBias, 0f)),
-                                    onClick = {}
-                                )
+//                                NextNumber(
+//                                    modifier = Modifier.align(BiasAlignment(animatedBias, 0f)),
+//                                    onClick = {}
+//                                )
                             }
                         }
 
@@ -231,11 +246,22 @@ private fun LearnNumbersScreenUI(
                                 LaunchedEffect(Unit) {
                                     horizontalBias = 1f
                                 }
+                                var startFlicker by remember { mutableStateOf(false) }
                                 val animatedBias by animateFloatAsState(
                                     targetValue = horizontalBias,
                                     animationSpec = tween(1000),
-                                    label = "NextButtonEntry"
+                                    label = "NextButtonEntry",
+                                    finishedListener = { startFlicker = true }
                                 )
+
+                                var isLightIcon by remember { mutableStateOf(false) }
+                                LaunchedEffect(startFlicker) {
+                                    if (!startFlicker) return@LaunchedEffect
+                                    repeat(10){
+                                        isLightIcon = !isLightIcon
+                                        delay(200)
+                                    }
+                                }
 
                                 var isNextClicked by remember { mutableStateOf(false) }
                                 val nextButtonOffset by animateDpAsState(
@@ -249,6 +275,8 @@ private fun LearnNumbersScreenUI(
                                         .padding(24.dp)
                                         .align(BiasAlignment(animatedBias, 1f))
                                         .offset(x = nextButtonOffset),
+                                    nextNumber = uiState.nextNumber.toString(),
+                                    busDrawableRes = if (isLightIcon) R.drawable.ic_school_bus_light else R.drawable.ic_school_bus,
                                     onClick = {
                                         isNextClicked = true
                                         afterDraw()
