@@ -2,6 +2,9 @@ package com.ohanyan.mathgame.playground.writing
 
 import androidx.compose.ui.graphics.Path
 import androidx.compose.foundation.background
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,16 +12,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextAlign
@@ -193,12 +200,33 @@ private fun LearnNumbersScreenUI(
                                 )
                             }
 
-                            if (uiState.showClearButton) {
+                            if (uiState.showNextButton) {
+                                var horizontalBias by remember { mutableFloatStateOf(-1f) }
+                                LaunchedEffect(Unit) {
+                                    horizontalBias = 1f
+                                }
+                                val animatedBias by animateFloatAsState(
+                                    targetValue = horizontalBias,
+                                    animationSpec = tween(1000),
+                                    label = "NextButtonEntry"
+                                )
+
+                                var isNextClicked by remember { mutableStateOf(false) }
+                                val nextButtonOffset by animateDpAsState(
+                                    targetValue = if (isNextClicked) 400.dp else 0.dp,
+                                    animationSpec = tween(600),
+                                    label = "NextButtonExit"
+                                )
+
                                 NextNumber(
                                     modifier = Modifier
                                         .padding(24.dp)
-                                        .align(Alignment.BottomEnd),
-                                    onClick = afterDraw
+                                        .align(BiasAlignment(animatedBias, 1f))
+                                        .offset(x = nextButtonOffset),
+                                    onClick = {
+                                        isNextClicked = true
+                                        afterDraw()
+                                    }
                                 )
                             }
                         }

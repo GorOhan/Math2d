@@ -40,7 +40,7 @@ class LearnNumbersViewModel @Inject constructor(
             currentPoints.clear()
             _path.value = Path()
             _uiState.update {
-                it.copy(showClearButton = false)
+                it.copy(showNextButton = false)
             }
         }
     }
@@ -56,8 +56,9 @@ class LearnNumbersViewModel @Inject constructor(
                 _path.value.lineTo(offsetX, offsetY)
              }
         }
+
         _uiState.update {
-            it.copy(showClearButton = _path.value.isEmpty.not())
+            it.copy(showNextButton = currentPoints.size > 30)
         }
         val item = Ink.Point.create(
             offsetX,
@@ -107,6 +108,8 @@ class LearnNumbersViewModel @Inject constructor(
                     _uiState.update { it.copy(showErrorLottie = false) }
                     learnNextNumber()
                 }
+                _uiState.update { it.copy(showNextButton = false) }
+
             }
         }
     }
@@ -174,7 +177,7 @@ data class LearnNumbersUIState(
     val showErrorLottie: Boolean = false,
     val showHintChalk: Boolean = true,
     val isMusicOn: Boolean = MusicManager.isPlaying,
-    val showClearButton: Boolean = false,
+    val showNextButton: Boolean = false,
 )
 
 data class TickerState(
