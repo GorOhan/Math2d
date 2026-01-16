@@ -2,15 +2,21 @@ package com.ohanyan.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
@@ -132,6 +139,39 @@ fun NumberAndBus(
         modifier = modifier
             .width(124.dp),
         painter = painterResource(R.drawable.ic_school_bus),
+        contentScale = ContentScale.FillWidth,
+        contentDescription = null,
+    )
+}
+
+@Composable
+fun Point(
+    modifier: Modifier = Modifier
+) {
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+
+
+    @Composable
+    fun returnPadding(): Float {
+
+        val padding by infiniteTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 4f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(400),
+                repeatMode = RepeatMode.Reverse,
+            ), label = ""
+        )
+        return padding
+    }
+    val padding = returnPadding()
+
+    Image(
+        modifier = modifier
+            .width(48.dp)
+            .rotate(90f)
+            .offset(x = (2*padding).dp),
+        painter = painterResource(R.drawable.ic_point),
         contentScale = ContentScale.FillWidth,
         contentDescription = null,
     )

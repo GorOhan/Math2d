@@ -1,5 +1,6 @@
 package com.ohanyan.mathgame.playground.writing
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.ui.graphics.Path
 import androidx.compose.foundation.background
 import androidx.compose.animation.core.RepeatMode
@@ -12,6 +13,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,6 +45,7 @@ import com.ohanyan.mathgame.ui.R
 import com.ohanyan.ui.component.NextNumber
 import com.ohanyan.ui.component.NumberAndBus
 import com.ohanyan.ui.component.PlayGame
+import com.ohanyan.ui.component.Point
 import com.ohanyan.ui.component.chalkoard.ChalkBoard
 import com.ohanyan.ui.component.mainhero.DogAnimate
 import com.ohanyan.ui.component.mainhero.EraseEffect
@@ -257,9 +260,11 @@ private fun LearnNumbersScreenUI(
                                 var isLightIcon by remember { mutableStateOf(false) }
                                 LaunchedEffect(startFlicker) {
                                     if (!startFlicker) return@LaunchedEffect
-                                    repeat(10){
+                                    //todo
+                                    repeat(20) { it ->
                                         isLightIcon = !isLightIcon
                                         delay(200)
+                                        if (it == 19) startFlicker = false
                                     }
                                 }
 
@@ -270,18 +275,30 @@ private fun LearnNumbersScreenUI(
                                     label = "NextButtonExit"
                                 )
 
-                                NextNumber(
+                                Column(
                                     modifier = Modifier
-                                        .padding(24.dp)
-                                        .align(BiasAlignment(animatedBias, 1f))
-                                        .offset(x = nextButtonOffset),
-                                    nextNumber = uiState.nextNumber.toString(),
-                                    busDrawableRes = if (isLightIcon) R.drawable.ic_school_bus_light else R.drawable.ic_school_bus,
-                                    onClick = {
-                                        isNextClicked = true
-                                        afterDraw()
+                                        .align(BiasAlignment(animatedBias, 1f)),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    if (startFlicker) {
+
+                                        Point(
+                                            modifier = Modifier
+                                        )
                                     }
-                                )
+
+                                    NextNumber(
+                                        modifier = Modifier
+                                            .padding(horizontal = 24.dp)
+                                            .offset(x = nextButtonOffset),
+                                        nextNumber = uiState.nextNumber.toString(),
+                                        busDrawableRes = if (isLightIcon) R.drawable.ic_school_bus_light else R.drawable.ic_school_bus,
+                                        onClick = {
+                                            isNextClicked = true
+                                            afterDraw()
+                                        }
+                                    )
+                                }
                             }
                         }
 
@@ -296,6 +313,7 @@ private fun LearnNumbersScreenUI(
                     }
                 }
             }
+
             SuccessLottie(
                 isVisible = uiState.showSuccessLottie,
                 modifier = Modifier.fillMaxSize()
