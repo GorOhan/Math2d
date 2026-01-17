@@ -1,19 +1,12 @@
 package com.ohanyan.mathgame.playground.writing
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.ui.graphics.Path
-import androidx.compose.foundation.background
-import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,7 +66,8 @@ internal fun LearnNumbersScreen(
         tickerState = tickerState,
         onBackClick = onBackClick,
         path = path,
-        onStartGame = viewModel::learnNextNumber,
+        onNumberChosen = viewModel::onNumberChosen,
+        onStartGame = viewModel::showMenu,
         afterDraw = viewModel::afterDraw,
         onUndo = viewModel::undoDrawing,
         addPoint = viewModel::addPoints,
@@ -85,6 +80,7 @@ private fun LearnNumbersScreenUI(
     uiState: LearnNumbersUIState,
     tickerState: State<TickerState>,
     path: Path,
+    onNumberChosen: (Int) -> Unit = {},
     onStartGame: () -> Unit = {},
     afterDraw: () -> Unit = {},
     onBackClick: () -> Unit = {},
@@ -128,7 +124,8 @@ private fun LearnNumbersScreenUI(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     if (uiState.playState != PlayState.START
-                        && uiState.playState != PlayState.NONE
+                        && uiState.playState != PlayState.NONE &&
+                        uiState.playState != PlayState.CHOOSE_NUMBER
                     ) {
                         Box {
                             Text(
@@ -159,16 +156,6 @@ private fun LearnNumbersScreenUI(
                                     finishedListener = {}
                                 )
 
-                                var horizontalBias by remember { mutableFloatStateOf(-1f) }
-                                LaunchedEffect(Unit) {
-                                    horizontalBias = 2.5f
-                                }
-                                val animatedBias by animateFloatAsState(
-                                    targetValue = horizontalBias,
-                                    animationSpec = tween(1000),
-                                    label = "NextButtonEntry",
-                                    finishedListener = {}
-                                )
                                 Row(
                                     modifier = Modifier.align(
                                         BiasAlignment(
@@ -186,12 +173,6 @@ private fun LearnNumbersScreenUI(
                                         fontSize = 148.sp,
                                     )
                                 }
-
-
-//                                NextNumber(
-//                                    modifier = Modifier.align(BiasAlignment(animatedBias, 0f)),
-//                                    onClick = {}
-//                                )
                             }
                         }
 
@@ -260,8 +241,7 @@ private fun LearnNumbersScreenUI(
                                 var isLightIcon by remember { mutableStateOf(false) }
                                 LaunchedEffect(startFlicker) {
                                     if (!startFlicker) return@LaunchedEffect
-                                    //todo
-                                    repeat(20) { it ->
+                                    repeat(20) {
                                         isLightIcon = !isLightIcon
                                         delay(200)
                                         if (it == 19) startFlicker = false
@@ -308,6 +288,14 @@ private fun LearnNumbersScreenUI(
                                     .padding(24.dp)
                                     .align(Alignment.Center),
                                 onClick = onStartGame
+                            )
+                        }
+
+                        PlayState.CHOOSE_NUMBER -> {
+                            ChooseNumber(
+                                Modifier.align(Alignment.Center),
+                                maxAvailableNumber = uiState.maxAvailableNumber,
+                                onNumberClick = onNumberChosen
                             )
                         }
                     }

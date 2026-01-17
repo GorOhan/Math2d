@@ -14,10 +14,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import com.ohanyan.mathgame.common.data.UserPreferencesRepository
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @HiltViewModel
 class LearnNumbersViewModel @Inject constructor(
-    private val mlKitHelper: MLKitHelper
+    private val mlKitHelper: MLKitHelper,
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LearnNumbersUIState())
@@ -33,6 +37,13 @@ class LearnNumbersViewModel @Inject constructor(
 
     private val currentPoints = mutableListOf<Pair<Ink.Point, PathAction>>()
     private var countDownTimer: CountDownTimer? = null
+
+
+    init {
+        userPreferencesRepository.maxAvailableNumber.onEach { maxNumber ->
+            _uiState.value = _uiState.value.copy(maxAvailableNumber = maxNumber)
+        }.launchIn(viewModelScope)
+    }
 
     fun undoDrawing() {
         viewModelScope.launch {
@@ -50,11 +61,11 @@ class LearnNumbersViewModel @Inject constructor(
             PathAction.MOVE -> {
                 hideHintChalk()
                 _path.value.moveTo(offsetX, offsetY)
-             }
+            }
 
             PathAction.LINE -> {
                 _path.value.lineTo(offsetX, offsetY)
-             }
+            }
         }
 
         _uiState.update {
@@ -69,7 +80,15 @@ class LearnNumbersViewModel @Inject constructor(
         strokeBuilder.addPoint(item)
     }
 
-    fun learnNextNumber() {
+    fun showMenu() {
+        _uiState.update {
+            it.copy(
+                playState = PlayState.CHOOSE_NUMBER
+            )
+        }
+    }
+
+    private fun learnNextNumber() {
         viewModelScope.launch {
             strokeBuilder = Ink.Stroke.builder()
             currentPoints.clear()
@@ -96,6 +115,7 @@ class LearnNumbersViewModel @Inject constructor(
                             it.copy(currentNumber = currentNumber, nextNumber = currentNumber + 1)
 
                         }
+                        userPreferencesRepository.updateMaxAvailableNumber(_uiState.value.currentNumber)
 
                         _uiState.update {
                             it.copy(
@@ -167,6 +187,25 @@ class LearnNumbersViewModel @Inject constructor(
 
         MusicManager.checkPlayingState(isMusicOn)
     }
+
+    fun onNumberChosen(number: Int) {
+        if (number > _uiState.value.maxAvailableNumber) return
+        viewModelScope.launch {
+            while (number != _uiState.value.currentNumber) {
+                _uiState.update {
+                    val currentNumber = it.numberIteration.next()
+                    it.copy(currentNumber = currentNumber, nextNumber = currentNumber + 1)
+                }
+            }
+            _uiState.update {
+                it.copy(
+                    boardText = number.toString(),
+                )
+            }
+
+            learnNextNumber()
+        }
+    }
 }
 
 data class LearnNumbersUIState(
@@ -182,6 +221,7 @@ data class LearnNumbersUIState(
     val showHintChalk: Boolean = true,
     val isMusicOn: Boolean = MusicManager.isPlaying,
     val showNextButton: Boolean = false,
+    val maxAvailableNumber: Int = 0,
 )
 
 data class TickerState(
@@ -194,4 +234,5 @@ enum class PlayState(val duration: Long) {
     HINT(7_500),
     DRAW(25_000),
     NONE(0),
+    CHOOSE_NUMBER(0),
 }
