@@ -1,8 +1,10 @@
 package com.ohanyan.ui.component.chalkoard
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
@@ -23,10 +26,15 @@ fun ChalkBoard(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit = {},
 ) {
+    val configuration = LocalConfiguration.current
+    val isHorizontal = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+    val padding = if (isHorizontal) PaddingValues(vertical = 48.dp, horizontal = 144.dp)
+    else PaddingValues(horizontal = 16.dp, vertical = 144.dp)
     Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(vertical = 48.dp, horizontal = 144.dp)
+            .padding(padding)
             .border(
                 width = 12.dp,
                 brush = Brush.verticalGradient(
@@ -57,18 +65,18 @@ fun ChalkBoard(
                 )
 
         ) {
-           if (!title.isEmpty()) {
-            TypingAnimation(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(32.dp),
-                text = title,
-                style = MathAppTheme.typography.chalk,
-                color = MathAppTheme.colors.secondaryWhite,
-                fontSize = 32,
-                typingSpeed = 50L
-            )
-        }
+            if (!title.isEmpty()) {
+                TypingAnimation(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(32.dp),
+                    text = title,
+                    style = MathAppTheme.typography.chalk,
+                    color = MathAppTheme.colors.secondaryWhite,
+                    fontSize = 32,
+                    typingSpeed = 50L
+                )
+            }
         }
 
         content()

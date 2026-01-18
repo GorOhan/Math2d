@@ -1,10 +1,14 @@
 package com.ohanyan.mathgame.onboarding.selectage
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,12 +46,15 @@ internal fun SelectAgeScreen(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SelectAgeScreenUI(
     chooseAgeUIState: ChooseAgeUIState = ChooseAgeUIState(),
     onSelectAge: (String) -> Unit = {},
     onNextClick: () -> Unit = {},
 ) {
+    val configuration = LocalConfiguration.current
+    val isHorizontal = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,23 +73,45 @@ private fun SelectAgeScreenUI(
             onClick = onNextClick
         )
 
-        Column {
+        if (!isHorizontal) {
+            MainHero(modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 48.dp)
+                .size(112.dp))
+        }
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Row(
-                modifier = Modifier.padding(top = 24.dp, start = 124.dp)
+                modifier = Modifier
+                    .padding(top = 48.dp),
+                horizontalArrangement = Arrangement.Center,
             ) {
-                MainHero(modifier = Modifier.size(112.dp))
+                if (isHorizontal) {
+                    MainHero(modifier = Modifier.size(112.dp))
+                }
 
                 TypingAnimation(
-                    modifier = Modifier.padding(top = 24.dp),
+                    modifier = Modifier
+                        .padding(top = 24.dp),
                     text = stringResource(R.string.feature_onboarding_select_child_age)
                 )
             }
 
-            Row(
+
+            val maxItemsInEachRow = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                5
+            } else 3
+
+            FlowRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.SpaceAround
+                    .padding(horizontal = 24.dp, vertical = if (isHorizontal) 0.dp else 124.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                maxItemsInEachRow = maxItemsInEachRow
             ) {
                 chooseAgeUIState.ageOptions.forEach { age ->
                     SelectAgeItem(
@@ -94,7 +124,6 @@ private fun SelectAgeScreenUI(
                     )
                 }
             }
-
         }
     }
 }

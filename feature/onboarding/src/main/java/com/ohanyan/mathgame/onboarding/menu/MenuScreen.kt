@@ -1,5 +1,6 @@
 package com.ohanyan.mathgame.onboarding.menu
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -121,14 +123,24 @@ private fun MenuScreenUI(
             )
         }
 
+        val configuration = LocalConfiguration.current
+        val fractionWidth = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            .5f
+        } else 1f
+
+        val fractionHeight = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            1f
+        } else .5f
+
+
         Box(
             modifier = Modifier
-                .fillMaxWidth(.5f)
-                .fillMaxHeight()
+                .fillMaxWidth(fractionWidth)
+                .fillMaxHeight(fractionHeight)
         ) {
             MainHero(
                 modifier = Modifier
-                    .align(Alignment.Center)
+                    .align( Alignment.Center)
                     .size(112.dp)
             )
 

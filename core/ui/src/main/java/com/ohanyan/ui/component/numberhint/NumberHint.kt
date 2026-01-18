@@ -43,7 +43,6 @@ fun NumberHint(
     LottieAnimation(
         composition = preloaderLottieComposition,
         progress = { preloaderProgress },
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     )
 }

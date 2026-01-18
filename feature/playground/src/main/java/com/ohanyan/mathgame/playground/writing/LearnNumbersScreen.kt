@@ -1,5 +1,6 @@
 package com.ohanyan.mathgame.playground.writing
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -28,6 +29,7 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,6 +90,9 @@ private fun LearnNumbersScreenUI(
     onMusic: (Boolean) -> Unit = {},
     addPoint: (offsetX: Float, offsetY: Float, pathAction: PathAction) -> Unit = { _, _, _ -> }
 ) {
+    val configuration = LocalConfiguration.current
+    val isHorizontal = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -177,12 +182,12 @@ private fun LearnNumbersScreenUI(
                         }
 
                         PlayState.HINT -> {
+                            val fraction = if (isHorizontal) .3f else .6f
                             Box(
                                 modifier = Modifier
                                     .align(Alignment.Center)
-                                    .fillMaxWidth(0.3f)
+                                    .fillMaxWidth(fraction)
                                     .fillMaxHeight()
-
                             ) {
                                 NumberHint(
                                     number = uiState.currentNumber
@@ -261,7 +266,6 @@ private fun LearnNumbersScreenUI(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     if (startFlicker) {
-
                                         Point(
                                             modifier = Modifier
                                         )
@@ -304,7 +308,8 @@ private fun LearnNumbersScreenUI(
 
             SuccessLottie(
                 isVisible = uiState.showSuccessLottie,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
             )
 
             DogAnimate(
@@ -314,16 +319,16 @@ private fun LearnNumbersScreenUI(
             )
         }
 
+
         TimeTicker(
             modifier = Modifier
-                .align(Alignment.CenterEnd)
+                .align(if (isHorizontal) Alignment.CenterEnd else Alignment.TopCenter)
                 .padding(32.dp),
             state = tickerState
         )
 
         Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart),
+            modifier = Modifier.align(if (isHorizontal) Alignment.BottomStart else Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MainHero(

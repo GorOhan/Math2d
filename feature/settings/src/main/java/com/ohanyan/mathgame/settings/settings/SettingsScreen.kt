@@ -1,5 +1,6 @@
 package com.ohanyan.mathgame.settings.settings
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -86,6 +88,9 @@ fun SettingsScreenUI(
     onBackClick: () -> Unit = {},
     onSelectLanguageClick: () -> Unit = {},
 ) {
+    val configuration = LocalConfiguration.current
+    val isHorizontal = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -105,7 +110,9 @@ fun SettingsScreenUI(
         )
 
         MathLoading(
-            modifier = Modifier.align(Alignment.TopCenter),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(if (isHorizontal) 0.dp else 48.dp),
             durationOfEachAnimation = 200,
         )
 
@@ -115,7 +122,8 @@ fun SettingsScreenUI(
                 .fillMaxSize()
         ) {
             MainContent(
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier
+                    .align(Alignment.Center),
                 settingScreenUIState = settingScreenUIState,
                 onMusicOnChane = onMusicOnChane,
                 onSelectLanguageClick = onSelectLanguageClick
