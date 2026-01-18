@@ -30,6 +30,7 @@ import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 @Composable
 fun CoreButton(
     buttonTitle: String = "Button",
+    subtitle: String = "",
     enable: Boolean = true,
     onClick: () -> Unit = {},
 ) {
@@ -50,7 +51,6 @@ fun CoreButton(
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
             .wrapContentHeight()
     ) {
         Box(
@@ -97,8 +97,8 @@ fun CoreButton(
         if (!enable) {
             Box(
                 modifier = Modifier
-                    .padding(start = 144.dp)
-                    .align(Alignment.Center)
+                    .padding(start = 152.dp, bottom = 16.dp)
+                    .align(Alignment.TopEnd)
                     .shadow(
                         elevation = 4.dp,
                         shape = RoundedCornerShape(16.dp),
@@ -123,7 +123,7 @@ fun CoreButton(
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    text = "շուտով",
+                    text = subtitle,
                     style = MathAppTheme.typography.body,
                     color = MathAppTheme.colors.coreWhite
                 )

@@ -8,4 +8,6 @@
     <string name="feature_onboarding_adding">Adding</string>
     <string name="feature_onboarding_subtracting">Subtracting</string>
 
+    <string name="feature_onboarding_soon" translatable="false">Soon</string>
+
 </resources>

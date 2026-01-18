@@ -156,27 +156,27 @@ fun MainContent(
             )
         }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier.padding(end = 24.dp),
-                text = stringResource(id = R.string.feature_settings_select_language),
-                style = MathAppTheme.typography.h1Bee,
-                color = MathAppTheme.colors.coreWhite
-            )
-
-            Image(
-                modifier = Modifier
-                    .size(42.dp)
-                    .clip(RoundedCornerShape(80f))
-                    .clickable {
-                        onSelectLanguageClick()
-                    },
-                painter = painterResource(settingScreenUIState.selectedLanguage.languageFlag),
-                contentDescription = "select language icon"
-            )
-        }
+//        Row(
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Text(
+//                modifier = Modifier.padding(end = 24.dp),
+//                text = stringResource(id = R.string.feature_settings_select_language),
+//                style = MathAppTheme.typography.h1Bee,
+//                color = MathAppTheme.colors.coreWhite
+//            )
+//
+//            Image(
+//                modifier = Modifier
+//                    .size(42.dp)
+//                    .clip(RoundedCornerShape(80f))
+//                    .clickable {
+//                        onSelectLanguageClick()
+//                    },
+//                painter = painterResource(settingScreenUIState.selectedLanguage.languageFlag),
+//                contentDescription = "select language icon"
+//            )
+//        }
 
         val title = stringResource(id = R.string.feature_settings_checkout_app)
 
