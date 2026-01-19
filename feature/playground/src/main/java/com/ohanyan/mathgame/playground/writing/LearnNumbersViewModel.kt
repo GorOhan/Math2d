@@ -43,6 +43,14 @@ class LearnNumbersViewModel @Inject constructor(
         userPreferencesRepository.maxAvailableNumber.onEach { maxNumber ->
             _uiState.value = _uiState.value.copy(maxAvailableNumber = maxNumber)
         }.launchIn(viewModelScope)
+
+        viewModelScope.launch {
+            userPreferencesRepository.musicOn.collect { isMusicOn ->
+                _uiState.update { state ->
+                    state.copy(isMusicOn = isMusicOn)
+                }
+            }
+        }
     }
 
     fun undoDrawing() {
@@ -180,12 +188,10 @@ class LearnNumbersViewModel @Inject constructor(
         return seconds.toString()
     }
 
-    fun onMusicOnChange(isMusicOn: Boolean) {
-        _uiState.update {
-            it.copy(isMusicOn = isMusicOn)
+    fun onMusicOnChange(isChecked: Boolean) {
+        viewModelScope.launch {
+            userPreferencesRepository.updateMusicOn(isChecked)
         }
-
-        MusicManager.checkPlayingState(isMusicOn)
     }
 
     fun onNumberChosen(number: Int) {

@@ -11,6 +11,7 @@ object MusicManager : DefaultLifecycleObserver {
 
     private var mediaPlayer: MediaPlayer? = null
     private var isPrepared = false          // track if start() has run at least once
+    private var isMusicEnabled = true       // track music preference
 
     // --- Public API ---------------------------------------------------------
 
@@ -42,6 +43,22 @@ object MusicManager : DefaultLifecycleObserver {
         owner.lifecycle.removeObserver(this)
     }
 
+    fun setMusicEnabled(enabled: Boolean) {
+        isMusicEnabled = enabled
+        if (enabled) {
+            // Only resume if we are conceptually "resumed" or just want to start playing check?
+            // Since we don't track lifecycle state explicitly here other than callbacks,
+            // we rely on the fact this is likely called while app is in foreground.
+            // But to be safe, we could check if we have a player that is prepared.
+            // A better approach: update state, if we are supposed to be playing (lifecycle resumed), this acts immediately.
+            // Problem: We don't know for sure if we are in a RESUMED state here easily without tracking it.
+            // But usually settings are changed while app is in foreground.
+             resume()
+        } else {
+            pause()
+        }
+    }
+
     // --- Lifecycle callbacks -----------------------------------------------
 
     override fun onPause(owner: LifecycleOwner) {
@@ -62,13 +79,15 @@ object MusicManager : DefaultLifecycleObserver {
     private fun prepare(context: Context) {
         mediaPlayer = MediaPlayer.create(context, R.raw.mathy_background).apply {
             isLooping = true
-            start()
+            if (isMusicEnabled) {
+                start()
+            }
         }
         isPrepared = true
     }
 
     private fun resume() {
-        if (mediaPlayer?.isPlaying == false) mediaPlayer?.start()
+        if (isMusicEnabled && mediaPlayer?.isPlaying == false) mediaPlayer?.start()
     }
 
     private fun pause() {
@@ -86,9 +105,9 @@ object MusicManager : DefaultLifecycleObserver {
 
     fun checkPlayingState(play: Boolean) {
         if (play) {
-            if (mediaPlayer?.isPlaying == false) mediaPlayer?.start()
+            resume()
         } else {
-            if (mediaPlayer?.isPlaying == true) mediaPlayer?.pause()
+            pause()
         }
     }
 

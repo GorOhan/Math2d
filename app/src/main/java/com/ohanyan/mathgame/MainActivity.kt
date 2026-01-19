@@ -19,12 +19,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import com.ohanyan.common.musicmanager.MusicManager
+import com.ohanyan.mathgame.common.data.UserPreferencesRepository
 import com.ohanyan.mathgame.navigation.MathNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var userPreferencesRepository: UserPreferencesRepository
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +53,11 @@ class MainActivity : ComponentActivity() {
             DisposableEffect(lifecycleOwner) {
                 MusicManager.register(lifecycleOwner, context)
                 onDispose { MusicManager.unregister(lifecycleOwner) }   // optional but tidy
+            }
+
+            val musicOn by userPreferencesRepository.musicOn.collectAsState(initial = true)
+            LaunchedEffect(musicOn) {
+                MusicManager.setMusicEnabled(musicOn)
             }
 
             MaterialTheme {
