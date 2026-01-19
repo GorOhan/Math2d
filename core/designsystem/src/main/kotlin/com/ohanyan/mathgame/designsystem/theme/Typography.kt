@@ -15,7 +15,7 @@ data class AppTypography(
     val h1Bee: TextStyle,
     val chalk: TextStyle,
     val body: TextStyle,
-//    val h2: TextStyle,
+    val h2Bee: TextStyle,
 //    val h3: TextStyle,
 //    val h4: TextStyle,
 //    val h4Large: TextStyle,
@@ -78,5 +78,11 @@ internal val defaultTypography = AppTypography(
         fontFamily = ChalkFont,
         fontWeight = FontWeight.Bold,
         fontSize = 12.sp,
+    ),
+
+    h2Bee = TextStyle(
+        fontFamily = BeeFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
     ),
 )

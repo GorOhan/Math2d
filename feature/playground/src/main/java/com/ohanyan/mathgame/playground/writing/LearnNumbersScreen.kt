@@ -265,7 +265,7 @@ private fun LearnNumbersScreenUI(
                                         .align(BiasAlignment(animatedBias, 1f)),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    if (startFlicker) {
+                                    if (startFlicker && !isNextClicked) {
                                         Point(
                                             modifier = Modifier
                                         )

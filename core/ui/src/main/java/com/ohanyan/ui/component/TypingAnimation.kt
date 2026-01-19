@@ -28,10 +28,11 @@ fun TypingAnimation(
 
     LaunchedEffect(text) {
         for (i in 1..text.length) {
-            displayedText = text.substring(0, i)
+            displayedText = text.take(i)
             delay(typingSpeed)
         }
     }
+
     Text(
         modifier = modifier,
         text = displayedText,

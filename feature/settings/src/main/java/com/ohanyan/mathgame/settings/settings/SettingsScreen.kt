@@ -141,15 +141,19 @@ fun MainContent(
     onSelectLanguageClick: () -> Unit,
 ) {
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+    val isHorizontal = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier.padding(end = 24.dp),
                 text = stringResource(id = R.string.feature_settings_music_on),
-                style = MathAppTheme.typography.h1Bee,
+                style = if (isHorizontal) MathAppTheme.typography.h1Bee else MathAppTheme.typography.h2Bee,
                 color = MathAppTheme.colors.coreWhite
             )
             Switch(
@@ -200,7 +204,7 @@ fun MainContent(
             Text(
                 modifier = Modifier.padding(end = 24.dp),
                 text = stringResource(id = R.string.feature_settings_share_app),
-                style = MathAppTheme.typography.h1Bee,
+                style = if (isHorizontal) MathAppTheme.typography.h1Bee else MathAppTheme.typography.h2Bee,
                 color = MathAppTheme.colors.coreWhite
             )
 

@@ -95,6 +95,7 @@ private fun SelectAgeScreenUI(
 
                 TypingAnimation(
                     modifier = Modifier
+                        .padding(horizontal = 16.dp)
                         .padding(top = 24.dp),
                     text = stringResource(R.string.feature_onboarding_select_child_age)
                 )
