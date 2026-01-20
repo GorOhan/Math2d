@@ -50,6 +50,7 @@ import com.ohanyan.ui.component.nextbutton.ActionButton
 import com.ohanyan.ui.component.nextbutton.ActionType
 import com.ohanyan.ui.component.numberhint.NumberHint
 import com.ohanyan.ui.component.soundbutton.SoundButton
+import com.ohanyan.ui.component.success.SuccessBalloons
 import com.ohanyan.ui.component.success.SuccessLottie
 import com.ohanyan.ui.component.undo.UndoButton
 import kotlinx.coroutines.delay
@@ -296,7 +297,9 @@ private fun LearnNumbersScreenUI(
                         }
 
                         PlayState.SUCCESS -> {
-                            Box() { }
+                            SuccessBalloons(
+                                onAnimationEnd = onBackClick
+                            )
                         }
                     }
                 }
