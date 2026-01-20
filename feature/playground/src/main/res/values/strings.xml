@@ -1,3 +1,4 @@
 <resources>
     <string name="feature_playground_how_many_items" >How many items do you see?</string>
-v</resources>
+    <string name="feature_congratulations" >Congratulations you passed all numbers</string>
+    v</resources>

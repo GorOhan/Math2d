@@ -133,8 +133,13 @@ class LearnNumbersViewModel @Inject constructor(
                                 boardText = _uiState.value.currentNumber.toString(),
                             )
                         }
+                        learnNextNumber()
+                    } else {
+                        _uiState.update {
+                            it.copy(playState = PlayState.SUCCESS)
+                        }
                     }
-                    learnNextNumber()
+
                 } else {
                     _uiState.update { it.copy(showErrorLottie = true) }
                     delay(4000)
@@ -244,4 +249,5 @@ enum class PlayState(val duration: Long) {
     DRAW(25_000),
     NONE(0),
     CHOOSE_NUMBER(0),
+    SUCCESS(4_000)
 }

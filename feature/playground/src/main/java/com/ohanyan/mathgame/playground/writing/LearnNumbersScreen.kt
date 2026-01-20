@@ -131,6 +131,7 @@ private fun LearnNumbersScreenUI(
                     if (uiState.playState != PlayState.START
                         && uiState.playState != PlayState.NONE &&
                         uiState.playState != PlayState.CHOOSE_NUMBER
+                        && uiState.playState != PlayState.SUCCESS
                     ) {
                         Box {
                             Text(
@@ -161,23 +162,14 @@ private fun LearnNumbersScreenUI(
                                     finishedListener = {}
                                 )
 
-                                Row(
+                                NumberAndBus(
                                     modifier = Modifier.align(
                                         BiasAlignment(
                                             animatedBiasNumber,
                                             0f
                                         )
                                     ),
-                                ) {
-                                    NumberAndBus()
-                                    Text(
-                                        text = uiState.boardText,
-                                        style = MathAppTheme.typography.chalk,
-                                        color = MathAppTheme.colors.secondaryWhite,
-                                        textAlign = TextAlign.Center,
-                                        fontSize = 148.sp,
-                                    )
-                                }
+                                    currentNumber = uiState.currentNumber)
                             }
                         }
 
@@ -275,7 +267,7 @@ private fun LearnNumbersScreenUI(
                                         modifier = Modifier
                                             .padding(horizontal = 24.dp)
                                             .offset(x = nextButtonOffset),
-                                        nextNumber = uiState.nextNumber.toString(),
+                                        nextNumber = uiState.nextNumber,
                                         busDrawableRes = if (isLightIcon) R.drawable.ic_school_bus_light else R.drawable.ic_school_bus,
                                         onClick = {
                                             isNextClicked = true
@@ -302,6 +294,10 @@ private fun LearnNumbersScreenUI(
                                 onNumberClick = onNumberChosen
                             )
                         }
+
+                        PlayState.SUCCESS -> {
+                            Box() { }
+                        }
                     }
                 }
             }
@@ -320,12 +316,14 @@ private fun LearnNumbersScreenUI(
         }
 
 
-        TimeTicker(
-            modifier = Modifier
-                .align(if (isHorizontal) Alignment.CenterEnd else Alignment.TopCenter)
-                .padding(32.dp),
-            state = tickerState
-        )
+        if (uiState.playState != PlayState.SUCCESS) {
+            TimeTicker(
+                modifier = Modifier
+                    .align(if (isHorizontal) Alignment.CenterEnd else Alignment.TopCenter)
+                    .padding(32.dp),
+                state = tickerState
+            )
+        }
 
         Column(
             modifier = Modifier.align(if (isHorizontal) Alignment.BottomStart else Alignment.BottomCenter),

@@ -86,7 +86,7 @@ fun PlayGame(
 @Composable
 fun NextNumber(
     modifier: Modifier = Modifier,
-    nextNumber: String,
+    nextNumber: Int,
     @DrawableRes busDrawableRes: Int = R.drawable.ic_school_bus,
     onClick: () -> Unit = {}
 ) {
@@ -121,27 +121,51 @@ fun NextNumber(
             contentDescription = null,
         )
 
-        Text(
-            modifier = Modifier.padding(start = 8.dp),
-            text = nextNumber,
-            style = MathAppTheme.typography.chalk,
-            color = MathAppTheme.colors.secondaryWhite,
-            fontSize = 48.sp,
-        )
+        if (nextNumber < 9) {
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = nextNumber.toString(),
+                style = MathAppTheme.typography.chalk,
+                color = MathAppTheme.colors.secondaryWhite,
+                fontSize = 48.sp,
+            )
+        } else {
+            Image(
+                modifier = Modifier.size(32.dp ),
+                painter = painterResource(R.drawable.ic_balloons),
+                contentScale = ContentScale.FillWidth,
+                contentDescription = null,
+            )
+        }
     }
 }
 
 @Composable
 fun NumberAndBus(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    currentNumber: Int,
 ) {
-    Image(
-        modifier = modifier
-            .width(124.dp),
-        painter = painterResource(R.drawable.ic_school_bus),
-        contentScale = ContentScale.FillWidth,
-        contentDescription = null,
-    )
+
+    Row(
+        modifier = modifier,
+    ) {
+        Image(
+            modifier = modifier
+                .width(124.dp),
+            painter = painterResource(R.drawable.ic_school_bus),
+            contentScale = ContentScale.FillWidth,
+            contentDescription = null,
+        )
+
+        Text(
+            text = currentNumber.toString(),
+            style = MathAppTheme.typography.chalk,
+            color = MathAppTheme.colors.secondaryWhite,
+            textAlign = TextAlign.Center,
+            fontSize = 148.sp,
+        )
+
+    }
 }
 
 @Composable
@@ -164,13 +188,14 @@ fun Point(
         )
         return padding
     }
+
     val padding = returnPadding()
 
     Image(
         modifier = modifier
             .width(48.dp)
             .rotate(90f)
-            .offset(x = (2*padding).dp),
+            .offset(x = (2 * padding).dp),
         painter = painterResource(R.drawable.ic_point),
         contentScale = ContentScale.FillWidth,
         contentDescription = null,
