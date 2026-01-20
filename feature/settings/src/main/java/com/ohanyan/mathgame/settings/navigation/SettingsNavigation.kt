@@ -11,19 +11,23 @@ sealed interface SettingsScreen {
     @Serializable
     data object SettingsMain : SettingsScreen
 
+    @Serializable
+    data object SelectAge : SettingsScreen
+
 }
 
 fun NavGraphBuilder.settingsScreens(
     onNavigation: (SettingsScreen) -> Unit,
     onBackClick: () -> Unit,
+    onSelectAgeClick: () -> Unit,
 ) {
 
     composable<SettingsScreen.SettingsMain> {
         SettingsScreen(
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
+            onSelectAgeClick = onSelectAgeClick
         )
     }
-
 }
 
 fun NavController.navigateToSettingsScreen(screen: SettingsScreen) =

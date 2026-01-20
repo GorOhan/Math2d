@@ -43,6 +43,7 @@ fun MathNavHost(
         settingsScreens(
             onNavigation = { navController.navigateToSettingsScreen(it) },
             onBackClick = { navController.popBackStack() },
+            onSelectAgeClick = { navController.navigateToScreen(OnBoardingScreen.SelectAgeScreen) }
         )
     }
 }

@@ -50,7 +50,8 @@ import com.ohanyan.ui.component.nextbutton.ActionType
 @Composable
 internal fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onSelectAgeClick: () -> Unit = {},
 ) {
     var showSelectLanguage by remember { mutableStateOf(false) }
     val uiState by viewModel.uiState.collectAsState()
@@ -61,6 +62,7 @@ internal fun SettingsScreen(
         settingScreenUIState = uiState,
         onMusicOnChane = viewModel::onMusicOnChange,
         onBackClick = onBackClick,
+        onSelectAgeClick = onSelectAgeClick,
         onSelectLanguageClick = {
             showSelectLanguage = true
         }
@@ -86,6 +88,7 @@ fun SettingsScreenUI(
     settingScreenUIState: SettingScreenUIState = SettingScreenUIState(),
     onMusicOnChane: (Boolean) -> Unit = {},
     onBackClick: () -> Unit = {},
+    onSelectAgeClick: () -> Unit = {},
     onSelectLanguageClick: () -> Unit = {},
 ) {
     val configuration = LocalConfiguration.current
@@ -126,6 +129,7 @@ fun SettingsScreenUI(
                     .align(Alignment.Center),
                 settingScreenUIState = settingScreenUIState,
                 onMusicOnChane = onMusicOnChane,
+                onSelectAgeClick = onSelectAgeClick,
                 onSelectLanguageClick = onSelectLanguageClick
             )
         }
@@ -138,6 +142,7 @@ fun MainContent(
     modifier: Modifier,
     settingScreenUIState: SettingScreenUIState,
     onMusicOnChane: (Boolean) -> Unit,
+    onSelectAgeClick: () -> Unit,
     onSelectLanguageClick: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -146,7 +151,9 @@ fun MainContent(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,) {
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -189,6 +196,26 @@ fun MainContent(
 //                contentDescription = "select language icon"
 //            )
 //        }
+
+        Row(
+            modifier = Modifier.clickable {
+                onSelectAgeClick()
+            },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.padding(end = 24.dp),
+                text = stringResource(id = R.string.feature_settings_change_age),
+                style = if (isHorizontal) MathAppTheme.typography.h1Bee else MathAppTheme.typography.h2Bee,
+                color = MathAppTheme.colors.coreWhite
+            )
+
+            Image(
+                modifier = Modifier.size(36.dp),
+                painter = painterResource(id = com.ohanyan.mathgame.ui.R.drawable.ic_age),
+                contentDescription = "select age icon"
+            )
+        }
 
         val title = stringResource(id = R.string.feature_settings_checkout_app)
 
