@@ -121,7 +121,7 @@ fun NextNumber(
             contentDescription = null,
         )
 
-        if (nextNumber < 9) {
+        if (nextNumber <= 9) {
             Text(
                 modifier = Modifier.padding(start = 8.dp),
                 text = nextNumber.toString(),
