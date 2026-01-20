@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.mathgame.onboarding.R
+import com.ohanyan.mathgame.onboarding.navigation.OnBoardingScreen
 import com.ohanyan.ui.component.mainhero.MainHero
 import com.ohanyan.ui.component.mathaction.MathLoading
 import kotlinx.coroutines.delay
@@ -43,13 +44,15 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel(),
-    onAnimationEnd: () -> Unit = {},
+    onAnimationEnd: (OnBoardingScreen) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SplashScreenUI(
         uiState = uiState,
-        onAnimationEnd = onAnimationEnd,
+        onAnimationEnd = {
+            onAnimationEnd(uiState.nextScreen)
+        },
     )
 }
 

@@ -1,7 +1,12 @@
 package com.ohanyan.mathgame.playground.writing
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.StartOffset
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -30,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.mathgame.ui.R
+import kotlin.random.Random
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -48,6 +54,18 @@ fun ChooseNumber(
             maxItemsInEachRow = 5
         ) {
             (0..9).forEach { number ->
+
+                val infiniteTransition = rememberInfiniteTransition(label = "")
+
+                val padding by infiniteTransition.animateFloat(
+                    initialValue = 0.7f,
+                    targetValue = 1.6f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(Random.nextInt(100, 200)),
+                        repeatMode = RepeatMode.Reverse,
+                        initialStartOffset = StartOffset(Random.nextInt(0, 900))
+                    ), label = ""
+                )
 
                 val interactionSource = remember { MutableInteractionSource() }
                 val pressed by interactionSource.collectIsPressedAsState()
@@ -74,7 +92,7 @@ fun ChooseNumber(
                         Image(
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
-                                .padding(top = 2.dp, end = 2.dp),
+                                .padding(top = (2 * padding).dp, end = 2.dp),
                             painter = painterResource(R.drawable.ic_lock),
                             contentScale = ContentScale.FillWidth,
                             contentDescription = null,

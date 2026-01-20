@@ -108,10 +108,13 @@ class LearnNumbersViewModel @Inject constructor(
     }
 
     fun afterDraw() {
-        mlKitHelper.recognizeDrawing(strokeBuilder.build()) { recognizedText ->
+        mlKitHelper.recognizeDrawing(
+            hardMode = false,
+            strokes = strokeBuilder.build(),
+            inputNumber = uiState.value.currentNumber.toString()
+        ) { isCorrect ->
             viewModelScope.launch {
                 delay(1000L)
-                val isCorrect = recognizedText == uiState.value.currentNumber.toString()
                 if (isCorrect) {
                     _uiState.update { it.copy(showSuccessLottie = true) }
                     delay(5500)

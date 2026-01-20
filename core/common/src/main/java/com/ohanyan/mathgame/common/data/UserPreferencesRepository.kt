@@ -22,6 +22,9 @@ class UserPreferencesRepository @Inject constructor(
     private val MAX_AVAILABLE_NUMBER = intPreferencesKey("max_available_number")
     private val MUSIC_ON = booleanPreferencesKey("music_on")
 
+    private val SELECTED_AGE = intPreferencesKey("age")
+
+
     val maxAvailableNumber: Flow<Int> = context.dataStore.data
         .map { preferences ->
             preferences[MAX_AVAILABLE_NUMBER] ?: 0
@@ -30,6 +33,11 @@ class UserPreferencesRepository @Inject constructor(
     val musicOn: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[MUSIC_ON] ?: true
+        }
+
+    val selectedAge: Flow<Int> = context.dataStore.data
+        .map { preferences ->
+            preferences[SELECTED_AGE] ?: 0
         }
 
     suspend fun updateMaxAvailableNumber(number: Int) {
@@ -44,6 +52,12 @@ class UserPreferencesRepository @Inject constructor(
     suspend fun updateMusicOn(isMusicOn: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[MUSIC_ON] = isMusicOn
+        }
+    }
+
+    suspend fun updateSelectedAge(age: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[SELECTED_AGE] = age
         }
     }
 }

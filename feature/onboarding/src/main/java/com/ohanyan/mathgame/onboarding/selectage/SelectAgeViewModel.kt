@@ -2,15 +2,20 @@ package com.ohanyan.mathgame.onboarding.selectage
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ohanyan.mathgame.common.data.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class SelectAgeViewModel @Inject constructor() : ViewModel() {
+class SelectAgeViewModel @Inject constructor(
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChooseAgeUIState())
     val uiState = _uiState.asStateFlow()
@@ -34,6 +39,10 @@ class SelectAgeViewModel @Inject constructor() : ViewModel() {
         _uiState.update {
             if (age == it.selectedAge) it.copy(selectedAge = "")
             else it.copy(selectedAge = age)
+        }
+
+        viewModelScope.launch {
+            userPreferencesRepository.updateSelectedAge(age.toInt())
         }
     }
 }

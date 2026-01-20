@@ -31,7 +31,7 @@ fun NavGraphBuilder.onboardingScreens(
 
     composable<OnBoardingScreen.SplashScreen> {
         SplashScreen(
-            onAnimationEnd = { onNavigation(OnBoardingScreen.SelectAgeScreen) },
+            onAnimationEnd = { onNavigation(it) },
         )
     }
 

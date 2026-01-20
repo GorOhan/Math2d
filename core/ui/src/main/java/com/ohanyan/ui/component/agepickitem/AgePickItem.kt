@@ -40,15 +40,6 @@ fun SelectAgeItem(
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
 
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-
-    val scale by animateFloatAsState(
-        targetValue = if (pressed) 0.7f else 1f,
-        animationSpec = tween(durationMillis = 800, easing = LinearOutSlowInEasing),
-        label = ""
-    )
-
     val padding by if (withAnimation) {
         infiniteTransition.animateFloat(
             initialValue = 0.7f,
@@ -62,6 +53,16 @@ fun SelectAgeItem(
     } else {
         remember { mutableFloatStateOf(0.7f) }
     }
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+
+    val scale by animateFloatAsState(
+        targetValue = if (pressed) 0.7f else 1f,
+        animationSpec = tween(durationMillis = 800, easing = LinearOutSlowInEasing),
+        label = ""
+    )
+
 
     Box(
         modifier = modifier
