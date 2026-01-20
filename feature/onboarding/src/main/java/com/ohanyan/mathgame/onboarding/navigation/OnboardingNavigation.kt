@@ -2,6 +2,7 @@ package com.ohanyan.mathgame.onboarding.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.ohanyan.mathgame.onboarding.menu.MenuScreen
 import com.ohanyan.mathgame.onboarding.selectage.SelectAgeScreen
@@ -23,7 +24,7 @@ sealed interface OnBoardingScreen {
 fun NavGraphBuilder.onboardingScreens(
     onNavigation: (OnBoardingScreen) -> Unit,
     onLearnNumber: () -> Unit,
-    onCountClick:()-> Unit,
+    onCountClick: () -> Unit,
     onAdditionClick: () -> Unit,
     onBackClick: () -> Unit,
     onSettingsClick: () -> Unit,
@@ -43,14 +44,19 @@ fun NavGraphBuilder.onboardingScreens(
 
     composable<OnBoardingScreen.MenuScreen> {
         MenuScreen(
-            onLearnNumber = onLearnNumber ,
+            onLearnNumber = onLearnNumber,
             onCountClick = onCountClick,
             onAdditionClick = onAdditionClick,
-            onBackClick = onBackClick,
             onSettingsClick = onSettingsClick,
         )
     }
 }
 
 fun NavController.navigateToScreen(screen: OnBoardingScreen) =
-    navigate(route = screen, null)
+    navigate(route = screen) {
+        if (screen == OnBoardingScreen.MenuScreen) {
+            popUpTo(0) {
+                inclusive = true
+            }
+         }
+    }

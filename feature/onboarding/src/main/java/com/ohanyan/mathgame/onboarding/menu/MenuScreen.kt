@@ -37,12 +37,10 @@ internal fun MenuScreen(
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
     onAdditionClick: () -> Unit = {},
-    onBackClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
     MenuScreenUI(
         onLearnNumber = onLearnNumber,
-        onBackClick = onBackClick,
         onCountClick = onCountClick,
         onAdditionClick = onAdditionClick,
         onSettingsClick = onSettingsClick,
@@ -54,7 +52,6 @@ private fun MenuScreenUI(
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
     onAdditionClick: () -> Unit = {},
-    onBackClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
     Box(
@@ -69,12 +66,6 @@ private fun MenuScreenUI(
                 )
             )
     ) {
-        ActionButton(
-            modifier = Modifier.align(Alignment.TopStart),
-            actionType = ActionType.PREVIOUS,
-            onClick = onBackClick
-        )
-
         ActionButton(
             modifier = Modifier.align(Alignment.TopEnd),
             actionType = ActionType.SETTINGS,
