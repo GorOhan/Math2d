@@ -112,7 +112,6 @@ fun AdditionScreenUI(
 
         ChalkBoard(
             modifier = Modifier.align(Alignment.Center),
-            title = "Solve the problem"
         ) {
 
             Column(
@@ -123,7 +122,6 @@ fun AdditionScreenUI(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                // Falling images in grid layout
                 FallingImagesGrid(
                     firstCount = uiState.firstNumber,
                     secondCount = uiState.secondNumber,
@@ -137,7 +135,7 @@ fun AdditionScreenUI(
                     text = "${uiState.firstNumber} + ${uiState.secondNumber} = ?",
                     style = MathAppTheme.typography.chalk,
                     color = MathAppTheme.colors.secondaryWhite,
-                    fontSize = 40.sp,
+                    fontSize = 52.sp,
                 )
 
                 // Generate answer options
@@ -146,22 +144,22 @@ fun AdditionScreenUI(
                 val wrongAnswer2 = correctAnswer - 1
                 val options = listOf(correctAnswer, wrongAnswer1, wrongAnswer2).shuffled()
 
-                Row(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .scale(feedbackScale),
-                    horizontalArrangement = Arrangement.spacedBy(36.dp)
-                ) {
-                    options.forEach { option ->
-                        CountPicker(
-                            text = option.toString(),
-                            circleColor = MathAppTheme.colors.mainBlue,
-                            onClick = {
-                                onIntent(AdditionIntent.AnswerSelected(option.toString()))
-                            }
-                        )
-                    }
-                }
+//                Row(
+//                    modifier = Modifier
+//                        .padding(top = 16.dp)
+//                        .scale(feedbackScale),
+//                    horizontalArrangement = Arrangement.spacedBy(36.dp)
+//                ) {
+//                    options.forEach { option ->
+//                        CountPicker(
+//                            text = option.toString(),
+//                            circleColor = MathAppTheme.colors.mainBlue,
+//                            onClick = {
+//                                onIntent(AdditionIntent.AnswerSelected(option.toString()))
+//                            }
+//                        )
+//                    }
+//                }
 
                 // Feedback
                 if (uiState.isAnswerCorrect == true) {
@@ -260,7 +258,7 @@ private fun FallingImagesGrid(
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            maxItemsInEachRow = 5
+            maxItemsInEachRow = maxOf(firstCount,secondCount)
         ) {
             // First number images
             repeat(firstCount) { index ->
