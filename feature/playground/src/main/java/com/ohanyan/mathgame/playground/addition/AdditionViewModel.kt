@@ -1,5 +1,7 @@
 package com.ohanyan.mathgame.playground.addition
 
+import com.ohanyan.mathgame.common.data.UserPreferencesRepository
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,29 +16,40 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class AdditionViewModel @Inject constructor() : ViewModel() {
+class AdditionViewModel @Inject constructor(
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AdditionUIState())
     val uiState = _uiState.asStateFlow()
 
     private val _effects = Channel<AdditionEffect>()
     val effects = _effects.receiveAsFlow()
+    private var firstQuestion = true
 
     init {
         handleIntent(AdditionIntent.GenerateQuestion)
+        viewModelScope.launch {
+            userPreferencesRepository.musicOn.collect { isMusicOn ->
+                _uiState.update { state ->
+                    state.copy(isMusicOn = isMusicOn)
+                }
+            }
+        }
     }
 
     fun handleIntent(intent: AdditionIntent) {
         when (intent) {
             is AdditionIntent.GenerateQuestion -> generateNewQuestion()
             is AdditionIntent.AnswerSelected -> checkAnswer(intent.answer)
+            is AdditionIntent.ToggleMusic -> onMusicOnChange(intent.isChecked)
         }
     }
 
     private fun generateNewQuestion() {
         val num1 = Random.nextInt(1, 10)
         val num2 = Random.nextInt(1, 10)
-        
+
         // Random image for visual representation
         val images = listOf(
             com.ohanyan.mathgame.ui.R.drawable.ic_apple,
@@ -46,23 +59,33 @@ class AdditionViewModel @Inject constructor() : ViewModel() {
             com.ohanyan.mathgame.ui.R.drawable.chipmunk
         )
         val randomImage = images.random()
-        
+
+        val sum = num1 + num2
+        val wrong1 = (sum - Random.nextInt(1, 3)).coerceAtLeast(0)
+        val wrong2 = sum + Random.nextInt(1, 3)
+        val options = listOf(sum, wrong1, wrong2).shuffled()
+
         _uiState.update {
             it.copy(
                 firstNumber = num1,
                 secondNumber = num2,
                 userAnswer = "",
                 isAnswerCorrect = null,
-                imgResId = randomImage
+                imgResId = randomImage,
+                options = options,
+                selectedAnswer = null,
+                hintOption = if (firstQuestion) sum else null
             )
         }
+        firstQuestion = false
     }
 
-    private fun checkAnswer(answer: String) {
+    private fun checkAnswer(answer: Int) {
         val sum = uiState.value.firstNumber + uiState.value.secondNumber
-        val userAnswerInt = answer.toIntOrNull()
 
-        if (userAnswerInt != null && userAnswerInt == sum) {
+        _uiState.update { it.copy(selectedAnswer = answer) }
+
+        if (answer == sum) {
             _uiState.update { it.copy(isAnswerCorrect = true) }
             sendEffect(AdditionEffect.ShowCorrectFeedback)
             viewModelScope.launch {
@@ -73,8 +96,14 @@ class AdditionViewModel @Inject constructor() : ViewModel() {
             _uiState.update { it.copy(isAnswerCorrect = false) }
             sendEffect(AdditionEffect.ShowWrongFeedback)
             viewModelScope.launch {
-                delay(1000)
-                _uiState.update { it.copy(isAnswerCorrect = null) }
+                delay(4000)
+                _uiState.update {
+                    it.copy(
+                        isAnswerCorrect = null,
+                        selectedAnswer = null,
+                        options = it.options.filter { it != answer }
+                    )
+                }
             }
         }
     }
@@ -84,12 +113,19 @@ class AdditionViewModel @Inject constructor() : ViewModel() {
             _effects.send(effect)
         }
     }
+
+    private fun onMusicOnChange(isChecked: Boolean) {
+        viewModelScope.launch {
+            userPreferencesRepository.updateMusicOn(isChecked)
+        }
+    }
 }
 
 // Intent - User actions
 sealed interface AdditionIntent {
     data object GenerateQuestion : AdditionIntent
-    data class AnswerSelected(val answer: String) : AdditionIntent
+    data class AnswerSelected(val answer: Int) : AdditionIntent
+    data class ToggleMusic(val isChecked: Boolean) : AdditionIntent
 }
 
 // Effect - One-time side effects
@@ -103,6 +139,10 @@ data class AdditionUIState(
     val firstNumber: Int = 0,
     val secondNumber: Int = 0,
     val userAnswer: String = "",
-    val isAnswerCorrect: Boolean? = null,
-    val imgResId: Int = com.ohanyan.mathgame.ui.R.drawable.ic_apple
+    val isAnswerCorrect: Boolean? = false,
+    val imgResId: Int = com.ohanyan.mathgame.ui.R.drawable.ic_apple,
+    val isMusicOn: Boolean = true,
+    val options: List<Int> = emptyList(),
+    val selectedAnswer: Int? = null,
+    val hintOption: Int? = null
 )
