@@ -37,15 +37,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        WindowCompat.setDecorFitsSystemWindows(
-            window,
-            false
-        )
-        window.insetsController?.apply {
-            hide(WindowInsets.Type.systemBars()) // Hides both the status and navigation bars
-            systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE // Allows the bars to reappear with a swipe
-        }
+
         setContent {
             val lifecycleOwner = LocalLifecycleOwner.current
             val context = LocalContext.current
@@ -61,6 +53,7 @@ class MainActivity : ComponentActivity() {
             }
 
             MaterialTheme {
+                enableEdgeToEdge()
                 Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
                     MathNavHost()
                 }
