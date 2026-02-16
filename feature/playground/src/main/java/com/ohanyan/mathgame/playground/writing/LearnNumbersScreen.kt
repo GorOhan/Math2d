@@ -130,8 +130,7 @@ private fun LearnNumbersScreenUI(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     if (uiState.playState != PlayState.START
-                        && uiState.playState != PlayState.NONE &&
-                        uiState.playState != PlayState.CHOOSE_NUMBER
+                        && uiState.playState != PlayState.CHOOSE_NUMBER
                         && uiState.playState != PlayState.SUCCESS
                     ) {
                         Box {
@@ -277,15 +276,6 @@ private fun LearnNumbersScreenUI(
                                     )
                                 }
                             }
-                        }
-
-                        PlayState.NONE -> {
-                            PlayGame(
-                                modifier = Modifier
-                                    .padding(24.dp)
-                                    .align(Alignment.Center),
-                                onClick = onStartGame
-                            )
                         }
 
                         PlayState.CHOOSE_NUMBER -> {

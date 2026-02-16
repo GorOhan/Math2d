@@ -228,7 +228,7 @@ data class LearnNumbersUIState(
     val numbers: List<Int> = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
     val numberIteration: ListIterator<Int> = numbers.listIterator(),
     val currentNumber: Int = numberIteration.next(),
-    val playState: PlayState = PlayState.NONE,
+    val playState: PlayState = PlayState.CHOOSE_NUMBER,
     val nextNumber: Int = 1,
     val showSuccessLottie: Boolean = false,
     val showErrorLottie: Boolean = false,
@@ -247,7 +247,6 @@ enum class PlayState(val duration: Long) {
     START(4_000),
     HINT(7_500),
     DRAW(25_000),
-    NONE(0),
     CHOOSE_NUMBER(0),
     SUCCESS(4_000)
 }
