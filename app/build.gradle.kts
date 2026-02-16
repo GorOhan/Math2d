@@ -25,6 +25,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            manifestPlaceholders["firebaseAnalyticsEnabled"] = "true"
+        }
+        debug {
+            manifestPlaceholders["firebaseAnalyticsEnabled"] = "false"
         }
     }
 
