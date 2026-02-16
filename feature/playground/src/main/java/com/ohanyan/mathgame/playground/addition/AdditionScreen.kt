@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -189,48 +190,49 @@ fun AdditionScreenPreview() {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun FallingImagesGrid(
+    modifier: Modifier = Modifier,
     firstCount: Int,
     secondCount: Int,
     imageResId: Int,
     key: String,
-    modifier: Modifier = Modifier
 ) {
-    key(key) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 24.dp),
-            horizontalArrangement = Arrangement.spacedBy(2.dp),
-        ) {
+    if ((firstCount + secondCount) > 15) return
+        key(key) {
             Row(
-                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .padding(horizontal = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
             ) {
-                repeat(firstCount) { index ->
-                    FallingImage(
-                        imageResId = imageResId,
-                        index = index,
-                        key = key
-                    )
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    repeat(firstCount) { index ->
+                        FallingImage(
+                            imageResId = imageResId,
+                            index = index,
+                            key = key
+                        )
+                    }
                 }
-            }
 
-            Text(
-                text = "+",
-                style = MathAppTheme.typography.chalk,
-                color = MathAppTheme.colors.secondaryWhite,
-                fontSize = 42.sp,
-            )
+                Text(
+                    text = "+",
+                    style = MathAppTheme.typography.chalk,
+                    color = MathAppTheme.colors.secondaryWhite,
+                    fontSize = 42.sp,
+                )
 
-            Row(horizontalArrangement = Arrangement.Center) {
-                repeat(secondCount) { index ->
-                    FallingImage(
-                        imageResId = imageResId,
-                        index = index + firstCount,
-                        key = key
-                    )
+                Row(horizontalArrangement = Arrangement.Center) {
+                    repeat(secondCount) { index ->
+                        FallingImage(
+                            imageResId = imageResId,
+                            index = index + firstCount,
+                            key = key
+                        )
+                    }
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -247,7 +249,7 @@ private fun FallingImage(
     }
 
     val offsetY by animateFloatAsState(
-        targetValue = if (startAnimation) 0f else -200f,
+        targetValue = if (startAnimation) 1f else 0f,
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessLow
@@ -260,7 +262,7 @@ private fun FallingImage(
         contentDescription = null,
         modifier = Modifier
             .size(32.dp)
-            .offset(y = offsetY.dp)
+            .alpha(offsetY)
             .padding(horizontal = 4.dp)
     )
 }
@@ -299,9 +301,11 @@ fun SelectNumbers(
             Box(
                 modifier = Modifier.size(104.dp)
             ) {
-                Canvas(modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(70.dp)) {
+                Canvas(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(70.dp)
+                ) {
                     if (isSelected && isCorrect) {
                         drawArc(
                             color = circleColor,
