@@ -23,7 +23,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun MainHero(
     modifier: Modifier = Modifier,
-    @RawRes lottieRes: Int = R.raw.main_hero
+    @RawRes lottieRes: Int = R.raw.happy_dog
 ) {
     val preloaderLottieComposition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(lottieRes)
