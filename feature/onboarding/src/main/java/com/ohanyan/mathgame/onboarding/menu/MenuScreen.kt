@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,9 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ohanyan.common.utils.Utils.openInternetSettingsSafely
 import com.ohanyan.mathgame.designsystem.preview.MathPreview
 import com.ohanyan.mathgame.designsystem.theme.MathAppTheme
 import com.ohanyan.mathgame.onboarding.R
@@ -39,6 +45,24 @@ internal fun MenuScreen(
     onAdditionClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    if (!uiState.isOnline) {
+        AlertDialog(
+            onDismissRequest = { },
+            title = { Text(text = stringResource(R.string.feature_onboarding_no_internet_connection_title)) },
+            text = { Text(text = stringResource(R.string.feature_onboarding_no_internet_connection_text)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    context.openInternetSettingsSafely()
+                }) {
+                    Text(stringResource(R.string.feature_onboarding_ok))
+                }
+            }
+        )
+    }
+
     MenuScreenUI(
         onLearnNumber = onLearnNumber,
         onCountClick = onCountClick,
@@ -131,7 +155,7 @@ private fun MenuScreenUI(
         ) {
             MainHero(
                 modifier = Modifier
-                    .align( Alignment.Center)
+                    .align(Alignment.Center)
                     .size(112.dp)
             )
 

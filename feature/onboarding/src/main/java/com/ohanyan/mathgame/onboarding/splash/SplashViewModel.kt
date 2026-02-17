@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    userPreferencesRepository: UserPreferencesRepository
+    userPreferencesRepository: UserPreferencesRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SplashUIState())
@@ -22,6 +22,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         _uiState.update { it.copy(title = "Math Game") }
+
 
         userPreferencesRepository.selectedAge.onEach { age ->
             if (age > 0) {
@@ -33,5 +34,5 @@ class SplashViewModel @Inject constructor(
 
 data class SplashUIState(
     val title: String = "",
-    val nextScreen: OnBoardingScreen = OnBoardingScreen.SelectAgeScreen
+    val nextScreen: OnBoardingScreen = OnBoardingScreen.SelectAgeScreen,
 )

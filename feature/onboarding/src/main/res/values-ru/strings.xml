@@ -8,4 +8,8 @@
     <string name="feature_onboarding_adding">Сложение</string>
     <string name="feature_onboarding_subtracting">Вычитание</string>
 
+    <string name="feature_onboarding_soon" translatable="false">Скоро</string>
+    <string name="feature_onboarding_no_internet_connection_title">Нет интернет-соединения</string>
+    <string name="feature_onboarding_no_internet_connection_text">Пожалуйста, проверьте подключение к интернету и попробуйте снова.</string>
+    <string name="feature_onboarding_ok">ОК</string>
 </resources>

@@ -9,5 +9,9 @@
     <string name="feature_onboarding_subtracting">Subtracting</string>
 
     <string name="feature_onboarding_soon" translatable="false">Soon</string>
+    <string name="feature_onboarding_no_internet_connection_title">No Internet Connection</string>
+    <string name="feature_onboarding_no_internet_connection_text">Please check your internet connection and try again.</string>
+    <string name="feature_onboarding_ok">OK</string>
+
 
 </resources>

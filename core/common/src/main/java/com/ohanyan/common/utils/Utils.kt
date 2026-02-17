@@ -2,6 +2,7 @@ package com.ohanyan.common.utils
 
 import android.content.Context
 import android.content.Intent
+import android.provider.Settings
 
 object Utils {
 
@@ -18,4 +19,16 @@ object Utils {
         }
         context.startActivity(Intent.createChooser(shareIntent, "Share via"))
     }
+
+    fun Context.openInternetSettingsSafely() {
+        try {
+            startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+        } catch (e: Exception) {
+            try {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            } catch (ignored: Exception) {
+            }
+        }
+    }
+
 }

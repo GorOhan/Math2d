@@ -8,4 +8,8 @@
     <string name="feature_onboarding_adding">Գումարում</string>
     <string name="feature_onboarding_subtracting">Հանում</string>
 
+    <string name="feature_onboarding_soon" translatable="false">Շուտով</string>
+    <string name="feature_onboarding_no_internet_connection_title">Ինտերնետ կապ չկա</string>
+    <string name="feature_onboarding_no_internet_connection_text">Խնդրում ենք ստուգել ձեր ինտերնետ կապը և կրկին փորձել:</string>
+    <string name="feature_onboarding_ok">Լավ</string>
 </resources>
