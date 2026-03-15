@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.ohanyan.mathgame.playground.addition.AdditionScreen
 import com.ohanyan.mathgame.playground.counting.LearnCountScreen
+import com.ohanyan.mathgame.playground.subtraction.SubtractionScreen
 import com.ohanyan.mathgame.playground.writing.LearnNumbersScreen
 import kotlinx.serialization.Serializable
 
@@ -18,6 +19,9 @@ sealed interface PlaygroundScreen {
 
     @Serializable
     data object AdditionScreen : PlaygroundScreen
+
+    @Serializable
+    data object SubtractionScreen : PlaygroundScreen
 
 }
 
@@ -40,6 +44,12 @@ fun NavGraphBuilder.playgroundScreens(
 
     composable<PlaygroundScreen.AdditionScreen> {
         AdditionScreen(
+            onBackClick = onBackClick
+        )
+    }
+
+    composable<PlaygroundScreen.SubtractionScreen> {
+        SubtractionScreen(
             onBackClick = onBackClick
         )
     }

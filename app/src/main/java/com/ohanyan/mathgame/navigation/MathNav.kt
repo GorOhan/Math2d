@@ -32,6 +32,7 @@ fun MathNavHost(
             onBackClick = { navController.popBackStack() },
             onLearnNumber = { navController.navigateToPlaygroundScreen(PlaygroundScreen.LearnNumberScreen) },
             onAdditionClick = { navController.navigateToPlaygroundScreen(PlaygroundScreen.AdditionScreen) },
+            onSubtractionClick = { navController.navigateToPlaygroundScreen(PlaygroundScreen.SubtractionScreen) },
             onSettingsClick = { navController.navigateToSettingsScreen(SettingsScreen.SettingsMain)}
         )
 

@@ -26,6 +26,7 @@ fun NavGraphBuilder.onboardingScreens(
     onLearnNumber: () -> Unit,
     onCountClick: () -> Unit,
     onAdditionClick: () -> Unit,
+    onSubtractionClick: () -> Unit,
     onBackClick: () -> Unit,
     onSettingsClick: () -> Unit,
 ) {
@@ -47,6 +48,7 @@ fun NavGraphBuilder.onboardingScreens(
             onLearnNumber = onLearnNumber,
             onCountClick = onCountClick,
             onAdditionClick = onAdditionClick,
+            onSubtractionClick = onSubtractionClick,
             onSettingsClick = onSettingsClick,
         )
     }

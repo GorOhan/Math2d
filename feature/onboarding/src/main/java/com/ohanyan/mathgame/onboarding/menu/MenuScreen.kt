@@ -43,6 +43,7 @@ internal fun MenuScreen(
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
     onAdditionClick: () -> Unit = {},
+    onSubtractionClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -67,6 +68,7 @@ internal fun MenuScreen(
         onLearnNumber = onLearnNumber,
         onCountClick = onCountClick,
         onAdditionClick = onAdditionClick,
+        onSubtractionClick = onSubtractionClick,
         onSettingsClick = onSettingsClick,
     )
 }
@@ -76,6 +78,7 @@ private fun MenuScreenUI(
     onLearnNumber: () -> Unit = {},
     onCountClick: () -> Unit = {},
     onAdditionClick: () -> Unit = {},
+    onSubtractionClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
 ) {
     Box(
@@ -125,13 +128,12 @@ private fun MenuScreenUI(
                 enable = true,
                 onClick = onAdditionClick
             )
-//
-//            CoreButton(
-//                buttonTitle = stringResource(id = R.string.feature_onboarding_subtracting),
-//                subtitle = stringResource(id = R.string.feature_onboarding_soon),
-//                enable = false,
-//                onClick = { }
-//            )
+
+            CoreButton(
+                buttonTitle = stringResource(id = R.string.feature_onboarding_subtracting),
+                enable = true,
+                onClick = onSubtractionClick
+            )
 
             MathLoading(
                 durationOfEachAnimation = 200
