@@ -5,8 +5,8 @@
 
     <string name="feature_onboarding_counting">Counting</string>
     <string name="feature_onboarding_learn_numbers">Learn Numbers</string>
-    <string name="feature_onboarding_adding">Adding</string>
-    <string name="feature_onboarding_subtracting">Subtracting</string>
+    <string name="feature_onboarding_adding">Addition</string>
+    <string name="feature_onboarding_subtracting">Subtraction</string>
 
     <string name="feature_onboarding_soon" translatable="false">Soon</string>
     <string name="feature_onboarding_no_internet_connection_title">No Internet Connection</string>

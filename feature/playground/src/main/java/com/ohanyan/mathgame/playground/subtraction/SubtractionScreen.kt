@@ -62,8 +62,8 @@ internal fun SubtractionScreen(
     LaunchedEffect(Unit) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                is SubtractionEffect.ShowCorrectFeedback -> { }
-                is SubtractionEffect.ShowWrongFeedback -> { }
+                is SubtractionEffect.ShowCorrectFeedback -> {}
+                is SubtractionEffect.ShowWrongFeedback -> {}
             }
         }
     }
@@ -180,7 +180,7 @@ fun SubtractionScreenPreview() {
 
 @Composable
 private fun SubtractionImagesGrid(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     firstNumber: Int,
     secondNumber: Int,
     imageResId: Int,
@@ -188,15 +188,11 @@ private fun SubtractionImagesGrid(
 ) {
     if (firstNumber > 15) return
     key(key) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 24.dp),
-            horizontalArrangement = Arrangement.spacedBy(2.dp),
-        ) {
             Row(
+                modifier = modifier,
                 horizontalArrangement = Arrangement.Center,
             ) {
-                repeat(firstNumber) { index ->
+                repeat(firstNumber - secondNumber) { index ->
                     FallingSubtractionImage(
                         imageResId = imageResId,
                         index = index,
@@ -204,25 +200,7 @@ private fun SubtractionImagesGrid(
                     )
                 }
             }
-
-            Text(
-                text = "-",
-                style = MathAppTheme.typography.chalk,
-                color = MathAppTheme.colors.secondaryWhite,
-                fontSize = 42.sp,
-            )
-
-            Row(horizontalArrangement = Arrangement.Center) {
-                repeat(secondNumber) { index ->
-                    FallingSubtractionImage(
-                        imageResId = imageResId,
-                        index = secondNumber,
-                        key = key,
-                    )
-                }
-            }
         }
-    }
 }
 
 @Composable
