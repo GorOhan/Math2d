@@ -11,8 +11,8 @@ android {
 
     defaultConfig {
         applicationId = "com.ohanyan.mathgame"
-        versionCode = 5
-        versionName = "1.0.3"
+        versionCode = 7
+        versionName = "1.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
